@@ -10,11 +10,19 @@ module.exports = {
       fontFamily: {
         'poppins': ['Poppins'],
       },
+      minWidth: {
+        '28': '7rem',
+      },
       minHeight: {
+        '32': '8rem',
         '1/4vh': '25vh',
         '1/2vh': '50vh',
         '3/4vh': '75vh',
-       }
+      },
+      maxWidth: {
+        '2xs': '16rem',
+        '3xs': '12rem',
+      },
     },
   },
   variants: {
