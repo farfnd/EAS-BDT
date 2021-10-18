@@ -9,11 +9,14 @@ module.exports = {
     extend: {
       fontFamily: {
         'poppins': ['Poppins'],
+        'arial': ['Arial'],
       },
       minWidth: {
         '28': '7rem',
+        '1/2vw': '1/2vw',
       },
       minHeight: {
+        '28': '7rem',
         '32': '8rem',
         '1/4vh': '25vh',
         '1/2vh': '50vh',
@@ -22,6 +25,7 @@ module.exports = {
       maxWidth: {
         '2xs': '16rem',
         '3xs': '12rem',
+        '1/2vw': '1/2vw',
       },
     },
   },
