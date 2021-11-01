@@ -32,8 +32,8 @@
   </head>
   <body class="antialiased lg:mx-auto font-poppins max-w-7xl">
     <div class="mx-0 md:mx-8">
-      @include('panels.navbar')
-      <div class="relative grid grid-cols-1 sm:grid-cols-2">
+      <x-navbar></x-navbar>
+      <div class="grid grid-cols-1 sm:grid-cols-2">
         <div>
           <div class="item-image-container-responsive md:item-image-container-fixed bg-yellow-100 rounded-lg">
             <img src="{{asset('images/IMG_7800.jpg')}}" alt="" class="item-image">
@@ -141,6 +141,7 @@
       </div>
     </div>
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>  
     <script>
       const swiper = new Swiper('.swiper', {
         // Optional parameters
