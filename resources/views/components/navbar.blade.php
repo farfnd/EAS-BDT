@@ -14,7 +14,7 @@
         <li class="block my-auto font-semibold"><a href="" class="hover:opacity-80">Women</a></li>
         <li class="block my-auto font-semibold"><a href="" class="hover:opacity-80">Kids</a></li>
         <!-- IF LOGIN -->
-        <li class="block my-auto font-semibold"><button class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></button></li>
+        <li class="block my-auto font-semibold"><a href="/cart" class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a></li>
         <li class="block my-auto font-semibold">
           <button 
             x-on:click="profile = !profile"
