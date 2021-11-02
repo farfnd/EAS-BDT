@@ -6,7 +6,7 @@
 
     <h2 class="text-3xl font-bold text-gray-900 text-center mt-8">Keranjang</h2>
     <div class="grid grid-cols-8 gap-x-8 mx-8 mt-4">
-      <div class="col-span-8 md:col-span-5 flex flex-col">
+      <div class="col-span-8 lg:col-span-5 flex flex-col">
 
         <div class="flex flex-col space-y-8">
           @for ($i = 0; $i < 3; $i++)
@@ -36,7 +36,7 @@
         </div>
 
       </div>
-      <div class="col-span-8 md:col-span-3 mt-8 md:mt-0">
+      <div class="col-span-8 lg:col-span-3 mt-8 lg:mt-0">
         <div class="rounded-lg shadow-lg p-4">
           <p class="font-semibold">Ringkasan Belanja</p>
           <hr class="my-4 border-gray-800">

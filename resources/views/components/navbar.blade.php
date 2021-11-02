@@ -41,10 +41,18 @@
         </div>
       </div>
       <ul class="space-y-1 ">
-        <li class="w-full text-center rounded-md hover:bg-black hover:text-white"><a href="">Transaksi</a></li>
-        <li class="w-full text-center rounded-md hover:bg-black hover:text-white"><a href="">Riwayat</a></li>
-        <li class="w-full text-center rounded-md hover:bg-black hover:text-white"><a href="">Wishlist</a></li>
-        <li class="bg-red-600 text-white w-full text-center rounded-md hover:bg-red-800 "><a href="">Sign Out</a></li>
+        <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
+          <a class="flex-grow text-center py-1" href="/transaksi">Transaksi</a>
+        </li>
+        <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
+          <a class="flex-grow text-center py-1" href="/riwayat">Riwayat</a>
+        </li>
+        <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
+          <a class="flex-grow text-center py-1" href="/wishlist">Wishlist</a>
+        </li>
+        <li class="flex bg-red-600 text-white w-full rounded-md hover:bg-red-800 ">
+          <a class="flex-grow text-center py-1" href="">Sign Out</a>
+        </li>
       </ul>
     </div>
   </div>
