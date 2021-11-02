@@ -1,8 +1,9 @@
-<div class="w-full bg-gray-50 shadow-md">
-  <div class="flex justify items-center px-2 h-14 mb-2 relative" x-data="{ profile: false }">
+<div class="w-full bg-gray-50 shadow-md sticky top-0 z-50">
+  <div class="flex justify items-center px-2 h-14 mb-0 md:mb-2 relative" x-data="{ profile: false }">
     {{-- logo --}}
-    <div>
-      <h2 class="font-arial font-semibold text-2xl md:text-2xl">HANAKA &amp; CO.</h2>
+    <div class="relative">
+      <a class="absolute top-0 left-0 right-0 bottom-0" href="/"></a>
+      <h1 class="font-arial font-semibold text-1xl md:text-2xl">HANAKA &amp; CO.</h2>
       <!-- <img style="height: 25px" src="{{ asset('images/logo1.png') }}" alt=""> -->
     </div>
   
@@ -28,8 +29,8 @@
     </nav>
   
     {{-- popup user menu  --}}
-    <div class="absolute top-16 right-0 z-10 bg-gray-50 p-2 rounded space-y-2"
-      x-show="profile" x-on:click.outside="profile = false"
+    <div class="absolute top-16 right-0 z-10 bg-gray-50 p-2 rounded space-y-2 shadow-lg"
+      x-show="profile" x-on:click.outside="profile = false" x-transition
       >
         <div class="flex bg-gray-200 p-1 items-center space-x-2 rounded">
         <div class="bg-gray-300 rounded-full flex items-center p-1 ">

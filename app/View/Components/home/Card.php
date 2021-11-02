@@ -17,13 +17,15 @@ class Card extends Component
     public $hargaBarang;
     public $color;
     public $photo;
+    public $link;
 
-    public function __construct($gender, $namaBarang, $hargaBarang, $photo)
+    public function __construct($gender, $namaBarang, $hargaBarang, $photo, $link)
     {
         $this->gender = $gender;
         $this->namaBarang = $namaBarang;
         $this->hargaBarang = $hargaBarang;
         $this->photo = $photo;
+        $this->link = $link;
         if($gender == "men") $this->color = "bg-blue-500";
         else if($gender == "women") $this->color = "bg-red-400";
         else if($gender == "kids") $this->color = "bg-yellow-500";

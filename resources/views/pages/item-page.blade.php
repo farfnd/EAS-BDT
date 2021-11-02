@@ -1,5 +1,5 @@
 <x-layout titlePage="Hanaka | Items">
-  <div class="mx-0 md:mx-8">
+  <div class="md:mx-8">
     <x-navbar></x-navbar>
     
     <div class="grid grid-cols-1 sm:grid-cols-2">
