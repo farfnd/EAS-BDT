@@ -22630,28 +22630,8 @@ video {
   line-height: 2;
 }
 
-.tracking-tighter {
-  letter-spacing: -0.05em;
-}
-
-.tracking-tight {
-  letter-spacing: -0.025em;
-}
-
-.tracking-normal {
-  letter-spacing: 0em;
-}
-
-.tracking-wide {
-  letter-spacing: 0.025em;
-}
-
-.tracking-wider {
-  letter-spacing: 0.05em;
-}
-
 .tracking-widest {
-  letter-spacing: 0.1em;
+  letter-spacing: 0.3em;
 }
 
 .text-transparent {
@@ -53946,28 +53926,8 @@ video {
     line-height: 2;
   }
 
-  .sm\:tracking-tighter {
-    letter-spacing: -0.05em;
-  }
-
-  .sm\:tracking-tight {
-    letter-spacing: -0.025em;
-  }
-
-  .sm\:tracking-normal {
-    letter-spacing: 0em;
-  }
-
-  .sm\:tracking-wide {
-    letter-spacing: 0.025em;
-  }
-
-  .sm\:tracking-wider {
-    letter-spacing: 0.05em;
-  }
-
   .sm\:tracking-widest {
-    letter-spacing: 0.1em;
+    letter-spacing: 0.3em;
   }
 
   .sm\:text-transparent {
@@ -85241,28 +85201,8 @@ video {
     line-height: 2;
   }
 
-  .md\:tracking-tighter {
-    letter-spacing: -0.05em;
-  }
-
-  .md\:tracking-tight {
-    letter-spacing: -0.025em;
-  }
-
-  .md\:tracking-normal {
-    letter-spacing: 0em;
-  }
-
-  .md\:tracking-wide {
-    letter-spacing: 0.025em;
-  }
-
-  .md\:tracking-wider {
-    letter-spacing: 0.05em;
-  }
-
   .md\:tracking-widest {
-    letter-spacing: 0.1em;
+    letter-spacing: 0.3em;
   }
 
   .md\:text-transparent {
@@ -116536,28 +116476,8 @@ video {
     line-height: 2;
   }
 
-  .lg\:tracking-tighter {
-    letter-spacing: -0.05em;
-  }
-
-  .lg\:tracking-tight {
-    letter-spacing: -0.025em;
-  }
-
-  .lg\:tracking-normal {
-    letter-spacing: 0em;
-  }
-
-  .lg\:tracking-wide {
-    letter-spacing: 0.025em;
-  }
-
-  .lg\:tracking-wider {
-    letter-spacing: 0.05em;
-  }
-
   .lg\:tracking-widest {
-    letter-spacing: 0.1em;
+    letter-spacing: 0.3em;
   }
 
   .lg\:text-transparent {
@@ -147831,28 +147751,8 @@ video {
     line-height: 2;
   }
 
-  .xl\:tracking-tighter {
-    letter-spacing: -0.05em;
-  }
-
-  .xl\:tracking-tight {
-    letter-spacing: -0.025em;
-  }
-
-  .xl\:tracking-normal {
-    letter-spacing: 0em;
-  }
-
-  .xl\:tracking-wide {
-    letter-spacing: 0.025em;
-  }
-
-  .xl\:tracking-wider {
-    letter-spacing: 0.05em;
-  }
-
   .xl\:tracking-widest {
-    letter-spacing: 0.1em;
+    letter-spacing: 0.3em;
   }
 
   .xl\:text-transparent {
@@ -179126,28 +179026,8 @@ video {
     line-height: 2;
   }
 
-  .\32xl\:tracking-tighter {
-    letter-spacing: -0.05em;
-  }
-
-  .\32xl\:tracking-tight {
-    letter-spacing: -0.025em;
-  }
-
-  .\32xl\:tracking-normal {
-    letter-spacing: 0em;
-  }
-
-  .\32xl\:tracking-wide {
-    letter-spacing: 0.025em;
-  }
-
-  .\32xl\:tracking-wider {
-    letter-spacing: 0.05em;
-  }
-
   .\32xl\:tracking-widest {
-    letter-spacing: 0.1em;
+    letter-spacing: 0.3em;
   }
 
   .\32xl\:text-transparent {

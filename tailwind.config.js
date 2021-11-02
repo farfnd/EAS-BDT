@@ -28,6 +28,9 @@ module.exports = {
         '1/2vw': '1/2vw',
       },
     },
+    letterSpacing: {
+      'widest': '0.3em'
+    }
   },
   variants: {
     extend: {},
