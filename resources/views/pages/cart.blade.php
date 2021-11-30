@@ -6,11 +6,11 @@
 
     <h2 class="text-3xl font-bold text-gray-900 text-center mt-8">Keranjang</h2>
     <div class="grid grid-cols-8 gap-x-8 mx-8 mt-4">
+      {{-- card section  --}}
       <div class="col-span-8 lg:col-span-5 flex flex-col">
-
         <div class="flex flex-col space-y-8">
           @for ($i = 0; $i < 3; $i++)
-          <div class="flex content-center items-center space-x-4 rounded-lg shadow-lg p-4">
+          <div class="flex content-center items-center space-x-4 rounded-lg shadow-custom1 p-4">
             <input type="checkbox" name="" id="">
             <div class="cart-item-image-container rounded-lg" style="background-image: url({{ asset("images/IMG_7800.jpg") }}); background-size: cover; backround-repeat: none">
             </div>
@@ -34,10 +34,10 @@
           </div>
           @endfor
         </div>
-
       </div>
+      {{-- total price --}}
       <div class="col-span-8 lg:col-span-3 mt-8 lg:mt-0">
-        <div class="rounded-lg shadow-lg p-4">
+        <div class="rounded-lg shadow-custom1 p-4">
           <p class="font-semibold">Ringkasan Belanja</p>
           <hr class="my-4 border-gray-800">
           <div class="flex">

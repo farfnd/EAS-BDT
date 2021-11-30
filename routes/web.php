@@ -23,4 +23,20 @@ Route::get('/item', function () {
 
 Route::get('/cart', function () {
     return view('pages.cart');
-});
+})->name('cart');
+
+Route::get('/transaction', function () {
+    return view('pages.transaction');
+})->name('transaction');
+
+Route::get('/history_transaction', function () {
+    return view('pages.historyTransaction');
+})->name('historyTransaction');
+
+Route::get('/wishlist', function () {
+    return view('pages.wishlist');
+})->name('wishlist');
+
+Route::get('/category', function () {
+    return view('pages.category');
+})->name('category');

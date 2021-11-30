@@ -10,11 +10,11 @@
     {{-- navlinks --}}
     <nav class="ml-auto align-bottom justify-center">
       <ul class="flex flex-row space-x-4 h-full text-sm md:text-base">
-        <li class="block my-auto font-semibold"><a href="" class="hover:opacity-80">Men</a></li>
-        <li class="block my-auto font-semibold"><a href="" class="hover:opacity-80">Women</a></li>
-        <li class="block my-auto font-semibold"><a href="" class="hover:opacity-80">Kids</a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Men</a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Women</a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Kids</a></li>
         <!-- IF LOGIN -->
-        <li class="block my-auto font-semibold"><a href="/cart" class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('cart') }}" class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a></li>
         <li class="block my-auto font-semibold">
           <button 
             x-on:click="profile = !profile"
@@ -42,10 +42,10 @@
       </div>
       <ul class="space-y-1 ">
         <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
-          <a class="flex-grow text-center py-1" href="/transaksi">Transaksi</a>
+          <a class="flex-grow text-center py-1" href="{{ route('transaction') }}">Transaksi</a>
         </li>
         <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
-          <a class="flex-grow text-center py-1" href="/riwayat">Riwayat</a>
+          <a class="flex-grow text-center py-1" href="{{ route('historyTransaction') }}">Riwayat</a>
         </li>
         <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
           <a class="flex-grow text-center py-1" href="/wishlist">Wishlist</a>
