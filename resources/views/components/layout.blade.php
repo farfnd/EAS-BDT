@@ -14,6 +14,13 @@
 
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 	
     <style>
       .swiper {
@@ -35,8 +42,12 @@
     {{ $slot }}
     
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-	  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>  
-    <script>
+	  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>  
+      $(document).ready(() => {
+        MicroModal.init();
+      })
+
       const swiper = new Swiper('.swiper', {
         // Optional parameters
         direction: 'horizontal',
