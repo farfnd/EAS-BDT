@@ -30,10 +30,10 @@ use Illuminate\Support\Facades\Auth;
           </li>
         @else
           <li class="block my-auto">
-            <a data-micromodal-trigger="register-user"
+            <button data-micromodal-trigger="register-user"
               class="cursor-pointer px-2 py-1 rounded-lg flex flex-row justify-center items-center text-white bg-gray-700 hover:opacity-80">
               Daftar
-            </a>
+            </button>
           </li>
           <li class="block my-auto">
             <button x-on:click="loginDropdown = !loginDropdown"
@@ -49,7 +49,7 @@ use Illuminate\Support\Facades\Auth;
     {{-- ========================================================================
         START ::: USER DROPDOWN NOT LOGGED IN
     ======================================================================== --}}
-    <div class="absolute top-16 right-0 z-10 bg-gray-50 p-4 rounded space-y-2 shadow-lg" x-show="loginDropdown"
+    <div class="absolute top-16 right-0 z-10 bg-white p-4 rounded space-y-2 shadow-lg" x-show="loginDropdown"
       x-on:click.outside="loginDropdown = false" x-transition>
       <form action="{{ route('login') }}" method="post">
         @csrf
@@ -62,13 +62,13 @@ use Illuminate\Support\Facades\Auth;
           @endif
 
           <label class="block">
-            <span class="text-gray-700">Username/Email</span>
+            <span class="text-gray-900">Username/Email</span>
             <input type="text"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               placeholder="Username/Email" name="username" id="username" required maxlength="100">
           </label>
           <label class="block">
-            <span class="text-gray-700">Password</span>
+            <span class="text-gray-900">Password</span>
             <input type="password"
               class="mt-1   block   w-full   rounded-md   border-gray-300   shadow-sm   focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               placeholder="Password" name="password" id="password" required minlength="8" maxlength="50">
@@ -76,10 +76,11 @@ use Illuminate\Support\Facades\Auth;
           <div class="flex gap-4 justify-between items-center">
             <p>
               Belum punya akun?
-              <a class="cursor-pointer font-bold" data-micromodal-trigger="register-user">Daftar</a>
+              <a class="cursor-pointer font-bold" onclick="showModal('register-user')">Daftar</a>
             </p>
             <button class="bg-gray-800 text-white py-2 px-3 rounded-lg" type="submit" id="formButton">Login</button>
           </div>
+        </div>
       </form>
     </div>
     {{-- ========================================================================
@@ -178,6 +179,7 @@ use Illuminate\Support\Facades\Auth;
                       tidak
                       cocok!</p>
                     <button type="submit" id="formButton">Submit</button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -199,4 +201,8 @@ use Illuminate\Support\Facades\Auth;
       $("#formButton").prop('disabled', false);
     }
   });
+
+  const showModal = (id) => {
+    MicroModal.show(id);
+  }
 </script>
