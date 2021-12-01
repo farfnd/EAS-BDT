@@ -5,15 +5,16 @@
     <div class="grid grid-cols-1 sm:grid-cols-2">
       <div>
         <div class="item-image-container-responsive md:item-image-container-fixed bg-yellow-100 rounded-lg">
+          {{-- ======== TODO ::: ADD IMAGE BERDASARKAN BARANG SEKARANG ======== --}}
           <img src="{{asset('images/IMG_7800.jpg')}}" alt="" class="item-image">
         </div>
         <div class="flex flex-row px-8 space-x-2 text-sm md:text-base">
           <a href="" class="flex flex-grow justify-center items-center shadow-md text-center p-2 rounded-lg border-2 border-gray-700 hover:opacity-80">
             <div>Beli Langsung</div>
           </a>
-          <div data-micromodal-trigger="modal-1" class="test flex flex-grow justify-center items-center shadow-md bg-gray-700 text-white text-center p-2 rounded-lg border-2 border-gray-700 hover:opacity-80">
+          <a data-micromodal-trigger="add-keranjang" class="cursor-pointer flex flex-grow justify-center items-center shadow-md bg-gray-700 text-white text-center p-2 rounded-lg border-2 border-gray-700 hover:opacity-80">
             <div class="flex justify-center items-center"><i class='bx bx-plus' ></i>&nbsp;Masukkan Keranjang</div>
-          </div>
+          </a>
         </div>
       </div>
       <div class="bg-gray-50 rounded-lg mt-4 ml-4 sm:ml-0 mr-4 sm:mr-8 p-4">
@@ -32,6 +33,7 @@
             <div class="grid grid-cols-12">
               <div class="col-span-3">
                 <div class="item-image-container-responsive bg-gray-600 rounded-full" style="margin: 0 auto !important;">
+                  {{-- ======== TODO ::: ADD IMAGE USER BERDASARKAN USER IMAGE ======== --}}
                   <img src="{{asset('images/IMG_7800.jpg')}}" alt="" class="item-image">
                 </div>
               </div>
@@ -60,23 +62,29 @@
     </div>
   </div>
   
-  <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
-    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+  <div class="modal micromodal-slide" id="add-keranjang" aria-hidden="true">
+    <div class="modal__overlay" data-micromodal-close>
+      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="add-keranjang-title">
         <header class="modal__header">
-          <h2 class="modal__title" id="modal-1-title">
-            Micromodal
+          <h2 class="modal__title text-center" id="add-keranjang-title">
+            Barang berhasil ditambahkan ke keranjang
           </h2>
-          <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
         </header>
-        <main class="modal__content" id="modal-1-content">
-          <p>
-            Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
-          </p>
+        <main class="modal__content" id="add-keranjang-content">
+          <div class="grid grid-cols-12">
+            <div class="col-span-6">
+              <div class="item-image-container-responsive bg-gray-600 rounded-2xl" style="margin: 0 auto !important;">
+                {{-- ======== TODO ::: ADD IMAGE BERDASARKAN BARANG SEKARANG ======== --}}
+                <img src="{{asset('images/IMG_7800.jpg')}}" alt="" class="item-image">
+              </div>
+            </div>
+            <div class="text-sm md:text-base font-bold col-span-6 flex flex-col justify-center">
+              <p>Shibori Tie Dye</p>
+            </div>
+          </div>
         </main>
-        <footer class="modal__footer">
-          <button class="modal__btn modal__btn-primary">Continue</button>
-          <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+        <footer class="flex justify-end">
+          <button type="button" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-full px-4 py-1" data-micromodal-close>Kembali</button>
         </footer>
       </div>
     </div>

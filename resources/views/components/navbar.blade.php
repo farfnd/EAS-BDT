@@ -1,50 +1,103 @@
 @php
-  use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 @endphp
 
-<div class="w-full bg-gray-50 shadow-md sticky top-0 z-50">
+<div class="w-full bg-gray-50 shadow-md sticky top-0 z-50" x-data="{ loginDropdown: false }">
   <div class="flex justify items-center px-2 h-14 mb-0 md:mb-2 relative" x-data="{ profile: false }">
     {{-- logo --}}
     <div class="relative">
       <a class="absolute top-0 left-0 right-0 bottom-0" href="/"></a>
       <h1 class="font-arial font-semibold text-1xl md:text-2xl">HANAKA &amp; CO.</h2>
-      <!-- <img style="height: 25px" src="{{ asset('images/logo1.png') }}" alt=""> -->
+        <!-- <img style="height: 25px" src="{{ asset('images/logo1.png') }}" alt=""> -->
     </div>
-  
-    {{-- navlinks --}}
+
+    {{-- ======== START ::: NAVIGATION LINKS ======== --}}
     <nav class="ml-auto align-bottom justify-center">
       <ul class="flex flex-row space-x-4 h-full text-sm md:text-base">
         <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Men</a></li>
-        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Women</a></li>
-        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Kids</a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Women</a>
+        </li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Kids</a>
+        </li>
         @if (Auth::check())
-          <li class="block my-auto font-semibold"><a href="{{ route('cart') }}" class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a></li>
+          <li class="block my-auto font-semibold"><a href="{{ route('cart') }}"
+              class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a>
+          </li>
           <li class="block my-auto font-semibold">
-            <button 
-              x-on:click="profile = !profile"
-              class="flex flex-row justify-center items-center hover:opacity-80"
-            >
+            <button x-on:click="profile = !profile" class="flex flex-row justify-center items-center hover:opacity-80">
               <i class='bx bx-user bx-sm bg'></i>
             </button>
           </li>
         @else
-          <li class="block my-auto"><a href="{{ route('register.show') }}" class="px-2 py-1 rounded-lg flex flex-row justify-center items-center text-white bg-gray-700 hover:opacity-80">Daftar</a></li>
-          <li class="block my-auto"><a href="{{ route('login.show') }}" class="px-2 py-1 rounded-lg flex flex-row justify-center items-center text-white bg-gray-700 hover:opacity-80">Masuk</a></li>
+          <li class="block my-auto">
+            <a data-micromodal-trigger="register-user"
+              class="cursor-pointer px-2 py-1 rounded-lg flex flex-row justify-center items-center text-white bg-gray-700 hover:opacity-80">
+              Daftar
+            </a>
+          </li>
+          <li class="block my-auto">
+            <button x-on:click="loginDropdown = !loginDropdown"
+              class="cursor-pointer px-2 py-1 rounded-lg flex flex-row justify-center items-center text-white bg-gray-700 hover:opacity-80">
+              Masuk
+            </button>
+          </li>
         @endif
       </ul>
     </nav>
-  
+    {{-- ======== END ::: NAVIGATION LINKS ======== --}}
+
+    {{-- ========================================================================
+        START ::: USER DROPDOWN NOT LOGGED IN
+    ======================================================================== --}}
+    <div class="absolute top-16 right-0 z-10 bg-gray-50 p-4 rounded space-y-2 shadow-lg" x-show="loginDropdown"
+      x-on:click.outside="loginDropdown = false" x-transition>
+      <form action="{{ route('login') }}" method="post">
+        @csrf
+        <div class="grid grid-cols-1 gap-6">
+          @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+              <strong class="font-bold">{{ $errors->first() }}</strong>
+              {{-- <strong class="font-bold">Test</strong> --}}
+            </div>
+          @endif
+
+          <label class="block">
+            <span class="text-gray-700">Username/Email</span>
+            <input type="text"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              placeholder="Username/Email" name="username" id="username" required maxlength="100">
+          </label>
+          <label class="block">
+            <span class="text-gray-700">Password</span>
+            <input type="password"
+              class="mt-1   block   w-full   rounded-md   border-gray-300   shadow-sm   focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              placeholder="Password" name="password" id="password" required minlength="8" maxlength="50">
+          </label>
+          <div class="flex gap-4 justify-between items-center">
+            <p>
+              Belum punya akun?
+              <a class="cursor-pointer font-bold" data-micromodal-trigger="register-user">Daftar</a>
+            </p>
+            <button class="bg-gray-800 text-white py-2 px-3 rounded-lg" type="submit" id="formButton">Login</button>
+          </div>
+      </form>
+    </div>
+    {{-- ========================================================================
+        END ::: USER DROPDOWN NOT LOGGED IN
+    ======================================================================== --}}
+
+    {{-- ========================================================================
+        START ::: USER DROPDOWN IS LOGGED IN
+    ======================================================================== --}}
     @if (Auth::check())
-    {{-- popup user menu  --}}
-      <div class="absolute top-16 right-0 z-10 bg-gray-50 p-2 rounded space-y-2 shadow-lg"
-        x-show="profile" x-on:click.outside="profile = false" x-transition
-        >
-          <div class="flex bg-gray-200 p-1 items-center space-x-2 rounded">
+      <div class="absolute top-16 right-0 z-10 bg-gray-50 p-2 rounded space-y-2 shadow-lg" x-show="profile"
+        x-on:click.outside="profile = false" x-transition>
+        <div class="flex bg-gray-200 p-1 items-center space-x-2 rounded">
           <div class="bg-gray-300 rounded-full flex items-center p-1 ">
             <i class='bx bx-user bx-sm'></i>
           </div>
           <div>
-            <span>{{Auth::user()->nama}}</span>
+            <span>{{ Auth::user()->nama }}</span>
           </div>
         </div>
         <ul class="space-y-1 ">
@@ -63,5 +116,87 @@
         </ul>
       </div>
     @endif
+    {{-- ========================================================================
+        END ::: USER DROPDOWN IS LOGGED IN
+    ======================================================================== --}}
+
+    {{-- ======== START ::: REGISTER MODAL ======== --}}
+    <div class="modal micromodal-slide" id="register-user" aria-hidden="true">
+      <div class="modal__overlay" data-micromodal-close>
+        <div class="modal__container max-w-5xl w-12/12 md:w-6/12" role="dialog" aria-modal="true"
+          aria-labelledby="register-user-title">
+          <header class="modal__header w-max">
+            <h2 class="modal__title text-center" id="register-user-title">
+              Daftar Akun
+            </h2>
+          </header>
+          <main class="modal__content w-full mt-8" id="register-user-content">
+            <div class="grid grid-cols-12">
+              <div class="col-span-12">
+                <form action="{{ route('register.create') }}" method="post">
+                  @csrf
+                  <div class="grid grid-cols-1 gap-6">
+                    <label class="block">
+                      <span class="text-gray-700">Nama</span>
+                      <input type="text"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Nama" name="nama" id="nama" required maxlength="100">
+                    </label>
+                    <label class="block">
+                      <span class="text-gray-700">Username</span>
+                      <input type="text"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Username" name="username" id="username" required minlength="3" maxlength="25">
+                    </label>
+                    <label class="block">
+                      <span class="text-gray-700">Email</span>
+                      <input type="email"
+                        class=" mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="john@example.com" name="email" id="email" required maxlength="100">
+                    </label>
+                    <label class="block">
+                      <span class="text-gray-700">Nomor Telepon</span>
+                      <input type="tel"
+                        class=" mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="081234567890" name="no_telepon" id="no_telepon" required pattern="(08)[0-9]{8,12}"
+                        minlength="10" maxlength="14">
+                    </label>
+                    <label class="block">
+                      <span class="text-gray-700">Password</span>
+                      <input type="password"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Password" name="password" id="password" required minlength="8" maxlength="50">
+                    </label>
+                    <label class="block">
+                      <span class="text-gray-700">Konfirmasi Password</span>
+                      <input type="password"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Konfirmasi Password" name="confirmPassword" id="confirmPassword" required
+                        minlength="8" maxlength="50">
+                    </label>
+                    <p class="text-red-500" id="confirmPasswordWarning" style="display: none;">Kata sandi konfirmasi
+                      tidak
+                      cocok!</p>
+                    <button type="submit" id="formButton">Submit</button>
+                </form>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    {{-- ======== END ::: REGISTER MODAL ======== --}}
+
   </div>
 </div>
+<script>
+  $("#confirmPassword").keyup(function(e) {
+    if ($(this).val() !== $("#password").val()) {
+      $('#confirmPasswordWarning').show();
+      $("#formButton").prop('disabled', true);
+    } else {
+      $('#confirmPasswordWarning').hide();
+      $("#formButton").prop('disabled', false);
+    }
+  });
+</script>
