@@ -91,9 +91,9 @@ use Illuminate\Support\Facades\Auth;
         START ::: USER DROPDOWN IS LOGGED IN
     ======================================================================== --}}
     @if (Auth::check())
-      <div class="absolute top-16 right-0 z-10 bg-gray-50 p-2 rounded space-y-2 shadow-lg" x-show="profile"
+      <div class="absolute top-16 right-0 z-10 bg-gray-50 p-2 rounded space-y-2 shadow-lg w-52" x-show="profile"
         x-on:click.outside="profile = false" x-transition>
-        <div class="flex bg-gray-200 p-1 items-center space-x-2 rounded">
+        <div class="flex bg-gray-200 p-1 items-center justify-center space-x-2 rounded">
           <div class="bg-gray-300 rounded-full flex items-center p-1 ">
             <i class='bx bx-user bx-sm'></i>
           </div>

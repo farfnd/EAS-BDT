@@ -3,6 +3,7 @@
     <x-navbar></x-navbar>
     
     <div class="grid grid-cols-1 sm:grid-cols-2">
+      {{-- image section  --}}
       <div>
         <div class="item-image-container-responsive md:item-image-container-fixed bg-yellow-100 rounded-lg">
           {{-- ======== TODO ::: ADD IMAGE BERDASARKAN BARANG SEKARANG ======== --}}
@@ -17,6 +18,7 @@
           </a>
         </div>
       </div>
+      {{-- detail section  --}}
       <div class="bg-gray-50 rounded-lg mt-4 ml-4 sm:ml-0 mr-4 sm:mr-8 p-4">
         <div>
           <h2 class="text-base md:text-lg font-semibold">Shibori Tie Dye</h2>
@@ -65,7 +67,7 @@
   <div class="modal micromodal-slide" id="add-keranjang" aria-hidden="true">
     <div class="modal__overlay" data-micromodal-close>
       <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="add-keranjang-title">
-        <header class="modal__header">
+        <header class="modal__header mb-8">
           <h2 class="modal__title text-center" id="add-keranjang-title">
             Barang berhasil ditambahkan ke keranjang
           </h2>
@@ -89,6 +91,4 @@
       </div>
     </div>
   </div>
-  <script>
-  </script>
 </x-layout>
