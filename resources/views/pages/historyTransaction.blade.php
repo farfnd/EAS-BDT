@@ -227,7 +227,7 @@
                                             </div>
                                         </div>
                                         <div class="flex mt-12 space-x-4 justify-end">
-                                            <button data-micromodal-close class="shadow-custom1 rounded-lg px-2 px-4 py-1">
+                                            <button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
                                                 <span class="font-semibold text-center">Batalkan</span>
                                             </button>
                                             <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1">Kirim</button>

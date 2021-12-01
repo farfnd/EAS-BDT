@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+  
   <title>{{ $titlePage }}</title>
 
   <!-- Fonts -->
@@ -15,12 +14,14 @@
 
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
   <link rel='stylesheet' href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'>
+  <link rel='stylesheet' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
   </script>
   <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
-
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  
   <style>
     .swiper {
       width: 100%;
@@ -41,6 +42,7 @@
     }
 
   </style>
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body class="antialiased lg:mx-auto font-poppins max-w-7xl">
