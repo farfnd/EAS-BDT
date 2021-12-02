@@ -70,7 +70,7 @@
             </header>
             <main class="modal__content mt-3" id="tambah-barang-content">
               <form action="" method="post">
-				        @csrf
+				@csrf
                 <div class="flex flex-col space-y-5">
                     <div class="grid grid-cols-12">
                       <label for="nama" class="col-span-3">Nama Barang</label>
@@ -89,25 +89,60 @@
                       </div>			
                     </div>
                     <div class="grid grid-cols-12">
-                      <label for="kategori" class="col-span-3">Kategori Barang</label>
-                      <select class="col-span-9 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-					  	name="" id="kategori">
-                        <option value="">Jaket</option>  
-                        <option value="">Gatau</option>  
-                        <option value="">Apa</option>  
-                        <option value="">Lagi</option>  
-                      </select>  
+						<label for="kategori" class="col-span-3">Kategori Barang</label>
+						<div class="col-span-9 flex space-x-8">
+							<select class="w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+								name="" id="kategori">
+							  <option value="">Jaket</option>  
+							  <option value="">Gatau</option>  
+							  <option value="">Apa</option>  
+							  <option value="">Lagi</option>  
+							</select>
+							<div class="w-1/2 flex justify-end space-x-6">
+								<label for="gender">Gender</label>
+								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+									name="" id="gender">
+									<option value="">Pria</option>
+									<option value="">Wanita</option>
+								</select>
+							</div>  
+						</div>
                     </div>
                     <div class="grid grid-cols-12">
                         <div class="col-span-3">
-							<label for="stok">Stok Barang</label>
+							<label for="stok">Stok Barang (ukuran)</label>
                         </div> 
-                        <div class="col-span-9 flex items-center justify-between space-x-8">
-							<input class="w-1/4 rounded-md border-gray-300 
-								shadow-sm focus:border-indigo-300 focus:ring 
-								focus:ring-indigo-200 focus:ring-opacity-50" 
-								type="number" id="stok" name="">
-							<div class="w-1/3 flex justify-end space-x-6">
+                        <div class="col-span-9 flex items-center space-x-8">
+							<div class="flex w-1/4">
+								<input class="w-full rounded-l-md border-gray-300 
+									shadow-sm focus:border-indigo-300 focus:ring 
+									focus:ring-indigo-200 focus:ring-opacity-50" 
+									type="number" id="stok" name="">
+								<span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(S)</span>
+							</div>
+							<div class="flex w-1/4">
+								<input class="w-full rounded-l-md border-gray-300 
+									shadow-sm focus:border-indigo-300 focus:ring 
+									focus:ring-indigo-200 focus:ring-opacity-50" 
+									type="number" id="stok" name="">
+								<span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(M)</span>
+							</div>
+							<div class="flex w-1/4">
+								<input class="w-full rounded-l-md border-gray-300 
+									shadow-sm focus:border-indigo-300 focus:ring 
+									focus:ring-indigo-200 focus:ring-opacity-50" 
+									type="number" id="stok" name="">
+								<span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(L)</span>
+							</div>
+							<div class="flex w-1/4">
+								<input class="w-full rounded-l-md border-gray-300 
+									shadow-sm focus:border-indigo-300 focus:ring 
+									focus:ring-indigo-200 focus:ring-opacity-50" 
+									type="number" id="stok" name="">
+								<span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(XL)</span>
+							</div>
+							
+							{{-- <div class="w-1/4 flex justify-end space-x-6">
 								<label for="ukuran">Ukuran</label>
 								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
 									name="" id="ukuran">
@@ -116,15 +151,8 @@
 									<option value="">L</option>
 									<option value="">XL</option>
 								</select>
-							</div>
-							<div class="w-1/2 flex justify-end space-x-6">
-								<label for="gender">Gender</label>
-								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-									name="" id="gender">
-									<option value="">Pria</option>
-									<option value="">Wanita</option>
-								</select>
-							</div>
+							</div> --}}
+							
                         </div>
                     </div>	
 					<div class="grid grid-cols-12">
@@ -176,97 +204,125 @@
                     Formulir Edit Barang
                 </h2>
             </header>
-            <main class="modal__content mt-3" id="edit-barang-content">
-              <form action="" method="post">
-				@csrf
-                <div class="flex flex-col space-y-5">
-                    <div class="grid grid-cols-12">
-                      <label for="nama" class="col-span-3">Nama Barang</label>
-                      <input type="text"
-						class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Sweater Gray Big Size" name="" id="nama" required maxlength="100">
-                    </div>
-                    <div class="grid grid-cols-12">
-                      <label for="harga" class="col-span-3">Harga Barang</label>
-                      <div class="flex col-span-9">
-                        <span class="flex items-center bg-grey-lighter rounded rounded-r-none border border-r-0 border-gray-300 px-3 text-grey-dark text-sm">Rp.</span>
-                        <input type="text" 
-							class="w-full border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-							placeholder="250" name="" id="harga" required>
-                        <span class="flex items-center bg-grey-lighter rounded rounded-l-none border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">.000</span>
-                      </div>			
-                    </div>
-                    <div class="grid grid-cols-12">
-                      <label for="kategori" class="col-span-3">Kategori Barang</label>
-                      <select class="col-span-9 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-					  	name="" id="kategori">
-                        <option value="">Jaket</option>  
-                        <option value="">Gatau</option>  
-                        <option value="">Apa</option>  
-                        <option value="">Lagi</option>  
-                      </select>  
-                    </div>
-                    <div class="grid grid-cols-12">
-                        <div class="col-span-3">
-							<label for="stok">Stok Barang</label>
-                        </div> 
-                        <div class="col-span-9 flex items-center justify-between space-x-8">
-							<input class="w-1/4 rounded-md border-gray-300 
-								shadow-sm focus:border-indigo-300 focus:ring 
-								focus:ring-indigo-200 focus:ring-opacity-50" 
-								type="number" id="stok" name="">
-							<div class="w-1/3 flex justify-end space-x-6">
-								<label for="ukuran">Ukuran</label>
-								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-									name="" id="ukuran">
-									<option value="">S</option>
-									<option value="">M</option>
-									<option value="">L</option>
-									<option value="">XL</option>
-								</select>
-							</div>
-							<div class="w-1/2 flex justify-end space-x-6">
-								<label for="gender">Gender</label>
-								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-									name="" id="gender">
-									<option value="">Pria</option>
-									<option value="">Wanita</option>
-								</select>
-							</div>
-                        </div>
-                    </div>	
-					<div class="grid grid-cols-12">
-						<label for="deskripsi" class="col-span-3">Deskripsi Barang</label>
-						<textarea 
-							placeholder="Masukan deskripsi barang" 
-							class="col-span-9 rounded-md border-gray-300 
-							shadow-sm focus:border-indigo-300 focus:ring 
-							focus:ring-indigo-200 focus:ring-opacity-50" 
-							name="" id="deskripsi" cols="30" rows="5" style="resize: none"></textarea>
-					</div>
-					<div class="grid grid-cols-12">
-						<p class="col-span-3">Unggah Foto</p>
-						<div class="col-span-9">
-							<div class="flex space-x-6">
-								<div>
-									<label for="file-upload" class="custom-file-upload cursor-pointer">
-										<p class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1">Upload Files</p>
-									</label>
-									<input id="file-upload" type="file" class="hidden"/>
-								</div>
-								<span>Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
-							</div>
-						</div>
-					</div>
-					<div class="flex mt-12 space-x-4 justify-end">
-						<button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
-							<span class="font-semibold text-center">Batalkan</span>
-						</button>
-						<button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1">Kirim</button>
-					</div>
-                </div>
-              </form>
-            </main>
+			<main class="modal__content mt-3" id="tambah-barang-content">
+				<form action="" method="post">
+				  @csrf
+				  <div class="flex flex-col space-y-5">
+					  <div class="grid grid-cols-12">
+						<label for="nama" class="col-span-3">Nama Barang</label>
+						<input type="text"
+						  class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+						  placeholder="Sweater Gray Big Size" name="" id="nama" required maxlength="100">
+					  </div>
+					  <div class="grid grid-cols-12">
+						<label for="harga" class="col-span-3">Harga Barang</label>
+						<div class="flex col-span-9">
+						  <span class="flex items-center bg-grey-lighter rounded rounded-r-none border border-r-0 border-gray-300 px-3 text-grey-dark text-sm">Rp.</span>
+						  <input type="text" 
+							  class="w-full border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+							  placeholder="250" name="" id="harga" required>
+						  <span class="flex items-center bg-grey-lighter rounded rounded-l-none border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">.000</span>
+						</div>			
+					  </div>
+					  <div class="grid grid-cols-12">
+						  <label for="kategori" class="col-span-3">Kategori Barang</label>
+						  <div class="col-span-9 flex space-x-8">
+							  <select class="w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+								  name="" id="kategori">
+								<option value="">Jaket</option>  
+								<option value="">Gatau</option>  
+								<option value="">Apa</option>  
+								<option value="">Lagi</option>  
+							  </select>
+							  <div class="w-1/2 flex justify-end space-x-6">
+								  <label for="gender">Gender</label>
+								  <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+									  name="" id="gender">
+									  <option value="">Pria</option>
+									  <option value="">Wanita</option>
+								  </select>
+							  </div>  
+						  </div>
+					  </div>
+					  <div class="grid grid-cols-12">
+						  <div class="col-span-3">
+							  <label for="stok">Stok Barang (ukuran)</label>
+						  </div> 
+						  <div class="col-span-9 flex items-center space-x-8">
+							  <div class="flex w-1/4">
+								  <input class="w-full rounded-l-md border-gray-300 
+									  shadow-sm focus:border-indigo-300 focus:ring 
+									  focus:ring-indigo-200 focus:ring-opacity-50" 
+									  type="number" id="stok" name="">
+								  <span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(S)</span>
+							  </div>
+							  <div class="flex w-1/4">
+								  <input class="w-full rounded-l-md border-gray-300 
+									  shadow-sm focus:border-indigo-300 focus:ring 
+									  focus:ring-indigo-200 focus:ring-opacity-50" 
+									  type="number" id="stok" name="">
+								  <span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(M)</span>
+							  </div>
+							  <div class="flex w-1/4">
+								  <input class="w-full rounded-l-md border-gray-300 
+									  shadow-sm focus:border-indigo-300 focus:ring 
+									  focus:ring-indigo-200 focus:ring-opacity-50" 
+									  type="number" id="stok" name="">
+								  <span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(L)</span>
+							  </div>
+							  <div class="flex w-1/4">
+								  <input class="w-full rounded-l-md border-gray-300 
+									  shadow-sm focus:border-indigo-300 focus:ring 
+									  focus:ring-indigo-200 focus:ring-opacity-50" 
+									  type="number" id="stok" name="">
+								  <span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">(XL)</span>
+							  </div>
+							  
+							  {{-- <div class="w-1/4 flex justify-end space-x-6">
+								  <label for="ukuran">Ukuran</label>
+								  <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+									  name="" id="ukuran">
+									  <option value="">S</option>
+									  <option value="">M</option>
+									  <option value="">L</option>
+									  <option value="">XL</option>
+								  </select>
+							  </div> --}}
+							  
+						  </div>
+					  </div>	
+					  <div class="grid grid-cols-12">
+						  <label for="deskripsi" class="col-span-3">Deskripsi Barang</label>
+						  <textarea 
+							  placeholder="Masukan deskripsi barang" 
+							  class="col-span-9 rounded-md border-gray-300 
+							  shadow-sm focus:border-indigo-300 focus:ring 
+							  focus:ring-indigo-200 focus:ring-opacity-50" 
+							  name="" id="deskripsi" cols="30" rows="5" style="resize: none"></textarea>
+					  </div>
+					  <div class="grid grid-cols-12">
+						  <p class="col-span-3">Unggah Foto</p>
+						  <div class="col-span-9">
+							  <div class="flex space-x-6">
+								  <div>
+									  <label for="file-upload" class="custom-file-upload cursor-pointer">
+										  <p class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1">Upload Files</p>
+									  </label>
+									  <input id="file-upload" type="file" class="hidden"/>
+								  </div>
+								  <span>Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
+							  </div>
+						  </div>
+					  </div>
+					  <div class="flex mt-12 space-x-4 justify-end">
+						  <button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
+							  <span class="font-semibold text-center">Batalkan</span>
+						  </button>
+						  <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1">Kirim</button>
+					  </div>
+				  </div>
+				</form>
+			  </main>
         </div>
     </div>
     </div>
