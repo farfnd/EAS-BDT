@@ -32433,6 +32433,10 @@ select {
   padding-top: 1rem;
 }
 
+.dataTables_info{
+  margin-left: 0.75rem;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -188932,4 +188936,3 @@ select {
     overflow: hidden;
   }
 }
-

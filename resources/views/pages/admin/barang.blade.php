@@ -11,7 +11,7 @@
       <i class='bx bx-plus'></i> Tambah Barang
     </button>
   </div>
-  <table id="table-barang" class="display table-barang" style="width:100%">
+  <table  id="table-barang" class="display table-barang" style="width:100%">
     <thead class="bg-black text-white">
       <tr>
         <th style="font-weight: 100">#</th>
@@ -28,7 +28,7 @@
     <tbody>
       @for ($i = 0; $i < 100; $i++)
         <tr>
-          <td>{{ $i }}</td>
+          <td>{{ $i+1 }}</td>
           <td>A001{{ $i }}</td>
           <td>Sweater Logo Fav Maroon</td>
           <td>Luaran</td>
@@ -70,7 +70,7 @@
             </header>
             <main class="modal__content mt-3" id="tambah-barang-content">
               <form action="" method="post">
-				@csrf
+				        @csrf
                 <div class="flex flex-col space-y-5">
                     <div class="grid grid-cols-12">
                       <label for="nama" class="col-span-3">Nama Barang</label>
@@ -103,10 +103,20 @@
 							<label for="stok">Stok Barang</label>
                         </div> 
                         <div class="col-span-9 flex items-center justify-between space-x-8">
-							<input class="w-1/2 rounded-md border-gray-300 
+							<input class="w-1/4 rounded-md border-gray-300 
 								shadow-sm focus:border-indigo-300 focus:ring 
 								focus:ring-indigo-200 focus:ring-opacity-50" 
 								type="number" id="stok" name="">
+							<div class="w-1/3 flex justify-end space-x-6">
+								<label for="ukuran">Ukuran</label>
+								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+									name="" id="ukuran">
+									<option value="">S</option>
+									<option value="">M</option>
+									<option value="">L</option>
+									<option value="">XL</option>
+								</select>
+							</div>
 							<div class="w-1/2 flex justify-end space-x-6">
 								<label for="gender">Gender</label>
 								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
@@ -201,10 +211,20 @@
 							<label for="stok">Stok Barang</label>
                         </div> 
                         <div class="col-span-9 flex items-center justify-between space-x-8">
-							<input class="w-1/2 rounded-md border-gray-300 
+							<input class="w-1/4 rounded-md border-gray-300 
 								shadow-sm focus:border-indigo-300 focus:ring 
 								focus:ring-indigo-200 focus:ring-opacity-50" 
 								type="number" id="stok" name="">
+							<div class="w-1/3 flex justify-end space-x-6">
+								<label for="ukuran">Ukuran</label>
+								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+									name="" id="ukuran">
+									<option value="">S</option>
+									<option value="">M</option>
+									<option value="">L</option>
+									<option value="">XL</option>
+								</select>
+							</div>
 							<div class="w-1/2 flex justify-end space-x-6">
 								<label for="gender">Gender</label>
 								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
@@ -254,6 +274,21 @@
 </x-admin.layout>
 <script>
   $(document).ready(function() {
-    $('#table-barang').DataTable();
+    let table = $('#table-barang').DataTable();
+    if($(window).outerHeight() < 937){
+      table.page.len(10).draw(); 
+    }else if($(window).outerHeight() >= 937){
+      // $('#table-barang').attr('data-page-length', '25')
+      table.page.len(25).draw(); 
+    }
+
+    $( window ).resize(function() {
+      if($(window).outerHeight() < 937){
+        table.page.len(10).draw(); 
+      }else if($(window).outerHeight() >= 937){
+        // $('#table-barang').attr('data-page-length', '25')
+        table.page.len(25).draw(); 
+      }
+    });
   });
 </script>

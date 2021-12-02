@@ -267,3 +267,6 @@
 .display.dataTable {
     @apply pt-4;
 }
+.dataTables_info{
+    @apply ml-3;
+}
