@@ -83,7 +83,7 @@ Route::get('/history_transaction', function () {
 ======================================================================== */
 
 Route::get('/admin', function () {
-    return view('pages.admin.add');
+    return view('pages.admin.barang');
 })->name('admin');
 
 
