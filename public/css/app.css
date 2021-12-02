@@ -32133,7 +32133,8 @@ select {
 }
 
 @media all and (max-width: 768px) {
-  html, body {
+  html,
+    body {
     font-size: 14px;
   }
 }
@@ -32151,7 +32152,7 @@ select {
   position: relative;
 }
 
-.rating span{
+.rating span {
   height: 1.5rem;
   line-height: 1.5rem;
   font-size: 1.5rem;
@@ -32207,12 +32208,12 @@ select {
 
 .rating:not(:hover) label input:checked ~ .icon,
 .rating:hover label:hover input ~ .icon {
-  color: #FFD335;
+  color: #ffd335;
 }
 
 .rating label input:focus:not(:checked) ~ .icon:last-child {
   color: #000;
-  text-shadow: 0 0 5px #FFD335;
+  text-shadow: 0 0 5px #ffd335;
 }
 
 /* ========================================================================
@@ -32224,7 +32225,7 @@ select {
 }
 
 .modal.is-open {
-  display: block
+  display: block;
 }
 
 .modal__overlay {
@@ -32234,7 +32235,7 @@ select {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32268,7 +32269,8 @@ select {
   border: 0;
 }
 
-.modal__header .modal__close:before { content: "\2715";
+.modal__header .modal__close:before {
+  content: "\2715";
 }
 
 .modal__content {
@@ -32280,66 +32282,82 @@ select {
 ======================================================================== */
 
 @-webkit-keyframes mmfadeIn {
-  from { opacity: 0;
+  from {
+    opacity: 0;
   }
 
-  to { opacity: 1;
+  to {
+    opacity: 1;
   }
 }
 
 @keyframes mmfadeIn {
-  from { opacity: 0;
+  from {
+    opacity: 0;
   }
 
-  to { opacity: 1;
+  to {
+    opacity: 1;
   }
 }
 
 @-webkit-keyframes mmfadeOut {
-  from { opacity: 1;
+  from {
+    opacity: 1;
   }
 
-  to { opacity: 0;
+  to {
+    opacity: 0;
   }
 }
 
 @keyframes mmfadeOut {
-  from { opacity: 1;
+  from {
+    opacity: 1;
   }
 
-  to { opacity: 0;
+  to {
+    opacity: 0;
   }
 }
 
 @-webkit-keyframes mmslideIn {
-  from { transform: translateY(15%);
+  from {
+    transform: translateY(15%);
   }
 
-  to { transform: translateY(0);
+  to {
+    transform: translateY(0);
   }
 }
 
 @keyframes mmslideIn {
-  from { transform: translateY(15%);
+  from {
+    transform: translateY(15%);
   }
 
-  to { transform: translateY(0);
+  to {
+    transform: translateY(0);
   }
 }
 
 @-webkit-keyframes mmslideOut {
-  from { transform: translateY(0);
+  from {
+    transform: translateY(0);
   }
 
-  to { transform: translateY(-10%);
+  to {
+    transform: translateY(-10%);
   }
 }
 
 @keyframes mmslideOut {
-  from { transform: translateY(0);
+  from {
+    transform: translateY(0);
   }
 
-  to { transform: translateY(-10%);
+  to {
+    transform: translateY(-10%);
   }
 }
 
@@ -32352,23 +32370,23 @@ select {
 }
 
 .micromodal-slide[aria-hidden="false"] .modal__overlay {
-  -webkit-animation: mmfadeIn .3s cubic-bezier(0.0, 0.0, 0.2, 1);
-          animation: mmfadeIn .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+  -webkit-animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+          animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide[aria-hidden="false"] .modal__container {
-  -webkit-animation: mmslideIn .3s cubic-bezier(0, 0, .2, 1);
-          animation: mmslideIn .3s cubic-bezier(0, 0, .2, 1);
+  -webkit-animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+          animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide[aria-hidden="true"] .modal__overlay {
-  -webkit-animation: mmfadeOut .3s cubic-bezier(0.0, 0.0, 0.2, 1);
-          animation: mmfadeOut .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+  -webkit-animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
+          animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide[aria-hidden="true"] .modal__container {
-  -webkit-animation: mmslideOut .3s cubic-bezier(0, 0, .2, 1);
-          animation: mmslideOut .3s cubic-bezier(0, 0, .2, 1);
+  -webkit-animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
+          animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .micromodal-slide .modal__container,
@@ -32381,7 +32399,10 @@ select {
 ======================================================================== */
 
 .dataTables_wrapper {
-  margin: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
   font-size: 0.75rem;
   line-height: 1rem;
 }
@@ -32394,11 +32415,22 @@ select {
 }
 
 .dataTables_wrapper select {
-  width: 6rem
+  width: 6rem;
+}
+
+.dataTables_length {
+  margin-top: 1rem;
+  margin-left: 0.75rem;
+  font-weight: 500;
+}
+
+.dataTables_filter {
+  margin-top: 1rem;
+  margin-right: 0.75rem;
 }
 
 .display.dataTable {
-  padding-top: 2rem;
+  padding-top: 1rem;
 }
 
 @media (min-width: 640px) {
@@ -188900,3 +188932,4 @@ select {
     overflow: hidden;
   }
 }
+

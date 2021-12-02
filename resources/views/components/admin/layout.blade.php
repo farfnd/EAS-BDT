@@ -47,18 +47,19 @@
 
   <x-admin.navbar></x-admin.navbar>
   <div class="relative grid grid-cols-12">
+    {{-- sidebar  --}}
     <div class="col-span-3 mr-4">
-      <div id="sidebar" class="shadow-lg sticky space-y-2 px-2">
+      <div id="sidebar" class="shadow-lg sticky space-y-2 px-2 pt-3">
         <div onclick="test()"
           class="bg-gray-100 hover:bg-gray-50 p-4 text-center hover:shadow-md rounded-md duration-100 cursor-pointer">
-          Add
+          <a href="{{ route('admin') }}"> Barang</a>
         </div>
         <div onclick="test()"
           class="bg-gray-100 hover:bg-gray-50 p-4 text-center hover:shadow-md rounded-md duration-100 cursor-pointer">
-          Transactions</div>
+          Transaksi</div>
       </div>
-
     </div>
+    {{-- content  --}}
     <div class="col-span-9">
       {{ $slot }}
     </div>
