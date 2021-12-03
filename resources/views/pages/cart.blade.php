@@ -3,7 +3,6 @@
     <x-navbar></x-navbar>
   
     {{-- TAMBAHIN INPUT PER ITEM, JADI BISA BELI LEBIH DARI 1 BARANG SEKALIGUS --}}
-
     <h2 class="text-3xl font-bold text-gray-900 text-center mt-8">Keranjang</h2>
     <div class="grid grid-cols-8 gap-x-8 mx-8 mt-4">
       {{-- card section  --}}

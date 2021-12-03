@@ -60,6 +60,11 @@ Route::get('/cart', function () {
     return view('pages.cart');
 })->name('cart');
 
+/* ======== CHECKOUT SECTION ======== */
+Route::get('/checkout', function () {
+    return view('pages.checkout');
+})->name('checkout');
+
 /* ======== WISHLIST SECTION ======== */
 Route::get('/wishlist', function () {
     return view('pages.wishlist');
