@@ -270,3 +270,19 @@
 .dataTables_info{
     @apply ml-3;
 }
+
+/* ========================================================================
+    SELECT2 STYLING
+======================================================================== */
+.select2.select2-container .select2-selection--single {
+    height: min-content;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    @apply w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+}
+
+.select2.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    top: 0;
+    bottom: 0;
+}
