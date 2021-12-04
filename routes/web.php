@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,8 +63,25 @@ Route::get('/cart', function () {
 
 /* ======== CHECKOUT SECTION ======== */
 Route::get('/checkout', function () {
-    return view('pages.checkout');
+    if(Auth::check()) {
+        return view('pages.checkout');
+    }
+    return redirect("/");
 })->name('checkout');
+
+/* ======== PAYMENTS SECTION ======== */
+Route::get('/bank-payment', function () {
+    if(Auth::check()) {
+        return view('pages.payments.bank');
+    }
+    return redirect("/");
+})->name('bank-payment');
+Route::get('/va-payment', function () {
+    if(Auth::check()) {
+        return view('pages.payments.virtual-account');
+    }
+    return redirect("/");
+})->name('va-payment');
 
 /* ======== WISHLIST SECTION ======== */
 Route::get('/wishlist', function () {

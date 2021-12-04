@@ -27,11 +27,15 @@
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="kota_kab">Kota/Kabupaten</label>
-                        <select class="select2-data-array browser-default" id="select2-kabupaten"></select>
+                        <select class="select2-basic select2-data-array browser-default" id="select2-kabupaten">
+                            <option value="">{{ ' ' }}</option>
+                        </select>
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="kecamatan">Kecamatan</label>
-                        <select class="select2-data-array browser-default" id="select2-kecamatan"></select>
+                        <select class="select2-basic select2-data-array browser-default" id="select2-kecamatan">
+                            <option value="">{{ ' ' }}</option>
+                        </select>
                     </div>
                     <div class="grid grid-cols-12 gap-10">
                         <div class="col-span-3 flex flex-col space-y-1">
@@ -55,9 +59,9 @@
                         <label for="metode">Metode Pembayaran</label>
                         <select
                             class="select2-basic w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            name="" id="metode">
-                            <option value="">Transfer Virtual Account</option>
-                            <option value="">Transfer Bank</option>
+                            name="" id="metode-select" onchange="updatePath()">
+                            <option value="va">Transfer Virtual Account</option>
+                            <option value="bank">Transfer Bank</option>
                         </select>
                     </div>
                     <div class="flex flex-col space-y-1">
@@ -67,10 +71,14 @@
                             name="" id="" cols="30" rows="5" style="resize: none"></textarea>
                     </div>
                     <div class="flex">
-                        <button
+                        <a id="bayar-button-bank" href="/bank-payment" style="display: none"
                             class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4 font-semibold text-white text-center">
                             Bayar
-                        </button>
+                        </a>
+                        <a id="bayar-button-va" data-micromodal-trigger="pilih-va"
+                            class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4 font-semibold text-white text-center">
+                            Bayar
+                        </a>
                     </div>
                 </div>
             </form>
@@ -107,6 +115,50 @@
             </div>
         </div>
     </div>
+
+    {{-- ========================================================================
+        PILIH VIRTUAL ACCOUNT MODAL
+    ======================================================================== --}}
+    <div class="modal micromodal-slide" id="pilih-va" aria-hidden="true">
+        <div class="modal__overlay" data-micromodal-close>
+            <div class="modal__container h-52 w-6/12" role="dialog" aria-modal="true" aria-labelledby="pilih-va-title"
+                style="height: 30rem; max-width: 45rem; display: flex; flex-direction: column; justify-content: space-between; margin: 0 1rem;">
+                <div>
+                    <header class="modal__header border-b-2 pb-1">
+                        <h2 class="modal__title text-center text-xl" id="pilih-va-title">
+                            Pembayaran via Virtual Account
+                        </h2>
+                    </header>
+                    <main class="modal__content mt-3" id="pilih-va-content">
+                        <div class="mx-auto">
+                            <div class="flex justify-between">
+                                <p class="text-lg">Total Nominal Transfer</p>
+                                <p class="text-lg">Rpxxx.xxx</p>
+                            </div>
+                            <hr class="my-2">
+                        </div>
+                        <div class="mx-auto">
+                            <label class="flex flex-col" for="va-bank-select">
+                                Pilih Virtual Account
+                                <select
+                                    class="select2-basic w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    name="va-bank-select" id="va-bank-select">
+                                    <option value="bca">🏧 Bank BCA</option>
+                                    <option value="bni">🏧 Bank BNI</option>
+                                    <option value="mandiri">🏧 Bank Mandiri</option>
+                                </select>
+                            </label>
+                        </div>
+                    </main>
+                </div>
+                <footer class="flex justify-end">
+                    <a type="button" href="/va-payment"
+                        class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-full px-4 py-1">Bayar</a>
+                </footer>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             $('.select2-basic').select2({
@@ -114,6 +166,27 @@
             });
         });
 
+        /* ========================================================================
+            BAYAR BUTTON FUNCTIONS
+        ======================================================================== */
+        const updatePath = () => {
+            console.log()
+            if ($("#metode-select").val() == "va") {
+                $("#bayar-button-bank").hide();
+                $("#bayar-button-va").show();
+            } else {
+                $("#bayar-button-va").hide();
+                $("#bayar-button-bank").show();
+            }
+            MicroModal.init({
+                awaitCloseAnimation: true,
+                disableFocus: true,
+            });
+        }
+
+        /* ========================================================================
+            START ::: DATA PROVINSI, KABUPATEN, dan KECAMATAN FETCHING
+        ======================================================================== */
         let urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
         let urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
         let urlKecamatan = "https://ibnux.github.io/data-indonesia/kecamatan/";
@@ -140,7 +213,6 @@
                 text: "- Pilih Provinsi -"
             }].concat(res);
 
-            //implemen data ke select provinsi
             $("#select2-provinsi").select2({
                 dropdownAutoWidth: true,
                 width: '100%',
@@ -171,7 +243,6 @@
                     text: "- Pilih Kabupaten -"
                 }].concat(res);
 
-                //implemen data ke select provinsi
                 $("#select2-kabupaten").select2({
                     dropdownAutoWidth: true,
                     width: '100%',
@@ -203,7 +274,6 @@
                     text: "- Pilih Kecamatan -"
                 }].concat(res);
 
-                //implemen data ke select provinsi
                 $("#select2-kecamatan").select2({
                     dropdownAutoWidth: true,
                     width: '100%',
@@ -235,7 +305,6 @@
                     text: "- Pilih Kelurahan -"
                 }].concat(res);
 
-                //implemen data ke select provinsi
                 $("#select2-kelurahan").select2({
                     dropdownAutoWidth: true,
                     width: '100%',
@@ -243,5 +312,8 @@
                 })
             })
         });
+        /* ========================================================================
+            END ::: DATA PROVINSI, KABUPATEN, dan KECAMATAN FETCHING
+        ======================================================================== */
     </script>
 </x-layout>
