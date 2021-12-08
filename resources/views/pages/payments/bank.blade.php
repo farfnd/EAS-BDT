@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div class="flex justify-center gap-8 w-full md:w-10/12 mx-auto text-center">
+        <div class="flex justify-center gap-8 w-full md:w-10/12 mx-auto text-center mb-8">
             <a href="{{ route('home') }}" class="rounded-lg p-2 w-3/12 text-white bg-gray-800 hover:bg-gray-900">
                 Belanja Lagi
             </a>

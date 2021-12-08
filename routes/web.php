@@ -82,6 +82,18 @@ Route::get('/va-payment', function () {
     }
     return redirect("/");
 })->name('va-payment');
+Route::get('/payment-detail', function () {
+    if(Auth::check()) {
+        return view('pages.payments.details');
+    }
+    return redirect("/");
+})->name('payment-detail');
+Route::get('/payment-invoice', function () {
+    if(Auth::check()) {
+        return view('pages.payments.invoice');
+    }
+    return redirect("/");
+})->name('payment-invoice');
 
 /* ======== WISHLIST SECTION ======== */
 Route::get('/wishlist', function () {

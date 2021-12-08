@@ -36,6 +36,11 @@
         height: 150px;
         width: 150px;
     }
+
+    .payment-detail-item-image-container {
+        height: 100px;
+        width: 100px;
+    }
 }
 
 @media all and (max-width: 768px) {
