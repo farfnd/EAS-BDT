@@ -24,22 +24,13 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        // $request->validate([
-        //     'nama' => 'required|string|max:100',
-        //     'username' => 'required|string|max:25|unique:users',
-        //     'email' => 'required|string|email|max:100|unique:users',
-        //     'no_telepon' => 'required|regex:/(08)[0-9]{8,12}/',
-        //     'password' => ['required', 'confirmed', Password::defaults()],
-        // ]);
-        // dd($request->except('_token'));
-        
         $user = User::create([
             'nama' => $request->nama,
             'username' => $request->username,
             'email' => $request->email,
             'no_telepon' => $request->no_telepon,
             'password' => Hash::make($request->password),
-            'is_admin' => 0,
+            'isAdmin' => 0,
         ]);
 
         event(new Registered($user));
@@ -71,7 +62,8 @@ class UserController extends Controller
 
             session(['Authorization' => 'Bearer '.$token]);
 
-            return redirect(route('home'));
+            if(!$user->isAdmin) return redirect(route('home'));
+            else return redirect(route('admin.barang'));
         } else {
             return Redirect::back()->withErrors(['msg' => 'Username atau password salah']);
         }
@@ -80,5 +72,10 @@ class UserController extends Controller
     function logout(){
         Auth::logout();
         return redirect(route('home'));
+    }
+
+    public function getAuthInfo()
+    {
+        return session('Authorization');
     }
 }
