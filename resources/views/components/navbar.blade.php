@@ -78,7 +78,7 @@ use Illuminate\Support\Facades\Auth;
               Belum punya akun?
               <a class="cursor-pointer font-bold" onclick="showModal('register-user')">Daftar</a>
             </p>
-            <button class="bg-gray-800 text-white py-2 px-3 rounded-lg" type="submit" id="formButton">Login</button>
+            <button class="bg-gray-800 text-white py-2 px-3 rounded-lg" type="submit" id="loginButton">Login</button>
           </div>
         </div>
       </form>
@@ -183,7 +183,7 @@ use Illuminate\Support\Facades\Auth;
                     <p class="text-red-500" id="confirmPasswordWarning" style="display: none;">Kata sandi konfirmasi
                       tidak
                       cocok!</p>
-                    <button type="submit" id="formButton">Submit</button>
+                    <button type="submit" id="registerButton">Submit</button>
                   </div>
                 </form>
               </div>
@@ -200,10 +200,12 @@ use Illuminate\Support\Facades\Auth;
   $("#confirmPassword").keyup(function(e) {
     if ($(this).val() !== $("#password").val()) {
       $('#confirmPasswordWarning').show();
-      $("#formButton").prop('disabled', true);
+      $("#loginButton").prop('disabled', true);
+      $("#registerButton").prop('disabled', true);
     } else {
       $('#confirmPasswordWarning').hide();
-      $("#formButton").prop('disabled', false);
+      $("#loginButton").prop('disabled', false);
+      $("#registerButton").prop('disabled', false);
     }
   });
 
