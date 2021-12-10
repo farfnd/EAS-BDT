@@ -78,7 +78,7 @@ class BarangController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         return $this->barangService->deleteBarang($id);
     }

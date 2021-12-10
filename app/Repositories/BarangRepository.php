@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Stok;
+use App\Models\Ulasan;
 
 class BarangRepository{
     protected $barang;
@@ -114,6 +115,8 @@ class BarangRepository{
     }
 
     public function destroyBarang($id){
+        Stok::where('barang_id', $id)->delete();
+        Ulasan::where('barang_id', $id)->delete();
         return Barang::destroy($id);
     }
 }

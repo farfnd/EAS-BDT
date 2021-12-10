@@ -46,6 +46,7 @@
 		<td>{{"Rp".number_format($barang->harga*1000,2,',','.')}}</td>
 		<td>
 			<button data-micromodal-trigger="edit-barang" class="bg-yellow-300 px-3 py-1 rounded-md hover:bg-yellow-400 edit-barang-btn" data-id="{{$barang->id}}">Edit</button>
+			<button class="bg-red-500 px-3 py-1 rounded-md hover:bg-red-400 text-white delete-barang-btn" data-id="{{$barang->id}}" data-nama="{{$barang->nama}}">Hapus</button>
 		</td>
 	  </tr>
 	  @endforeach
@@ -358,38 +359,42 @@
 			type : 'GET',
             url: "/api/admin/getBarang/" + id,
 			async: false,
-			headers: { 'Authorization': '{{ session("Authorization") }}' },
             success : function(data){
-				$('#nama_edit').val(data.nama);
-				$('#harga_edit').val(data.harga);
-				$('#gender_edit').val(data.gender);
 				
-				genderId = (data.gender == 0 || data.gender == 2 ? 0 : 1);
-				$.ajax({
-					type : 'GET',
-					url: "/api/admin/getKategori/" + genderId,
-					async: false,
-					headers: { 'Authorization': '{{ session("Authorization") }}' },
-					success : function(data2){
-						var kategoriOptions = "";
-						data2.forEach(row => {
-							if(row.id == data.kategori_id)
-								kategoriOptions += `<option selected value="${row.id}">${row.nama_kategori}</option>`;
-							else
-								kategoriOptions += `<option value="${row.id}">${row.nama_kategori}</option>`;
-						});
-                		$('#kategori_edit').html(kategoriOptions);
-					}
-				});
-
-				data['stok'].forEach(stok => {
-					$(`input[id="stok_edit[${stok.ukuran}]"]`).val(stok.jumlah);
-				});
-				$('#deskripsi_edit').val(data.deskripsi);
-				$('#edit-submit-btn').data('id', data.id);
-				$('#previewImg').attr('src', `/product_images/${data.foto}`)
             }
         });
+    });
+
+	$('.delete-barang-btn').on('click', function(){
+		var button = $(this);
+		Swal.fire({
+			title: 'Hapus Barang',
+			html: `Apakah anda yakin akan menghapus barang ini?<br><strong>${button.data('nama')}</strong>`,
+			icon: 'error',
+			showCancelButton: true,
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak',
+			reverseButtons: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$.ajax({
+					type : 'DELETE',
+					url: "/api/admin/barang/" + button.data('id'),
+					async: false,
+					headers: { 'Authorization': '{{ session("Authorization") }}' },
+					success : function(data){
+						Swal.fire({
+							icon: 'success',
+							text: 'Barang berhasil dihapus',
+						}).then((result) => {
+							if (result.isConfirmed) {
+								location.reload();
+							}
+						});
+					}
+				});
+			}
+		});
     });
 
 	$('#formEditBarang').submit(function (){

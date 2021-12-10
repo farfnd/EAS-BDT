@@ -39,7 +39,7 @@
                                         style="margin: 0 auto !important;">
                                         {{-- ======== TODO ::: ADD IMAGE USER BERDASARKAN USER IMAGE ======== --}}
                                         @if ($ulasan->file_ulasan)
-                                        <img src="{{route('show_product_image', $ulasan->file_ulasan)}}" alt="" class="item-image">
+                                        <img src="{{route('show_review_image', $ulasan->file_ulasan)}}" alt="" class="item-image">
                                         @else
                                         <img src="{{route('show_product_image', $barang->foto)}}" alt="" class="item-image">
                                         @endif
@@ -62,9 +62,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- END PER USER ULASAN -->
                         @endforeach
                     @endif
-                        <!-- END PER USER ULASAN -->
 
                 </div>
             </div>

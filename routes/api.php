@@ -23,4 +23,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/admin/getKategori/{id}', [BarangController::class, 'getKategori']); 
     Route::get('/admin/getBarang/{id}', [BarangController::class, 'getBarang']); 
+    Route::delete('/admin/barang/{id}', [BarangController::class, 'delete']);
 });
