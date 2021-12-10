@@ -39,11 +39,11 @@ class BarangController extends Controller
                 'status' => 500,
                 'error' => $e->getMessage()
             ];
-            dd($result); die();
+            die($result);
         }
     }
 
-    public function showBarangDetail($id)
+    public function show($id)
     {
         $barang = $this->barangService->readBarang($id);
         $barang->ulasan = $barang->ulasan()->get();
@@ -74,7 +74,7 @@ class BarangController extends Controller
                 'status' => 500,
                 'error' => $e->getMessage()
             ];
-            dd($result); die();
+            die($result);
         }
     }
 

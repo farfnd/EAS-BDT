@@ -28,7 +28,7 @@ Route::get('/item', function () {
     return view('pages.item-page');
 });
 
-Route::get('/item/{id}', [BarangController::class, 'showBarangDetail'])->name('barang.show');
+Route::get('/item/{id}', [BarangController::class, 'show'])->name('barang.show');
 
 Route::get('/category', function () {
     return view('pages.category');
