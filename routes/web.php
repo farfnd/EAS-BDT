@@ -127,3 +127,5 @@ Route::middleware(['auth'])->group(function () {
         END ::: ADMIN ROUTING
     ======================================================================== */
 });
+
+Route::get('/product_images/{filename}', [BarangController::class, 'getProductImage'])->name('show_product_image');

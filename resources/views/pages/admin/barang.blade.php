@@ -70,7 +70,7 @@
     <div class="modal__overlay" data-micromodal-close>
     <div class="modal__container" role="dialog" 
         aria-modal="true" aria-labelledby="tambah-barang-title"
-        style="height: 40rem; width: 55rem; display: flex; 
+        style="width: 55rem; display: flex; 
                 flex-direction: column; justify-content: space-between; margin: 0 1rem;">
         <div>
             <header class="modal__header border-b-2 pb-1">
@@ -158,15 +158,16 @@
 								<div>
 									<label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
 										Unggah Gambar
-										<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" multiple name="foto[]" id="foto"/>
+										<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="foto" id="foto"/>
 									</label>
 								</div>
 								<span>Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
 							</div>
+							<img src="" width="200px" class="my-3" id="previewImgAdd">
 						</div>
 					</div>
 					<div class="flex mt-12 space-x-4 justify-end">
-						<button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
+						<button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1" id="add-cancel-btn">
 							<span class="font-semibold text-center">Batalkan</span>
 						</button>
 						<button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1">Kirim</button>
@@ -183,7 +184,7 @@
     <div class="modal__overlay" data-micromodal-close>
     <div class="modal__container" role="dialog" 
         aria-modal="true" aria-labelledby="edit-barang-title"
-        style="height: 40rem; width: 55rem; display: flex; 
+        style="width: 55rem; display: flex; 
                 flex-direction: column; justify-content: space-between; margin: 0 1rem;">
         <div>
             <header class="modal__header border-b-2 pb-1">
@@ -272,18 +273,19 @@
 									<div>
 										<label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
 											Unggah Gambar
-											<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" multiple name="foto[]" id="foto_edit"/>
+											<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="foto" id="foto_edit"/>
 										</label>
 									</div>
 									<span>Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
 								</div>
+								<img src="" width="200px" class="my-3" id="previewImg" alt="Data tidak ditemukan">
 							</div>
 						</div>
 						<div class="flex mt-12 space-x-4 justify-end">
-							<button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
+							<button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1" id="edit-cancel-btn">
 								<span class="font-semibold text-center">Batalkan</span>
 							</button>
-							<button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn">Kirim</button>
+							<button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1" id="edit-submit-btn">Kirim</button>
 						</div>
 					</div>
 				</form>
@@ -361,10 +363,11 @@
 				$('#nama_edit').val(data.nama);
 				$('#harga_edit').val(data.harga);
 				$('#gender_edit').val(data.gender);
-
+				
+				genderId = (data.gender == 0 || data.gender == 2 ? 0 : 1);
 				$.ajax({
 					type : 'GET',
-					url: "/api/admin/getKategori/" + data.gender,
+					url: "/api/admin/getKategori/" + genderId,
 					async: false,
 					headers: { 'Authorization': '{{ session("Authorization") }}' },
 					success : function(data2){
@@ -383,7 +386,8 @@
 					$(`input[id="stok_edit[${stok.ukuran}]"]`).val(stok.jumlah);
 				});
 				$('#deskripsi_edit').val(data.deskripsi);
-				$('.edit-submit-btn').data('id', data.id);
+				$('#edit-submit-btn').data('id', data.id);
+				$('#previewImg').attr('src', `/product_images/${data.foto}`)
             }
         });
     });
@@ -392,10 +396,39 @@
 		$('<input>').attr({
 			type: 'hidden',
 			name: 'id',
-			value: $('.edit-submit-btn').data('id')
+			value: $('#edit-submit-btn').data('id')
 		}).appendTo(this);
 
 		return true;
     });
+
+	$('#foto').change(function(e){ 
+      if (e.target.files && e.target.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+          $('#previewImgAdd').attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(e.target.files[0]); // convert to base64 string
+      }
+    });
+
+	$('#foto_edit').change(function(e){ 
+      if (e.target.files && e.target.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+          $('#previewImg').attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(e.target.files[0]); // convert to base64 string
+      }
+    });
+
+	$('#add-cancel-btn').on('click', function(e){ 
+		$('#previewImgAdd').attr('src', "");
+    });
+	
   });
 </script>

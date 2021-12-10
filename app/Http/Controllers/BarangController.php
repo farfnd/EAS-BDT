@@ -68,4 +68,8 @@ class BarangController extends Controller
     {
         return $this->barangService->deleteBarang($id);
     }
+
+    public function getProductImage($filename) {
+        return response()->file(storage_path('app/products/' . $filename));
+    }
 }

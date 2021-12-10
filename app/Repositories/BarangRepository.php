@@ -23,15 +23,8 @@ class BarangRepository{
         $barang->kategori_id = (int) $data['kategori_id'];
         $barang->gender = (int) $data['gender'];
         
-        $names = [];
-        
-        foreach($data['foto'] as $productImage)
-        {
-            $path = $productImage->storeAs('products', $productImage->getClientOriginalName());
-            array_push($names, $productImage->getClientOriginalName());
-        }
-        
-        $barang->foto = json_encode($names);
+        $barang->foto = $data['foto']->getClientOriginalName();
+        $data['foto']->storeAs('products', $barang->foto);
         $barang->save();
 
         foreach ($data['stok'] as $ukuran => $jumlah) {
@@ -94,20 +87,9 @@ class BarangRepository{
         $id = (int) $data['id'];
         $barang = $this->getBarang($id);
 
-        if(!$barang->foto){
-            $names = [];
-        }
-
-        if($barang->foto){
-            $names = json_decode($barang->foto);
-        }
-
-        if(isset($data['foto'])){
-            foreach($data['foto'] as $userImage) {
-                $path = $userImage->storeAs('products', $userImage->getClientOriginalName());
-                array_push($names, $userImage->getClientOriginalName());
-            }
-            $data['foto'] = json_encode($names);
+        if(isset($data['foto'])) {
+            $data['foto']->storeAs('products', $data['foto']->getClientOriginalName());
+            $data['foto'] = $data['foto']->getClientOriginalName();
         }
         
         foreach ($data['stok'] as $ukuran => $jumlah) {
