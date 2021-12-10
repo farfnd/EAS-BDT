@@ -89,7 +89,7 @@
             </label>
             <p class="text-danger" id="confirmPasswordWarning" style="display: none;">Kata sandi konfirmasi tidak
                 cocok!</p>
-            <button type="submit" id="formButton">Submit</button>
+            <button type="submit" id="formButton">Daftar</button>
     </form>
     <script>
         $("#confirmPassword").keyup(function(e) {

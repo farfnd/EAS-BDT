@@ -102,6 +102,11 @@ use Illuminate\Support\Facades\Auth;
           </div>
         </div>
         <ul class="space-y-1 ">
+          @if (Auth::user()->isAdmin)
+          <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
+            <a class="flex-grow text-center py-1" href="{{ route('admin.barang') }}">Dashboard Admin</a>
+          </li>
+          @endif
           <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
             <a class="flex-grow text-center py-1" href="{{ route('transaction') }}">Transaksi</a>
           </li>

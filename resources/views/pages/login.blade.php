@@ -37,7 +37,7 @@
                 "
                     name="password" id="password" required minlength="8" maxlength="50">
             </label>
-            <button type="submit" id="formButton">Submit</button>
+            <button type="submit" id="formButton">Login</button>
     </form>
     <script>
         if (window.history.replaceState) {

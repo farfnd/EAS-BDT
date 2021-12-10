@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 /* ========================================================================
-    START ::: PAGE VIEWS
+    START ::: UNAUTHENTICATED USER FEATURES ROUTING
 ======================================================================== */
 
 Route::get('/', function () {
@@ -32,96 +33,97 @@ Route::get('/category', function () {
     return view('pages.category');
 })->name('category');
 
-/* ========================================================================
-    END ::: PAGE VIEWS
-======================================================================== */
-
-/* ========================================================================
-    START ::: USER ROUTING
-======================================================================== */
-
 Route::get('/register', [UserController::class, 'show_register'])->name('register.show');
 Route::post('/register', [UserController::class, 'create'])->name('register.create');
 
 Route::get('/login', [UserController::class, 'show_login'])->name('login.show');
 Route::post('/login', [UserController::class, 'login'])->name('login');
 
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
-
 /* ========================================================================
-    END ::: USER ROUTING
+        END ::: UNAUTHENTICATED USER FEATURES ROUTING
 ======================================================================== */
 
-/* ========================================================================
-    START ::: CART, WISHLIST, TRANSACTION ROUTING
-======================================================================== */
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::get('/getAuthInfo', [UserController::class, 'getAuthInfo']);
 
-/* ======== CART SECTION ======== */
-Route::get('/cart', function () {
-    return view('pages.cart');
-})->name('cart');
+    /* ========================================================================
+        START ::: CART, WISHLIST, TRANSACTION ROUTING
+    ======================================================================== */
 
-/* ======== CHECKOUT SECTION ======== */
-Route::get('/checkout', function () {
-    if(Auth::check()) {
-        return view('pages.checkout');
-    }
-    return redirect("/");
-})->name('checkout');
+    /* ======== CART SECTION ======== */
+    Route::get('/cart', function () {
+        return view('pages.cart');
+    })->name('cart');
 
-/* ======== PAYMENTS SECTION ======== */
-Route::get('/bank-payment', function () {
-    if(Auth::check()) {
-        return view('pages.payments.bank');
-    }
-    return redirect("/");
-})->name('bank-payment');
-Route::get('/va-payment', function () {
-    if(Auth::check()) {
-        return view('pages.payments.virtual-account');
-    }
-    return redirect("/");
-})->name('va-payment');
-Route::get('/payment-detail', function () {
-    if(Auth::check()) {
-        return view('pages.payments.details');
-    }
-    return redirect("/");
-})->name('payment-detail');
-Route::get('/payment-invoice', function () {
-    if(Auth::check()) {
-        return view('pages.payments.invoice');
-    }
-    return redirect("/");
-})->name('payment-invoice');
+    /* ======== CHECKOUT SECTION ======== */
+    Route::get('/checkout', function () {
+        if(Auth::check()) {
+            return view('pages.checkout');
+        }
+        return redirect("/");
+    })->name('checkout');
 
-/* ======== WISHLIST SECTION ======== */
-Route::get('/wishlist', function () {
-    return view('pages.wishlist');
-})->name('wishlist');
+    /* ======== PAYMENTS SECTION ======== */
+    Route::get('/bank-payment', function () {
+        if(Auth::check()) {
+            return view('pages.payments.bank');
+        }
+        return redirect("/");
+    })->name('bank-payment');
+    Route::get('/va-payment', function () {
+        if(Auth::check()) {
+            return view('pages.payments.virtual-account');
+        }
+        return redirect("/");
+    })->name('va-payment');
+    Route::get('/payment-detail', function () {
+        if(Auth::check()) {
+            return view('pages.payments.details');
+        }
+        return redirect("/");
+    })->name('payment-detail');
+    Route::get('/payment-invoice', function () {
+        if(Auth::check()) {
+            return view('pages.payments.invoice');
+        }
+        return redirect("/");
+    })->name('payment-invoice');
 
-/* ======== TRANSACTION SECTION ======== */
-Route::get('/transaction', function () {
-    return view('pages.transaction');
-})->name('transaction');
+    /* ======== WISHLIST SECTION ======== */
+    Route::get('/wishlist', function () {
+        return view('pages.wishlist');
+    })->name('wishlist');
 
-Route::get('/history_transaction', function () {
-    return view('pages.historyTransaction');
-})->name('historyTransaction');
+    /* ======== TRANSACTION SECTION ======== */
+    Route::get('/transaction', function () {
+        return view('pages.transaction');
+    })->name('transaction');
 
-/* ========================================================================
-    END ::: CART, WISHLIST, TRANSACTION ROUTING
-======================================================================== */
+    Route::get('/history_transaction', function () {
+        return view('pages.historyTransaction');
+    })->name('historyTransaction');
 
-/* ========================================================================
-    START ::: ADMIN ROUTING
-======================================================================== */
+    /* ========================================================================
+        END ::: CART, WISHLIST, TRANSACTION ROUTING
+    ======================================================================== */
 
-Route::get('/admin', function () {
-    return view('pages.admin.barang');
-})->name('admin');
+    /* ========================================================================
+        START ::: ADMIN ROUTING
+    ======================================================================== */
 
+    Route::middleware(['isAdmin'])->group(function () {
+        Route::get('/admin', function () {
+            return redirect(route('admin.barang'));
+        });
 
-/* ========================================================================
-    END ::: ADMIN ROUTING
-======================================================================== */
+        Route::get('/admin/barang', [BarangController::class, 'index'])->name('admin.barang');
+        
+        Route::post('/admin/barang', [BarangController::class, 'create'])->name('admin.barang.create');
+        Route::put('/admin/barang', [BarangController::class, 'update'])->name('admin.barang.edit');
+    });
+
+    /* ========================================================================
+        END ::: ADMIN ROUTING
+    ======================================================================== */
+});
