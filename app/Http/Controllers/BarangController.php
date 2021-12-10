@@ -16,6 +16,12 @@ class BarangController extends Controller
 
     public function index()
     {
+        $latestBarangAll = $this->barangService->readLatestBarang(10);
+        return view('pages.home', ['latestBarangAll' => $latestBarangAll]);
+    }
+
+    public function index_admin()
+    {
         $barangAll = $this->barangService->readAllBarang();
         return view('pages.admin.barang', ['barangAll' => $barangAll]);
     }
@@ -35,6 +41,14 @@ class BarangController extends Controller
             ];
             dd($result); die();
         }
+    }
+
+    public function showBarangDetail($id)
+    {
+        $barang = $this->barangService->readBarang($id);
+        $barang->ulasan = $barang->ulasan()->get();
+
+        return view('pages.item-page', ['barang' => $barang]);
     }
 
     public function getKategori($id)
@@ -67,9 +81,5 @@ class BarangController extends Controller
     public function destroy($id)
     {
         return $this->barangService->deleteBarang($id);
-    }
-
-    public function getProductImage($filename) {
-        return response()->file(storage_path('app/products/' . $filename));
     }
 }

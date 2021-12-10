@@ -28,17 +28,30 @@
                 <h2 class="text-xl font-semibold mb-2">New Stuff n' Things</h2>
                 <div class="flex flex-row horizontal-scroll-swiper overflow-hidden">
                     <div class="swiper-wrapper rounded-md">
-                        <!-- 
-              //// PENTING PASTIKAN PAKE YG PALING AWAL INI KALO DALEM LOOP, SISANYA CUMAN PELENGKAP
-               -->
-                        @for ($i = 0; $i < 3; $i++)
-                            <x-home.card gender="men" namaBarang="Baju baru ni" hargaBarang="2.000.000"
-                                photo="images/IMG_7800.jpg" link="./item" />
-                            <x-home.card gender="women" namaBarang="Baju baru ni" hargaBarang="2.000.000"
-                                photo="images/IMG_7800.jpg" link="./item" />
-                            <x-home.card gender="kids" namaBarang="Baju baru ni" hargaBarang="2.000.000"
-                                photo="images/IMG_7800.jpg" link="./item" />
-                        @endfor
+                        @foreach ($latestBarangAll as $barang)
+                            @if ($barang->gender == 0)
+                                <x-home.card
+                                gender="men"
+                                namaBarang="{{$barang->nama}}"
+                                hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
+                                photo="{{route('show_product_image', $barang->foto)}}"
+                                link="item/{{$barang->id}}" />
+                            @elseif ($barang->gender == 1)
+                                <x-home.card
+                                gender="women"
+                                namaBarang="{{$barang->nama}}"
+                                hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
+                                photo="{{route('show_product_image', $barang->foto)}}"
+                                link="item/{{$barang->id}}" />
+                            @else
+                                <x-home.card
+                                gender="unisex"
+                                namaBarang="{{$barang->nama}}"
+                                hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
+                                photo="{{route('show_product_image', $barang->foto)}}"
+                                link="item/{{$barang->id}}" />
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>

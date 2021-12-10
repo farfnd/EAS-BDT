@@ -9,7 +9,7 @@
             <div class="flex flex-row items-center">
                 <div>
                     <h3 class="text-sm leading-4 mb-2">{{ $namaBarang }}</h3>
-                    <p class="text-xs font-semibold">Rp. {{ $hargaBarang }}</p>
+                    <p class="text-xs font-semibold">Rp{{ $hargaBarang }}</p>
                 </div>
                 <a onclick="test()" class="ml-auto text-xl text-gray-600 hover:text-red-600 cursor-pointer z-10">
                     <i class='bx bxs-heart'></i>

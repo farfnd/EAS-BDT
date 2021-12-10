@@ -28,7 +28,7 @@ class Card extends Component
         $this->link = $link;
         if($gender == "men") $this->color = "bg-blue-500";
         else if($gender == "women") $this->color = "bg-red-400";
-        else if($gender == "kids") $this->color = "bg-yellow-500";
+        else if($gender == "unisex") $this->color = "bg-yellow-500";
     }
 
     /**

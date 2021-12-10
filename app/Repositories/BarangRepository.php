@@ -74,6 +74,16 @@ class BarangRepository{
         return $barang;
     }
 
+    public function getLatestBarang($limit){
+        $barangAll = Barang::latest()->limit($limit)->get();
+
+        foreach ($barangAll as $barang) {
+            $barang->stok = $barang->stok()->get();
+        }
+        
+        return $barangAll;
+    }
+
     public function getKategoriByGender($id)
     {
         return Kategori::where('isFemale', $id)->get();

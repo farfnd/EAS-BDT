@@ -23,6 +23,11 @@ class BarangService
         return $this->barangRepository->getAllBarang();
     }
 
+    // read latest barang
+    public function readLatestBarang($limit){
+        return $this->barangRepository->getLatestBarang($limit);
+    }
+
     // read one barang
     public function readBarang($id){
         return $this->barangRepository->getBarang($id);

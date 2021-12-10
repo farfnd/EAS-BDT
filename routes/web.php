@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,13 +22,13 @@ use Illuminate\Support\Facades\Route;
     START ::: UNAUTHENTICATED USER FEATURES ROUTING
 ======================================================================== */
 
-Route::get('/', function () {
-    return view('pages.home');
-})->name('home');
+Route::get('/', [BarangController::class, 'index'])->name('home');
 
 Route::get('/item', function () {
     return view('pages.item-page');
 });
+
+Route::get('/item/{id}', [BarangController::class, 'showBarangDetail'])->name('barang.show');
 
 Route::get('/category', function () {
     return view('pages.category');
@@ -117,7 +118,7 @@ Route::middleware(['auth'])->group(function () {
             return redirect(route('admin.barang'));
         });
 
-        Route::get('/admin/barang', [BarangController::class, 'index'])->name('admin.barang');
+        Route::get('/admin/barang', [BarangController::class, 'index_admin'])->name('admin.barang');
         
         Route::post('/admin/barang', [BarangController::class, 'create'])->name('admin.barang.create');
         Route::put('/admin/barang', [BarangController::class, 'update'])->name('admin.barang.edit');
@@ -128,4 +129,5 @@ Route::middleware(['auth'])->group(function () {
     ======================================================================== */
 });
 
-Route::get('/product_images/{filename}', [BarangController::class, 'getProductImage'])->name('show_product_image');
+Route::get('/product_images/{filename}', [HomeController::class, 'getProductImage'])->name('show_product_image');
+Route::get('/review_images/{filename}', [HomeController::class, 'getReviewImage'])->name('show_review_image');
