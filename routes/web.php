@@ -24,10 +24,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BarangController::class, 'index'])->name('home');
 
-Route::get('/item', function () {
-    return view('pages.item-page');
-});
-
 Route::get('/item/{id}', [BarangController::class, 'show'])->name('barang.show');
 
 Route::get('/category', function () {
@@ -53,9 +49,7 @@ Route::middleware(['auth'])->group(function () {
     ======================================================================== */
 
     /* ======== CART SECTION ======== */
-    Route::get('/cart', function () {
-        return view('pages.cart');
-    })->name('cart');
+    Route::get('/cart', [HomeController::class, 'show_cart'])->name('cart');
 
     /* ======== CHECKOUT SECTION ======== */
     Route::get('/checkout', function () {
@@ -92,9 +86,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('payment-invoice');
 
     /* ======== WISHLIST SECTION ======== */
-    Route::get('/wishlist', function () {
-        return view('pages.wishlist');
-    })->name('wishlist');
+    Route::get('/wishlist', [BarangController::class, 'show_wishlist'])->name('wishlist');
 
     /* ======== TRANSACTION SECTION ======== */
     Route::get('/transaction', function () {

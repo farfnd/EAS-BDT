@@ -6,6 +6,8 @@ use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Stok;
 use App\Models\Ulasan;
+use App\Models\Wishlist;
+use Illuminate\Support\Facades\Auth;
 
 class BarangRepository{
     protected $barang;
@@ -39,35 +41,6 @@ class BarangRepository{
         return $barang->fresh();
     }
 
-    public function getAllBarang(){
-        $barangAll = Barang::all();
-
-        foreach ($barangAll as $barang) {
-            $barang->kategori = $barang->kategori()->first()->nama_kategori;
-            $ulasanAll = $barang->ulasan()->get();
-            
-            if($ulasanAll->count()){
-                $rateSum = 0;
-                $rateCount = 0;
-                foreach ($ulasanAll as $ulasan) {
-                    $rateSum += $ulasan->rating;
-                    $rateCount++;
-                }
-                $barang->rating = round($rateSum/$rateCount, 2);
-            } else {
-                $barang->rating = 'N/A';
-            }
-            
-            $stokAll = $barang->stok()->get();
-            $totalStok = 0;
-            foreach ($stokAll as $stok) {
-                $totalStok += $stok->jumlah;
-            }
-            $barang->stok = $totalStok;
-        }
-        return $barangAll;
-    }
-    
     public function getBarang($id){
         $barang = Barang::where('id', $id)->first();
 
@@ -75,7 +48,49 @@ class BarangRepository{
         return $barang;
     }
 
-    public function getLatestBarang($limit){
+    public function getBarangRating($id){
+        $ulasanAll = Barang::where('id', $id)->first()->ulasan()->get();
+
+        if($ulasanAll->count()){
+            $rateSum = 0;
+            $rateCount = $ulasanAll->count();
+            foreach ($ulasanAll as $ulasan) {
+                $rateSum += $ulasan->rating;
+            }
+
+            return round($rateSum/$rateCount, 2);
+        } else {
+            return 0;
+        }
+    }
+
+    public function getBarangStok($id){
+        $stokAll = Barang::where('id', $id)->first()->stok()->get();
+
+        if($stokAll->count()){
+
+            $totalStok = 0;
+
+            foreach ($stokAll as $stok) {
+                $totalStok += $stok->jumlah;
+            }
+
+            return $totalStok;
+        } else return 0;
+    }
+
+    public function getAllBarang(){
+        $barangAll = Barang::all();
+
+        foreach ($barangAll as $barang) {
+            $barang->kategori = $barang->kategori()->first()->nama_kategori;
+            $barang->rating = $this->getBarangRating($barang->id);
+            $barang->stok = $this->getBarangStok($barang->id);
+        }
+        return $barangAll;
+    }
+    
+    public function getLatestBarang($limit) {
         $barangAll = Barang::latest()->limit($limit)->get();
 
         foreach ($barangAll as $barang) {
@@ -85,8 +100,7 @@ class BarangRepository{
         return $barangAll;
     }
 
-    public function getKategoriByGender($id)
-    {
+    public function getKategoriByGender($id) {
         return Kategori::where('isFemale', $id)->get();
     }
 
@@ -118,6 +132,24 @@ class BarangRepository{
         Stok::where('barang_id', $id)->delete();
         Ulasan::where('barang_id', $id)->delete();
         return Barang::destroy($id);
+    }
+
+    public function postToWishlist($id)
+    {
+        return Wishlist::create([
+            'barang_id' => $id,
+            'user_id' => Auth::user()->id
+        ]);
+    }
+
+    public function getAllWishlist()
+    {
+        $wishlistAll = Auth::user()->wishlist;
+        foreach ($wishlistAll as $wishlist) {
+            $wishlist->barang->rating = $this->getBarangRating($wishlist->barang->id);
+        }
+
+        return $wishlistAll;
     }
 }
 

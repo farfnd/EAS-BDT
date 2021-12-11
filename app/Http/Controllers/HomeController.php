@@ -18,4 +18,8 @@ class HomeController extends Controller
     public function getReviewImage($filename) {
         return response()->file(storage_path('app/reviews/' . $filename));
     }
+
+    public function show_cart () {
+        return view('pages.cart');
+    }
 }

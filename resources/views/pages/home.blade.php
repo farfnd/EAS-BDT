@@ -35,21 +35,21 @@
                                 namaBarang="{{$barang->nama}}"
                                 hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
                                 photo="{{route('show_product_image', $barang->foto)}}"
-                                link="item/{{$barang->id}}" />
+                                id="{{$barang->id}}" />
                             @elseif ($barang->gender == 1)
                                 <x-home.card
                                 gender="women"
                                 namaBarang="{{$barang->nama}}"
                                 hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
                                 photo="{{route('show_product_image', $barang->foto)}}"
-                                link="item/{{$barang->id}}" />
+                                id="{{$barang->id}}" />
                             @else
                                 <x-home.card
                                 gender="unisex"
                                 namaBarang="{{$barang->nama}}"
                                 hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
                                 photo="{{route('show_product_image', $barang->foto)}}"
-                                link="item/{{$barang->id}}" />
+                                id="{{$barang->id}}" />
                             @endif
                         @endforeach
                     </div>
@@ -58,3 +58,25 @@
         </div>
     </div>
 </x-layout>
+
+<script>
+    $('.wishlist-btn').click(function (e) { 
+        var id = $(this).data('id');
+        $.ajax({
+            type: "post",
+            url: "/api/addToWishlist/" + id,
+            headers: { 'Authorization': '{{ session('Authorization') }}' },
+            data: { _token: "{{ csrf_token() }}", },
+            success: function (response) {
+                let timerInterval
+                Swal.fire({
+                    html: '<b>Barang berhasil ditambahkan ke wishlist!</b>',
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: Swal.showLoading(),
+                    willClose: clearInterval(timerInterval)
+                })
+            }
+        });
+    });
+</script>

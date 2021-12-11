@@ -12,11 +12,11 @@
                     <p class="text-xs font-semibold">Rp{{ $hargaBarang }}</p>
                 </div>
                 <a onclick="test()" class="ml-auto text-xl text-gray-600 hover:text-red-600 cursor-pointer z-10">
-                    <i class='bx bxs-heart'></i>
+                    <i class='bx bxs-heart wishlist-btn' data-id="{{$id}}"></i>
                 </a>
             </div>
         </div>
-        <a href="{{ $link }}" class="absolute top-0 right-0 bottom-0 left-0 z-0">
+        <a href="item/{{ $id }}" class="absolute top-0 right-0 bottom-0 left-0 z-0">
         </a>
     </div>
 </div>

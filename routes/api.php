@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/addToCart/{id}', [TransaksiController::class, 'addToCart']);
     Route::delete('/deleteFromCart/{id}', [TransaksiController::class, 'deleteFromCart']);
     Route::put('/updateCart/{id}', [TransaksiController::class, 'editCart']);
+    
+    /* ======== WISHLIST API ======== */
+    Route::post('/addToWishlist/{id}', [BarangController::class, 'addToWishlist']);
 });

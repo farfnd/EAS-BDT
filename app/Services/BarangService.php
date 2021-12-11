@@ -47,4 +47,14 @@ class BarangService
     public function deleteBarang($id){
         return $this->barangRepository->destroyBarang($id);
     }
+
+    // add barang to wishlist
+    public function addToWishlist($id){
+        return $this->barangRepository->postToWishlist($id);
+    }
+
+    // read all barang di wishlist
+    public function readAllWishlist(){
+        return $this->barangRepository->getAllWishlist();
+    }
 }

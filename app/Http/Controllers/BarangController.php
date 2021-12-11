@@ -83,4 +83,15 @@ class BarangController extends Controller
     {
         return $this->barangService->deleteBarang($id);
     }
+
+    public function addToWishlist($id)
+    {
+        return $this->barangService->addToWishlist($id);
+    }
+
+    public function show_wishlist()
+    {
+        $wishlistAll = $this->barangService->readAllWishlist();
+        return view('pages.wishlist', ['wishlistAll' => $wishlistAll]);
+    }
 }
