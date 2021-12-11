@@ -66,7 +66,11 @@
     </tfoot>
   </table>
   {{-- ======== END ::: INI BARU CONTOH MAKENYA NANTI BISA LANGSUNG PAKE DARI DATA HASIL REQ KE BACKEND ======== --}}
-  {{-- modal tambah barang--}}
+  
+
+  {{-- ========================================================================
+	  MODAL TAMBAH BARANG
+  ======================================================================== --}}
   <div class="modal micromodal-slide" id="tambah-barang" aria-hidden="true">
     <div class="modal__overlay" data-micromodal-close>
     <div class="modal__container" role="dialog" 
@@ -102,7 +106,7 @@
                     <div class="grid grid-cols-12">
 						<label for="kategori" class="col-span-3">Gender</label>
 						<div class="col-span-9 flex space-x-6">
-							<select class="w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+							<select required class="w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
 								name="gender" id="gender">
 								<option value="0">Pria</option>
 								<option value="1">Wanita</option>  
@@ -110,7 +114,7 @@
 							</select>
 							<div class="w-1/2 flex justify-end space-x-8">
 								<label for="gender">Kategori Barang</label>
-								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="kategori_id" id="kategori">
+								<select required class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="kategori_id" id="kategori">
 								</select>
 							</div>  
 						</div>
@@ -122,30 +126,18 @@
                         <div class="col-span-9 flex items-center space-x-8">
 							@foreach (['S' => 'S', 'M' => 'M', 'L' => 'L', 'XL' => 'XL'] as $key => $value)
 								<div class="flex w-1/4">
-									<input class="w-full rounded-l-md border-gray-300 
+									<input required class="w-full rounded-l-md border-gray-300 
 										shadow-sm focus:border-indigo-300 focus:ring 
 										focus:ring-indigo-200 focus:ring-opacity-50" 
-										type="number" id="stok[{{$key}}]" name="stok[{{$key}}]">
+										type="number" id="stok_{{$key}}" name="stok[{{$key}}]">
 									<span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">({{$value}})</span>
 								</div>
 							@endforeach
-							
-							{{-- <div class="w-1/4 flex justify-end space-x-6">
-								<label for="ukuran">Ukuran</label>
-								<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-									name="" id="ukuran">
-									<option value="">S</option>
-									<option value="">M</option>
-									<option value="">L</option>
-									<option value="">XL</option>
-								</select>
-							</div> --}}
-							
                         </div>
                     </div>	
 					<div class="grid grid-cols-12">
 						<label for="deskripsi" class="col-span-3">Deskripsi Barang</label>
-						<textarea 
+						<textarea required
 							placeholder="Masukan deskripsi barang" 
 							class="col-span-9 rounded-md border-gray-300 
 							shadow-sm focus:border-indigo-300 focus:ring 
@@ -155,16 +147,16 @@
 					<div class="grid grid-cols-12">
 						<p class="col-span-3">Unggah Foto</p>
 						<div class="col-span-9">
-							<div class="flex space-x-6">
-								<div>
-									<label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
-										Unggah Gambar
-										<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="foto" id="foto"/>
-									</label>
+								<div class="flex flex-col space-y-4">
+									<div>
+										<label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
+											Unggah Gambar
+											<input required accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="foto" id="foto"/>
+										</label>
+									</div>
+									<span class="text-md">Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
 								</div>
-								<span>Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
-							</div>
-							<img src="" width="200px" class="my-3" id="previewImgAdd">
+							<img src="" style="max-height: 100px; width: auto" class="my-3" id="previewImgAdd">
 						</div>
 					</div>
 					<div class="flex mt-12 space-x-4 justify-end">
@@ -180,7 +172,11 @@
     </div>
     </div>
   </div>
-  {{-- modal edit barang--}}
+
+
+  {{-- ========================================================================
+	  MODAL EDIT BARANG
+  ======================================================================== --}}
   <div class="modal micromodal-slide" id="edit-barang" aria-hidden="true">
     <div class="modal__overlay" data-micromodal-close>
     <div class="modal__container" role="dialog" 
@@ -226,6 +222,7 @@
 								<div class="w-1/2 flex justify-end space-x-8">
 									<label for="gender">Kategori Barang</label>
 									<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="kategori_id" id="kategori_edit">
+										<!-- <option value="0">Pria</option> -->
 									</select>
 								</div>  
 							</div>
@@ -240,22 +237,10 @@
 										<input class="w-full rounded-l-md border-gray-300 
 											shadow-sm focus:border-indigo-300 focus:ring 
 											focus:ring-indigo-200 focus:ring-opacity-50" 
-											type="number" id="stok_edit[{{$key}}]" name="stok[{{$key}}]">
+											type="number" id="stok_edit_{{$key}}" name="stok[{{$key}}]">
 										<span class="flex items-center bg-grey-lighter rounded-r-md border border-l-0 border-gray-300 px-3 text-grey-dark text-sm">({{$value}})</span>
 									</div>
 								@endforeach
-								
-								{{-- <div class="w-1/4 flex justify-end space-x-6">
-									<label for="ukuran">Ukuran</label>
-									<select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-										name="" id="ukuran">
-										<option value="">S</option>
-										<option value="">M</option>
-										<option value="">L</option>
-										<option value="">XL</option>
-									</select>
-								</div> --}}
-								
 							</div>
 						</div>	
 						<div class="grid grid-cols-12">
@@ -270,16 +255,16 @@
 						<div class="grid grid-cols-12">
 							<p class="col-span-3">Unggah Foto</p>
 							<div class="col-span-9">
-								<div class="flex space-x-6">
+								<div class="flex flex-col space-y-4">
 									<div>
 										<label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
 											Unggah Gambar
-											<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="foto" id="foto_edit"/>
+											<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" multiple name="foto[]" id="foto_edit"/>
 										</label>
 									</div>
-									<span>Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
+									<span class="text-md">Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
 								</div>
-								<img src="" width="200px" class="my-3" id="previewImg" alt="Data tidak ditemukan">
+								<img src="" style="max-height: 100px; width: auto"  class="my-3" id="previewImg" alt="Data tidak ditemukan">
 							</div>
 						</div>
 						<div class="flex mt-12 space-x-4 justify-end">
@@ -335,6 +320,7 @@
 			var kategoriOptions = "";
 			data.forEach(row => kategoriOptions += `<option value="${row.id}">${row.nama_kategori}</option>`);
 			$('#kategori').html(kategoriOptions);
+			$('#kategori_edit').html(kategoriOptions);
 		}
 	});
 	
@@ -355,16 +341,27 @@
 
 	$('.edit-barang-btn').on('click', function(){
 		var id = $(this).data('id');
+		$('#edit-submit-btn').data('id', id);
         $.ajax({
 			type : 'GET',
             url: "/api/admin/getBarang/" + id,
 			async: false,
             success : function(data){
-				
+            console.log("🚀 ~ file: barang.blade.php ~ line 343 ~ $ ~ data", data)
+            	// console.log($('#stok_edit_S'))
+				$('#gender_edit').val(data.gender);
+				$('#nama_edit').val(data.nama);
+				$('#harga_edit').val(data.harga);
+				$('#deskripsi_edit').val(data.deskripsi);
+				$('#stok_edit_S').val(data.stok[0].jumlah);
+				$('#stok_edit_M').val(data.stok[1].jumlah);
+				$('#stok_edit_L').val(data.stok[2].jumlah);
+				$('#stok_edit_XL').val(data.stok[3].jumlah);
             }
         });
     });
 
+	/* ======== DELETE BARANG ======== */
 	$('.delete-barang-btn').on('click', function(){
 		var button = $(this);
 		Swal.fire({
@@ -382,6 +379,7 @@
 					url: "/api/admin/barang/" + button.data('id'),
 					async: false,
 					headers: { 'Authorization': '{{ session("Authorization") }}' },
+					data: {_token: "{{ csrf_token() }}"},
 					success : function(data){
 						Swal.fire({
 							icon: 'success',
@@ -397,6 +395,7 @@
 		});
     });
 
+	/* ======== EDIT BARANG SUBMIT ======== */
 	$('#formEditBarang').submit(function (){
 		$('<input>').attr({
 			type: 'hidden',
@@ -407,6 +406,7 @@
 		return true;
     });
 
+	/* ======== ON FOTO BARANG BARU CHANGE ======== */
 	$('#foto').change(function(e){ 
       if (e.target.files && e.target.files[0]) {
         var reader = new FileReader();
@@ -419,6 +419,7 @@
       }
     });
 
+	/* ======== ON FOTO BARANG EDIT CHANGE ======== */
 	$('#foto_edit').change(function(e){ 
       if (e.target.files && e.target.files[0]) {
         var reader = new FileReader();

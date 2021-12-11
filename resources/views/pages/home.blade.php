@@ -55,26 +55,6 @@
                     </div>
                 </div>
             </div>
-
-            {{-- items list 2 --}}
-            <div class="min-w-full">
-                <h2 class="text-xl font-semibold mb-2">ANANDA PUNYA</h2>
-                <div class="flex flex-row horizontal-scroll-swiper overflow-hidden">
-                    <div class="swiper-wrapper rounded-md">
-                        <!-- 
-              //// PENTING PASTIKAN PAKE YG PALING AWAL INI KALO DALEM LOOP, SISANYA CUMAN PELENGKAP
-               -->
-                        @for ($i = 0; $i < 3; $i++)
-                            <x-home.card gender="men" namaBarang="Baju baru ni" hargaBarang="2.000.000"
-                                photo="images/IMG_7800.jpg" link="./item" />
-                            <x-home.card gender="women" namaBarang="Baju baru ni" hargaBarang="2.000.000"
-                                photo="images/IMG_7800.jpg" link="./item" />
-                            <x-home.card gender="kids" namaBarang="Baju baru ni" hargaBarang="2.000.000"
-                                photo="images/IMG_7800.jpg" link="./item" />
-                        @endfor
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </x-layout>

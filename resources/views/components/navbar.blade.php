@@ -15,10 +15,7 @@ use Illuminate\Support\Facades\Auth;
     <nav class="ml-auto align-bottom justify-center">
       <ul class="flex flex-row space-x-4 h-full text-sm md:text-base">
         <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Men</a></li>
-        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Women</a>
-        </li>
-        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Kids</a>
-        </li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Women</a></li>
         @if (Auth::check())
           <li class="block my-auto font-semibold"><a href="{{ route('cart') }}"
               class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a>
@@ -71,7 +68,7 @@ use Illuminate\Support\Facades\Auth;
             <span class="text-gray-900">Password</span>
             <input type="password"
               class="mt-1   block   w-full   rounded-md   border-gray-300   shadow-sm   focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              placeholder="Password" name="password" id="password" required minlength="8" maxlength="50">
+              placeholder="Password" name="password" id="loginPassword" required minlength="8" maxlength="50">
           </label>
           <div class="flex gap-4 justify-between items-center">
             <p>
@@ -178,6 +175,7 @@ use Illuminate\Support\Facades\Auth;
                       <input type="password"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         placeholder="Konfirmasi Password" name="confirmPassword" id="confirmPassword" required
+                        oninput="checkPassword()"
                         minlength="8" maxlength="50">
                     </label>
                     <p class="text-red-500" id="confirmPasswordWarning" style="display: none;">Kata sandi konfirmasi
@@ -197,8 +195,10 @@ use Illuminate\Support\Facades\Auth;
   </div>
 </div>
 <script>
-  $("#confirmPassword").keyup(function(e) {
-    if ($(this).val() !== $("#password").val()) {
+  const checkPassword = () => {
+    console.log($("#password").val())
+    console.log($("#confirmPassword").val())
+    if ($("#confirmPassword").val() !== $("#password").val()) {
       $('#confirmPasswordWarning').show();
       $("#loginButton").prop('disabled', true);
       $("#registerButton").prop('disabled', true);
@@ -207,7 +207,8 @@ use Illuminate\Support\Facades\Auth;
       $("#loginButton").prop('disabled', false);
       $("#registerButton").prop('disabled', false);
     }
-  });
+  }
+  
 
   const showModal = (id) => {
     MicroModal.show(id);

@@ -14,12 +14,12 @@ class UserController extends Controller
 {
     public function show_register()
     {
-        return view('pages.register');
+        return view('pages.home');
     }
 
     public function show_login()
     {
-        return view('pages.login');
+        return view('pages.home');
     }
 
     public function create(Request $request)

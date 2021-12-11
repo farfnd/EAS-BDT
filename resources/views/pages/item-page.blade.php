@@ -2,9 +2,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2">
         {{-- image section --}}
         <div>
-            <div class="item-image-container-responsive md:item-image-container-fixed bg-yellow-100 rounded-lg">
-                {{-- ======== TODO ::: ADD IMAGE BERDASARKAN BARANG SEKARANG ======== --}}
-                <img src="{{route('show_product_image', $barang->foto)}}" alt="" class="item-image">
+            <div class="item-image-container-responsive bg-cover bg-center md:item-image-container-fixed bg-yellow-100 rounded-lg" style="background-image: url({{route('show_product_image', $barang->foto)}})">
             </div>
             <div class="flex flex-row px-8 space-x-2 text-sm md:text-base">
                 <a href=""
