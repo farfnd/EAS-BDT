@@ -341,14 +341,13 @@
 
 	$('.edit-barang-btn').on('click', function(){
 		var id = $(this).data('id');
-		$('#edit-submit-btn').data('id', id);
         $.ajax({
 			type : 'GET',
             url: "/api/admin/getBarang/" + id,
 			async: false,
+			headers: { 'Authorization': '{{ session("Authorization") }}' },
             success : function(data){
-            console.log("🚀 ~ file: barang.blade.php ~ line 343 ~ $ ~ data", data)
-            	// console.log($('#stok_edit_S'))
+				$('#edit-submit-btn').data('id', id);
 				$('#gender_edit').val(data.gender);
 				$('#nama_edit').val(data.nama);
 				$('#harga_edit').val(data.harga);
@@ -357,6 +356,7 @@
 				$('#stok_edit_M').val(data.stok[1].jumlah);
 				$('#stok_edit_L').val(data.stok[2].jumlah);
 				$('#stok_edit_XL').val(data.stok[3].jumlah);
+				$('#previewImg').attr('src', `/product_images/${data.foto}`)
             }
         });
     });
