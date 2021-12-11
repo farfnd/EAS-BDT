@@ -18,4 +18,14 @@ class TransaksiService
         return $this->transaksiRepository->postKeranjang($id);
     }
 
+    public function deleteKeranjang($id)
+    {   
+        return $this->transaksiRepository->destroyKeranjang($id);
+    }
+
+    public function editKeranjang($id, $count)
+    {   
+        return $this->transaksiRepository->updateKeranjang($id, $count);
+    }
+
 }

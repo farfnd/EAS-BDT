@@ -29,6 +29,23 @@ class TransaksiRepository{
 
         return $keranjang->fresh;
     }
+
+    public function destroyKeranjang($id)
+    {
+        return Keranjang::where([
+            ['barang_id','=', $id],
+            ['user_id','=', Auth::user()->id],
+        ])->delete();
+    }
+
+    public function updateKeranjang($id, $count)
+    {
+        // var_dump($count);
+        return Keranjang::where([
+            ['barang_id','=', $id],
+            ['user_id','=', Auth::user()->id],
+        ])->update(["jumlah" => (int) $count]);
+    }
 }
 
 ?>

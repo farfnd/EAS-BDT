@@ -112,7 +112,8 @@ $('#addToCart-btn').click(function (e) {
         type: "post",
         url: "/api/addToCart/" + id,
 		async: false,
-		headers: { 'Authorization': '{{ session("Authorization") }}' }
+		headers: { 'Authorization': '{{ session("Authorization") }}' },
+        data: {_token: "{{ csrf_token() }}"},
     });
 });
 $('#directBuy-btn').click(function (e) { 
@@ -122,7 +123,8 @@ $('#directBuy-btn').click(function (e) {
         url: "/api/addToCart/" + id,
 		async: false,
 		headers: { 'Authorization': '{{ session("Authorization") }}' },
-        success: location.replace("/cart")
+        data: {_token: "{{ csrf_token() }}"},
+        success: location.replace("/cart"),
     });
 });
 </script>

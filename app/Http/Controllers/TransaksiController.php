@@ -18,4 +18,15 @@ class TransaksiController extends Controller
     {
         return $this->transaksiService->createKeranjang($id);
     }
+
+    public function deleteFromCart($id)
+    {
+        return $this->transaksiService->deleteKeranjang($id);
+    }
+
+    public function editCart(Request $request, $id)
+    {
+        $data = $request->input();
+        return $this->transaksiService->editKeranjang($id, $data['count']);
+    }
 }

@@ -22,9 +22,13 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    /* ======== ADMIN API ======== */
     Route::get('/admin/getKategori/{id}', [BarangController::class, 'getKategori']); 
     Route::get('/admin/getBarang/{id}', [BarangController::class, 'getBarang']); 
     Route::delete('/admin/barang/{id}', [BarangController::class, 'delete']);
     
+    /* ======== TRANSAKSI API ======== */
     Route::post('/addToCart/{id}', [TransaksiController::class, 'addToCart']);
+    Route::delete('/deleteFromCart/{id}', [TransaksiController::class, 'deleteFromCart']);
+    Route::put('/updateCart/{id}', [TransaksiController::class, 'editCart']);
 });

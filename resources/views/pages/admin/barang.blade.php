@@ -310,47 +310,44 @@
 		digitGroupSeparator: "."
 	});
 
-	var genderId = ($('#gender').val() == 0 || $('#gender').val() == 2 ? 0 : 1);
-	$.ajax({
+	const updateCategory = (gender) => {
+		let reqGender = gender == 0 || gender == 2 ? 0 : 1
+		$.ajax({
 		type : 'GET',
-		url: "/api/admin/getKategori/" + genderId,
+		url: "/api/admin/getKategori/" + reqGender,
 		async: false,
 		headers: { 'Authorization': '{{ session("Authorization") }}' },
 		success : function(data){
-			var kategoriOptions = "";
-			data.forEach(row => kategoriOptions += `<option value="${row.id}">${row.nama_kategori}</option>`);
-			$('#kategori').html(kategoriOptions);
-			$('#kategori_edit').html(kategoriOptions);
-		}
-	});
-	
+				let kategoriOptions = "";
+				data.forEach(row => kategoriOptions += `<option value="${row.id}">${row.nama_kategori}</option>`);
+				$('#kategori').html(kategoriOptions);
+				$('#kategori_edit').html(kategoriOptions);
+			}
+		});
+	}
+
+	let genderId = ($('#gender').val() == 0 || $('#gender').val() == 2 ? 0 : 1);
+	updateCategory(genderId);
+
 	$('select[id^="gender"]').on('change', function(){
 		genderId = ($('#gender').val() == 0 || $('#gender').val() == 2 ? 0 : 1);
-        $.ajax({
-			type : 'GET',
-            url: "/api/admin/getKategori/" + genderId,
-			async: false,
-			headers: { 'Authorization': '{{ session("Authorization") }}' },
-            success : function(data){
-				var kategoriOptions = "";
-				data.forEach(row => kategoriOptions += `<option value="${row.id}">${row.nama_kategori}</option>`);
-                $('#kategori').html(kategoriOptions);
-            }
-        });
+        updateCategory(genderId);
     });
 
 	$('.edit-barang-btn').on('click', function(){
-		var id = $(this).data('id');
+		let id = $(this).data('id');
         $.ajax({
 			type : 'GET',
             url: "/api/admin/getBarang/" + id,
 			async: false,
 			headers: { 'Authorization': '{{ session("Authorization") }}' },
             success : function(data){
+            	updateCategory(data.gender);
 				$('#edit-submit-btn').data('id', id);
 				$('#gender_edit').val(data.gender);
 				$('#nama_edit').val(data.nama);
 				$('#harga_edit').val(data.harga);
+				$('#kategori_edit').val(data.kategori_id);
 				$('#deskripsi_edit').val(data.deskripsi);
 				$('#stok_edit_S').val(data.stok[0].jumlah);
 				$('#stok_edit_M').val(data.stok[1].jumlah);
@@ -363,7 +360,7 @@
 
 	/* ======== DELETE BARANG ======== */
 	$('.delete-barang-btn').on('click', function(){
-		var button = $(this);
+		let button = $(this);
 		Swal.fire({
 			title: 'Hapus Barang',
 			html: `Apakah anda yakin akan menghapus barang ini?<br><strong>${button.data('nama')}</strong>`,
@@ -409,7 +406,7 @@
 	/* ======== ON FOTO BARANG BARU CHANGE ======== */
 	$('#foto').change(function(e){ 
       if (e.target.files && e.target.files[0]) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         
         reader.onload = function(e) {
           $('#previewImgAdd').attr('src', e.target.result);
@@ -422,7 +419,7 @@
 	/* ======== ON FOTO BARANG EDIT CHANGE ======== */
 	$('#foto_edit').change(function(e){ 
       if (e.target.files && e.target.files[0]) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         
         reader.onload = function(e) {
           $('#previewImg').attr('src', e.target.result);
