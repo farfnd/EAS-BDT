@@ -15,7 +15,7 @@ $bni_list = ['ATM BNI', 'Mobile Banking', 'IBank Personal BNI', 'Cabang atau Out
         <div class="w-full md:w-10/12 mx-auto text-center mb-8">
             <div class="flex justify-between md:w-8/12 mx-auto">
                 <p class="font-bold text-lg">Nomor Pesanan</p>
-                <p class="font-bold text-lg">A001</p>
+                <p class="font-bold text-lg">{{$pembayaran->id}}</p>
             </div>
             <hr class="my-2">
         </div>
@@ -23,8 +23,16 @@ $bni_list = ['ATM BNI', 'Mobile Banking', 'IBank Personal BNI', 'Cabang atau Out
         {{-- informasi bank  --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 pb-6">
             <div class="flex justify-between mx-auto px-6 pt-6">
-                <p class="font-bold text-lg">Bank BNI</p>
-                <p class="font-bold text-lg">**logo bni**</p>
+                @if ($pembayaran->metode == 'va_bca')
+                    <p class="font-bold text-lg">Bank BCA</p>
+                    <p class="font-bold text-lg">**logo bca**</p>
+                @elseif ($pembayaran->metode == 'va_bni')  
+                    <p class="font-bold text-lg">Bank BNI</p>
+                    <p class="font-bold text-lg">**logo bni**</p>
+                @elseif ($pembayaran->metode == 'va_mandiri')  
+                    <p class="font-bold text-lg">Bank Mandiri</p>
+                    <p class="font-bold text-lg">**logo mandiri**</p>
+                @endif
             </div>
             <hr class="my-2">
             <div class="flex justify-between md:w-8/12 mx-6 md:mx-auto">
@@ -34,7 +42,7 @@ $bni_list = ['ATM BNI', 'Mobile Banking', 'IBank Personal BNI', 'Cabang atau Out
             <hr class="my-2 md:w-8/12 mx-auto">
             <div class="flex justify-between md:w-8/12 mx-6 md:mx-auto">
                 <p class="font-bold text-lg">Total Nominal Transfer</p>
-                <p class="font-bold text-lg">Rpxxx.xxx</p>
+                <p class="font-bold text-lg">Rp{{number_format($pembayaran->total_pembayaran, 0, ',', '.')}}</p>
             </div>
         </div>
 

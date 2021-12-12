@@ -72,6 +72,94 @@ class TransaksiRepository{
             ]
         );
     }
+
+    private function random_str(
+        int $length = 10,
+        string $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    ): string {
+        if ($length < 1) {
+            throw new \RangeException("Length must be a positive integer");
+        }
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $pieces []= $keyspace[random_int(0, $max)];
+        }
+        return implode('', $pieces);
+    }
+
+    public function savePayment($data)
+    {
+        $pembayaran = new $this->pembayaran;
+        
+        $randomId = $this->random_str();
+        while (Pembayaran::find($randomId)){
+            $randomId = $this->random_str();
+        }
+
+        $pembayaran->id = $randomId;
+
+        $jsonProvinsi = file_get_contents('https://ibnux.github.io/data-indonesia/provinsi.json');
+        $objProvinsi = json_decode($jsonProvinsi);
+
+        $alamat = array(
+            'nama_penerima' => $data['nama_penerima'], 
+            'alamat' => $data['alamat']
+        );
+
+        foreach ($objProvinsi as $key => $prov) {
+            if($prov->id == $data['provinsi']) {
+                $alamat['provinsi'] = $prov->nama;
+                break;
+            }
+        }
+        
+        $jsonKotaKab = file_get_contents('https://ibnux.github.io/data-indonesia/kabupaten/'.$data['provinsi'].'.json');
+        $objKotaKab = json_decode($jsonKotaKab);
+        
+        foreach ($objKotaKab as $key => $kotakab) {
+            if($kotakab->id == $data['kota_kab']) {
+                $alamat['kota_kab'] = $kotakab->nama;
+                break;
+            }
+        }
+
+        $jsonKec = file_get_contents('https://ibnux.github.io/data-indonesia/kecamatan/'.$data['kota_kab'].'.json');
+        $objKec = json_decode($jsonKec);
+        
+        foreach ($objKec as $key => $kec) {
+            if($kec->id == $data['kecamatan']) {
+                $alamat['kecamatan'] = $kec->nama;
+                break;
+            }
+        }
+
+        $alamat['kode_pos'] = $data['kode_pos'];
+        $alamat['no_telepon'] = $data['no_telepon'];
+        
+        $alamat = json_encode($alamat);
+        
+        $pembayaran->alamat = $alamat;
+        $pembayaran->status_pembayaran = 'Belum Lunas';
+        $pembayaran->metode = $data['metode'];
+        if($pembayaran->metode = 'va'){
+            $pembayaran->metode = $data['va-bank-select'];
+            $pembayaran->total_pembayaran = (int) str_replace("Rp", "", str_replace(".", "", $data['total_pembayaran']));
+        } else if($pembayaran->metode = 'bank'){
+            $pembayaran->kode_unik = rand(100,999);
+            $pembayaran->total_pembayaran = (int) str_replace("Rp", "", str_replace(".", "", $data['total_pembayaran'])) + $pembayaran->kode_unik;
+        }
+        $pembayaran->catatan_pengiriman = $data['catatan_pengiriman'];
+        
+        $pembayaran->save();
+        
+        return $pembayaran->fresh();
+    }
+
+    public function getPembayaran($id)
+    {
+        return Pembayaran::find($id)->first();
+    }
 }
 
 ?>

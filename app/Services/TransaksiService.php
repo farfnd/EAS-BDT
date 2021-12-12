@@ -37,4 +37,14 @@ class TransaksiService
     {   
         return $this->transaksiRepository->updateBuktiTransaksi($input);
     }
+
+    public function createPayment($input)
+    {   
+        return $this->transaksiRepository->savePayment($input);
+    }
+
+    public function readPembayaran($id)
+    {   
+        return $this->transaksiRepository->getPembayaran($id);
+    }
 }

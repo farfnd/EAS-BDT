@@ -51,18 +51,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [HomeController::class, 'show_cart'])->name('cart');
 
     /* ======== CHECKOUT SECTION ======== */
-    Route::get('/checkout', function () {
-        return view('pages.checkout');
-    })->name('checkout');
+    Route::get('/checkout', [TransaksiController::class, 'show_checkout'])->name('checkout');
+    Route::post('/checkout/post_pembayaran', [TransaksiController::class, 'post_pembayaran'])->name('post_pembayaran');
 
     /* ======== PAYMENTS SECTION ======== */
-    Route::get('/bank-payment', function () {
-        return view('pages.payments.bank');
-    })->name('bank-payment');
+    Route::get('/bank-payment/{id}', [TransaksiController::class, 'show_bank_payment'])->name('bank-payment');
 
-    Route::get('/va-payment', function () {
-        return view('pages.payments.virtual-account');
-    })->name('va-payment');
+    Route::get('/va-payment/{id}', [TransaksiController::class, 'show_va_payment'])->name('va-payment');
 
     Route::get('/payment-detail', [TransaksiController::class, 'show_detail_transaksi'])->name('payment-detail');
 

@@ -1,4 +1,4 @@
-<x-layout titlePage="Hanaka | Payment">
+<x-layout titlePage="Hanaka | Bank Transfer Payment Details">
     <div class="mx-4 md:mx-0">
         <div class="w-full md:w-10/12 mx-auto text-center mb-8">
             <h2 class="text-2xl my-8 font-bold">Pembayaran via Transfer Bank</h2>
@@ -10,24 +10,24 @@
         <div class="w-full md:w-10/12 mx-auto text-center mb-8">
             <div class="flex justify-between md:w-8/12 mx-auto">
                 <p class="font-bold text-lg">Nomor Pesanan</p>
-                <p class="font-bold text-lg">A001</p>
+                <p class="font-bold text-lg">{{$pembayaran->id}}</p>
             </div>
             <hr class="my-2">
             <div class="md:w-8/12 mx-auto">
                 <div class="flex justify-between">
                     <p class="text-lg">Total Pesanan</p>
-                    <p class="text-lg">Rpxxx.xxx</p>
+                    <p class="text-lg">Rp{{number_format($pembayaran->total_pembayaran - $pembayaran->kode_unik, 0, ',', '.')}}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p class="text-lg">Kode Unik</p>
-                    <p class="text-lg">Rpxx</p>
+                    <p class="text-lg">Rp{{$pembayaran->kode_unik}}</p>
                 </div>
                 <hr class="my-2">
             </div>
             <div class="flex justify-between md:w-8/12 mx-auto mt-4">
                 <p class="font-bold text-lg">Total Nominal Transfer</p>
-                <p class="font-bold text-lg">Rpxxx.x<span class="text-red-500 m-0 p-0">xx</span>
+                <p class="font-bold text-lg">Rp{{number_format(substr($pembayaran->total_pembayaran, 0, -3), 0, ',', '.')}}.<span class="text-red-500 m-0 p-0">{{substr($pembayaran->total_pembayaran, -3)}}</span>
                 </p>
             </div>
             <hr class="my-2">
@@ -41,7 +41,7 @@
                 <ol class="list-decimal">
                     <li class="pl-4">
                         Transfer melalui ATM, teller bank, aplikasi mobile banking, atau internet banking sejumlah tepat
-                        <strong>Rp975.067</strong> ke nomor rekening berikut:
+                        <strong>Rp{{number_format($pembayaran->total_pembayaran, 0, ',', '.')}}</strong> ke nomor rekening berikut:
                         <ul class="list-disc ml-4">
                             <li class="pl-4">Nomor rekening: <strong>6110421883</strong> </li>
                             <li class="pl-4">Nama pemilik rekening: <strong>Kadek Mayang Devi</strong></li>

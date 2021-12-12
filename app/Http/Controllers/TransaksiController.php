@@ -52,4 +52,40 @@ class TransaksiController extends Controller
             dd($result);
         }
     }
+
+    public function show_checkout()
+    {
+        return view('pages.checkout');
+    }
+
+    public function post_pembayaran(Request $request)
+    {
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+
+        try{
+            $result['data'] = $this->transaksiService->createPayment($input);
+            if($result['data']->metode == 'bank') return redirect(route('bank-payment', $result['data']->id));
+            else if(str_starts_with($result['data']->metode, 'va_')) return redirect(route('va-payment', $result['data']->id));
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            dd($result);
+        }
+    }
+
+    public function show_bank_payment($id)
+    {
+        $pembayaran = $this->transaksiService->readPembayaran($id);
+        return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
+    }
+
+    public function show_va_payment($id)
+    {
+        $pembayaran = $this->transaksiService->readPembayaran($id);
+        return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
+    }
+
 }
