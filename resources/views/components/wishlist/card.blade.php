@@ -1,5 +1,5 @@
 <div class="bg-gray-100 rounded-md shadow-md group" id="wishlistCard-{{$id}}">
-    <a href="item/{{ $id }}">
+    <a href="/item/{{ $id }}">
         <div class="relative rounded-md shadow-md group-hover:opacity-90" style='height: 240px; width: 100%; background-size: cover; background-image: url({{ asset("$photo") }});'>
             <div class="absolute py-1 px-4 tracking-wider text-sm bottom-0 left-0 {{ $color }} text-white rounded-bl-md rounded-tr-md capitalize">
                 {{ $gender }}           

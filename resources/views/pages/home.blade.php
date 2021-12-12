@@ -62,8 +62,6 @@
     </div>
 </x-layout>
 
-
-
 <script>
     $('.wishlist-btn').click(function (e) {
         var button = $(this); 

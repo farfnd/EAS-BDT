@@ -103,6 +103,17 @@ class BarangRepository{
         return $barangAll;
     }
 
+    public function getAllBarangByGender($id) {
+        $barangAll = Barang::where('gender', $id)->get();
+
+        foreach ($barangAll as $barang) {
+            $barang->stok = $barang->stok()->get();
+            $barang->inWishlist = $this->isBarangInUserWishlist($barang->id);
+        }
+        
+        return $barangAll;
+    }
+
     public function getKategoriByGender($id) {
         return Kategori::where('isFemale', $id)->get();
     }

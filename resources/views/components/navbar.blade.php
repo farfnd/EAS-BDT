@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Auth;
     {{-- ======== START ::: NAVIGATION LINKS ======== --}}
     <nav class="ml-auto align-bottom justify-center">
       <ul class="flex flex-row space-x-4 h-full text-sm md:text-base">
-        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Men</a></li>
-        <li class="block my-auto font-semibold"><a href="{{ route('category') }}" class="hover:opacity-80">Women</a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category', 0) }}" class="hover:opacity-80">Men</a></li>
+        <li class="block my-auto font-semibold"><a href="{{ route('category', 1) }}" class="hover:opacity-80">Women</a></li>
         @if (Auth::check())
           <li class="block my-auto font-semibold"><a href="{{ route('cart') }}"
               class="flex flex-row justify-center items-center hover:opacity-80"><i class='bx bx-cart bx-sm'></i></a>

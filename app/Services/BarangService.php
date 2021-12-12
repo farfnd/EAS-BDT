@@ -33,6 +33,11 @@ class BarangService
         return $this->barangRepository->getBarang($id);
     }
 
+    // read barang by gender
+    public function readAllBarangByGender($id){
+        return $this->barangRepository->getAllBarangByGender($id);
+    }
+
     // read kategori barang by gender
     public function readKategoriByGender($id){
         return $this->barangRepository->getKategoriByGender($id);

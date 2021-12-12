@@ -94,6 +94,12 @@ class BarangController extends Controller
         return $this->barangService->deleteFromWishlist($id);
     }
 
+    public function show_category($genderId)
+    {
+        $barangAll = $this->barangService->readAllBarangByGender($genderId);
+        return view('pages.category', ['barangAll' => $barangAll, 'id' => $genderId]);
+    }
+
     public function show_wishlist()
     {
         $wishlistAll = $this->barangService->readAllWishlist();

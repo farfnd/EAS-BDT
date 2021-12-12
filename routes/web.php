@@ -26,9 +26,7 @@ Route::get('/', [BarangController::class, 'index'])->name('home');
 
 Route::get('/item/{id}', [BarangController::class, 'show'])->name('barang.show');
 
-Route::get('/category', function () {
-    return view('pages.category');
-})->name('category');
+Route::get('/category/{id}', [BarangController::class, 'show_category'])->name('category');
 
 Route::get('/register', [UserController::class, 'show_register'])->name('register.show');
 Route::post('/register', [UserController::class, 'create'])->name('register.create');
