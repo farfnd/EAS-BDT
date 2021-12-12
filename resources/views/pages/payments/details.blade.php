@@ -264,7 +264,6 @@ $kode_unik = 67;
         </div>
     </div>
 
-    <div id="output"> </div>
     <script>
         $(document).ready(function() {
             $('#unggahBukti-btn').click(function(e) {
@@ -296,10 +295,6 @@ $kode_unik = 67;
                 var fd = new FormData(form);
                 var file = $('#bukti')[0].files[0];
 
-                for (var pair of fd.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
-
                 $.ajax({
                     type: "POST",
                     url: "/api/editBuktiTransfer",
@@ -311,15 +306,12 @@ $kode_unik = 67;
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        console.log(response);
+                        MicroModal.close('form-upload-pembayaran');
                         Swal.fire({
                             icon: 'success',
                             title: 'Bukti transfer berhasil diunggah',
                         });
                     }
-                }).always(data => {
-                    console.log(data)
-                    $("#output").html(data.responseText)
                 });
 
                 return true;
