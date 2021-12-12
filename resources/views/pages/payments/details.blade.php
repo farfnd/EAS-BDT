@@ -7,11 +7,11 @@ $kode_unik = 67;
 
 <x-layout titlePage="Hanaka | Payment">
     <div class="mx-4 md:mx-0">
-        {{-- title  --}}
+        {{-- title --}}
         <div class="w-full md:w-10/12 mx-auto text-center mb-4">
             <h2 class="text-2xl mt-8 mb-4 font-bold">Detail Pesanan</h2>
         </div>
-        {{-- header details  --}}
+        {{-- header details --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <p class="text-center">
                 Pesanan ini <strong>belum dibayar</strong> dan akan secara otomatis dibatalkan pada <strong>31-12-2021
@@ -19,18 +19,21 @@ $kode_unik = 67;
             </p>
             <hr class="my-2">
             <div class="flex justify-around w-full mx-auto text-center">
-                <a data-micromodal-trigger="instruksi-pembayaran" class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900">
+                <a data-micromodal-trigger="instruksi-pembayaran"
+                    class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900">
                     Instruksi Pembayaran
                 </a>
                 {{-- ========================================================================
                     TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
                 ======================================================================== --}}
-                <a data-micromodal-trigger="form-upload-pembayaran" class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900" id="unggahBukti-btn">
+                <a data-micromodal-trigger="form-upload-pembayaran"
+                    class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900"
+                    id="unggahBukti-btn">
                     Unggah Bukti Transfer
                 </a>
             </div>
         </div>
-        {{-- body details  --}}
+        {{-- body details --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <div class="md:w-11/12 mx-auto">
                 {{-- ========================================================================
@@ -114,7 +117,8 @@ $kode_unik = 67;
                 </div>
             </div>
             <div class="flex justify-center gap-8 w-full md:w-10/12 mx-auto text-center">
-                <a href="{{ route('payment-invoice') }}" class="flex items-center justify-center rounded-lg p-2 w-4/12 text-white bg-gray-800 hover:bg-gray-900">
+                <a href="{{ route('payment-invoice') }}"
+                    class="flex items-center justify-center rounded-lg p-2 w-4/12 text-white bg-gray-800 hover:bg-gray-900">
                     Cetak Invoice
                 </a>
                 {{-- ========================================================================
@@ -126,150 +130,161 @@ $kode_unik = 67;
             </div>
         </div>
     </div>
-    
+
     {{-- ======== Modal Instruksi Pembayaran ======== --}}
     <div class="modal micromodal-slide" id="instruksi-pembayaran" aria-hidden="true">
         <div class="modal__overlay" data-micromodal-close>
-        <div class="modal__container" role="dialog" 
-            aria-modal="true" aria-labelledby="edit-barang-title"
-            style="width: 55rem; display: flex; 
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="edit-barang-title" style="width: 55rem; display: flex; 
                     flex-direction: column; justify-content: space-between; margin: 0 1rem;">
-            <div>
-                <header class="modal__header border-b-2 pb-1">
-                    <h2 class="modal__title text-center" id="edit-barang-title" style="font-size: 1.8rem">
-                        Pembayaran via ATM BNI
-                    </h2>
-                </header>
-                <main class="modal__content mt-3" id="edit-barang-content">
-                    <ol class="list-decimal flex flex-col space-y-3 px-5 font-semibold">
-                        <li> 
-                            <span>
-                                Transfer melalui ATM, teller bank, aplikasi mobile banking, atau internet banking sejumlah tepat Rp975.067 ke nomor rekening berikut:
-                            </span>
-                            <ul class="list-disc pl-8">
-                                <li>Pilih Bahasa.</li>
-                                <li>Masukkan PIN ATM Anda.</li>
-                                <li>Pilih "Menu Lainnya".</li>
-                            </ul>
-                        </li>
-                        <li>Simpan bukti transaksi, lalu unggah melalui menu ‘Unggah Bukti Transfer’.</li>
-                        <li>Isi data sesuai rekening yang Anda gunakan saat melakukan transfer. 
-                            Jika Anda melakukan transfer melalui teller bank, isi ‘0000’ pada kolom nomor rekening, dan nama Anda pada kolom nama pemilik rekening.</li>
-                    </ol>
-                </main>
-                <footer class="modal__footer flex justify-end">
-                    <button class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn" data-micromodal-close>Tutup</button>
-                </footer>
+                <div>
+                    <header class="modal__header border-b-2 pb-1">
+                        <h2 class="modal__title text-center" id="edit-barang-title" style="font-size: 1.8rem">
+                            Pembayaran via ATM BNI
+                        </h2>
+                    </header>
+                    <main class="modal__content mt-3" id="edit-barang-content">
+                        <ol class="list-decimal flex flex-col space-y-3 px-5 font-semibold">
+                            <li>
+                                <span>
+                                    Transfer melalui ATM, teller bank, aplikasi mobile banking, atau internet banking
+                                    sejumlah tepat Rp975.067 ke nomor rekening berikut:
+                                </span>
+                                <ul class="list-disc pl-8">
+                                    <li>Pilih Bahasa.</li>
+                                    <li>Masukkan PIN ATM Anda.</li>
+                                    <li>Pilih "Menu Lainnya".</li>
+                                </ul>
+                            </li>
+                            <li>Simpan bukti transaksi, lalu unggah melalui menu ‘Unggah Bukti Transfer’.</li>
+                            <li>Isi data sesuai rekening yang Anda gunakan saat melakukan transfer.
+                                Jika Anda melakukan transfer melalui teller bank, isi ‘0000’ pada kolom nomor rekening,
+                                dan nama Anda pada kolom nama pemilik rekening.</li>
+                        </ol>
+                    </main>
+                    <footer class="modal__footer flex justify-end">
+                        <button
+                            class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn"
+                            data-micromodal-close>Tutup</button>
+                    </footer>
+                </div>
             </div>
-        </div>
         </div>
     </div>
     {{-- ======== Modal Upload Pembayaran ======== --}}
     <div class="modal micromodal-slide" id="form-upload-pembayaran" aria-hidden="true">
         <div class="modal__overlay" data-micromodal-close>
-        <div class="modal__container" role="dialog" 
-            aria-modal="true" aria-labelledby="edit-barang-title"
-            style="width: 55rem; display: flex; 
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="edit-barang-title" style="width: 55rem; display: flex; 
                     flex-direction: column; justify-content: space-between; margin: 0 1rem;">
-            <div>
-                <header class="modal__header border-b-2 pb-1">
-                    <h2 class="modal__title text-center" id="edit-barang-title" style="font-size: 1.8rem">
-                       Unggah Bukti Transfer
-                    </h2>
-                </header>
-                <main class="modal__content mt-3" id="edit-barang-content">
-                    <div class="flex justify-between font-bold">
-                        <p>Nomor Pesanan</p>
-                        <p>A001</p>
-                    </div>
-                    <hr class="my-2">
-                    <div class="flex justify-between font-bold">
-                        <p>Total Pesanan</p>
-                        <p>Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 0, ',', '.') }}</p>
-                    </div>
-                    <hr class="mt-2 mb-8">
-                    {{-- ========================================================================
+                <div>
+                    <header class="modal__header border-b-2 pb-1">
+                        <h2 class="modal__title text-center" id="edit-barang-title" style="font-size: 1.8rem">
+                            Unggah Bukti Transfer
+                        </h2>
+                    </header>
+                    <main class="modal__content mt-3" id="edit-barang-content">
+                        <div class="flex justify-between font-bold">
+                            <p>Nomor Pesanan</p>
+                            <p>A001</p>
+                        </div>
+                        <hr class="my-2">
+                        <div class="flex justify-between font-bold">
+                            <p>Total Pesanan</p>
+                            <p>Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 0, ',', '.') }}</p>
+                        </div>
+                        <hr class="mt-2 mb-8">
+                        {{-- ========================================================================
                         TODO ::: GANTI ROUTE JADI POST TRANSAKSI
                     ======================================================================== --}}
-                    <form id="formUnggahBukti" enctype="multipart/form-data">
-                        @method('PUT')
-                        @csrf
-                        <div class="flex flex-col space-y-8">
-                            <div class="grid grid-cols-12">
-                                <label for="nama_pemilik_rekening" class="col-span-3">Nama Pemilik Rekening</label>
-                                <input type="text"
-                                    class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    placeholder="Michael Alexander" name="nama_pemilik_rekening" id="nama_pemilik_rekening" required maxlength="100">
-                            </div>
-                            <div class="grid grid-cols-12">
-                                <label for="harga" class="col-span-3">Nama Bank</label>
-                                <div class="flex col-span-9">
-                                    <select
-                                        class="select2-basic w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        name="nama_bank" id="nama_bank">
-                                        @foreach ($bankAll as $bank)
-                                            <option value="{{$bank->nama_bank}}">{{$bank->nama_bank}}</option>
-                                        @endforeach
-                                    </select>
+                        <form id="formUnggahBukti" enctype="multipart/form-data">
+                            @method('PUT')
+                            @csrf
+                            <div class="flex flex-col space-y-8">
+                                <div class="grid grid-cols-12">
+                                    <label for="nama_pemilik_rekening" class="col-span-3">Nama Pemilik
+                                        Rekening</label>
+                                    <input type="text"
+                                        class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        placeholder="Michael Alexander" name="nama_pemilik_rekening"
+                                        id="nama_pemilik_rekening" required maxlength="100">
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-12">
-                                <label for="no_rekening" class="col-span-3">Nomor Rekening</label>
-                                <div class="flex col-span-9">
-                                    <input type="number" 
-                                        class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        placeholder="081234567891" name="no_rekening" id="no_rekening" required>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-12">
-                                <p class="col-span-3">Unggah Foto</p>
-                                <div class="col-span-9">
-                                    <div class="flex flex-col space-y-4">
-                                        <div>
-                                            <label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
-                                                Unggah Gambar
-                                                <input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="bukti" id="bukti"/>
-                                            </label>
-                                        </div>
-                                        <span class="text-md">Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
+                                <div class="grid grid-cols-12">
+                                    <label for="harga" class="col-span-3">Nama Bank</label>
+                                    <div class="flex col-span-9">
+                                        <select
+                                            class="select2-basic w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            name="nama_bank" id="nama_bank">
+                                            @foreach ($bankAll as $bank)
+                                                <option value="{{ $bank->nama_bank }}">{{ $bank->nama_bank }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <img src="" style="max-height: 100px; width: auto"  class="my-3" id="previewImg">
+                                </div>
+                                <div class="grid grid-cols-12">
+                                    <label for="no_rekening" class="col-span-3">Nomor Rekening</label>
+                                    <div class="flex col-span-9">
+                                        <input type="number"
+                                            class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            placeholder="081234567891" name="no_rekening" id="no_rekening" required>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12">
+                                    <p class="col-span-3">Unggah Foto</p>
+                                    <div class="col-span-9">
+                                        <div class="flex flex-col space-y-4">
+                                            <div>
+                                                <label
+                                                    class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer"
+                                                    style="text-align: center;">
+                                                    Unggah Gambar
+                                                    <input accept=".png, .jpg, .jpeg" type="file" style="display: none;"
+                                                        name="bukti" id="bukti" />
+                                                </label>
+                                            </div>
+                                            <span class="text-md">Harus berupa file gambar dengan ekstensi .jpg,
+                                                .jpeg, atau .png</span>
+                                        </div>
+                                        <img src="" style="max-height: 100px; width: auto" class="my-3"
+                                            id="previewImg">
+                                    </div>
+                                </div>
+                                <div class="flex mt-12 space-x-4 justify-end">
+                                    <button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
+                                        <span class="font-semibold text-center">Batalkan</span>
+                                    </button>
+                                    <button type="submit"
+                                        class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn"
+                                        id="unggahBukti-submit-btn">Kirim</button>
                                 </div>
                             </div>
-                            <div class="flex mt-12 space-x-4 justify-end">
-                                <button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
-                                    <span class="font-semibold text-center">Batalkan</span>
-                                </button>
-                                <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn" id="unggahBukti-submit-btn">Kirim</button>
-                            </div>
-                        </div>
-                    </form>
-                </main>
+                        </form>
+                    </main>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 
+    <div id="output"> </div>
     <script>
-        $(document).ready(function(){
-            $('#unggahBukti-btn').click(function (e) { 
+        $(document).ready(function() {
+            $('#unggahBukti-btn').click(function(e) {
                 $('#unggahBukti-submit-btn').data('id', $('#pembayaran_id').text());
             });
 
             /* ======== ON FOTO BUKTI TRANSAKSI CHANGE ======== */
-            $('#bukti').change(function(e){ 
+            $('#bukti').change(function(e) {
                 if (e.target.files && e.target.files[0]) {
                     let reader = new FileReader();
-                    
+
                     reader.onload = function(e) {
                         $('#previewImg').attr('src', e.target.result);
                     }
-                    
+
                     reader.readAsDataURL(e.target.files[0]); // convert to base64 string
                 }
             });
 
-            $('#formUnggahBukti').submit(function (e){
+            $('#formUnggahBukti').submit(function(e) {
                 e.preventDefault();
                 $('<input>').attr({
                     type: 'hidden',
@@ -281,25 +296,30 @@ $kode_unik = 67;
                 var fd = new FormData(form);
                 var file = $('#bukti')[0].files[0];
 
-                for(var pair of fd.entries()) {
-                    console.log(pair[0]+ ', '+ pair[1]);
+                for (var pair of fd.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
                 }
 
                 $.ajax({
                     type: "POST",
                     url: "/api/editBuktiTransfer",
-                    headers: { 'Authorization': '{{ session('Authorization') }}' },
+                    headers: {
+                        'Authorization': '{{ session('Authorization') }}'
+                    },
                     data: fd,
                     cache: false,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
+                    success: function(response) {
                         console.log(response);
                         Swal.fire({
                             icon: 'success',
                             title: 'Bukti transfer berhasil diunggah',
-                        });      
+                        });
                     }
+                }).always(data => {
+                    console.log(data)
+                    $("#output").html(data.responseText)
                 });
 
                 return true;

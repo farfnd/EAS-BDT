@@ -63,12 +63,13 @@ class TransaksiRepository{
         $data['bukti'] = $data['bukti']->getClientOriginalName();
 
         $id = $data['id'];
-        // return var_dump(Pembayaran::find($id));
-        return Pembayaran::find($id)->update(
-            ["nama_pemilik_rekening" => $data['nama_pemilik_rekening']],
-            ["nama_bank" => $data['nama_bank']],
-            ["no_rekening" => $data['no_rekening']],
-            ["bukti" => $data['bukti']],
+        return Pembayaran::find($id)->first()->update(
+            [
+                "nama_pemilik_rekening" => $data['nama_pemilik_rekening'],
+                "nama_bank" => $data['nama_bank'],
+                "no_rekening" => $data['no_rekening'],
+                "bukti" => $data['bukti'],
+            ]
         );
     }
 }
