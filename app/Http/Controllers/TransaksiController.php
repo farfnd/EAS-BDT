@@ -88,8 +88,10 @@ class TransaksiController extends Controller
     }
 
     public function checkoutFromCart(Request $request) {
-        // dd($request->input());
         $input = $request->except(['_token']);
+        if(!count($input)) {
+            return redirect()->route('cart');
+        }
         $temp_id = [];
         foreach($input as $key => $value){
             // array_push($temp_id, $value);

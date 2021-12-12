@@ -3,6 +3,15 @@ $data = session()->get('data');
 $totalHarga = 0;
 @endphp
 
+{{-- ========================================================================
+    REDIRECT TO CART IF DATA IS EMPTY
+======================================================================== --}}
+@if (!isset($data) || !$data->count())
+    <script>
+        window.location = "/cart";
+    </script>
+    <?php exit(); ?>
+@endif
 <x-layout titlePage="Hanaka | Cart">
     {{-- ======== PAGE IMPORTS ======== --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -12,7 +21,7 @@ $totalHarga = 0;
     <div class="grid grid-cols-8 gap-x-8 mx-8 mt-4 my-6">
         {{-- form section --}}
         <div class="col-span-8 lg:col-span-5 shadow-custom1 px-5 py-4 rounded-lg">
-            <form action="{{route('post_pembayaran')}}" method="POST" id="form-pembayaran">
+            <form action="{{ route('post_pembayaran') }}" method="POST" id="form-pembayaran">
                 @csrf
                 <div class="flex flex-col space-y-3">
                     <div class="flex flex-col space-y-1">
@@ -25,22 +34,26 @@ $totalHarga = 0;
                         <label for="alamat" class="col-span-3">Alamat</label>
                         <input type="text"
                             class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Jl. Paguyuban II, No.14" name="alamat" id="alamat" required minlength="5" maxlength="200">
+                            placeholder="Jl. Paguyuban II, No.14" name="alamat" id="alamat" required minlength="5"
+                            maxlength="200">
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="provinsi">Provinsi</label>
-                        <select class="select2-data-array browser-default" id="select2-provinsi" name="provinsi"></select>
+                        <select class="select2-data-array browser-default" id="select2-provinsi"
+                            name="provinsi"></select>
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="kota_kab">Kota/Kabupaten</label>
-                        <select class="select2-basic select2-data-array browser-default" id="select2-kabupaten" name="kota_kab">
-                            <option value="">{{ 'Pilih Provinsi' }}</option>
+                        <select class="select2-basic select2-data-array browser-default" id="select2-kabupaten"
+                            name="kota_kab">
+                            <option value="">{{ '- Silahkan Pilih Provinsi -' }}</option>
                         </select>
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="kecamatan">Kecamatan</label>
-                        <select class="select2-basic select2-data-array browser-default" id="select2-kecamatan" name="kecamatan">
-                            <option value="">{{ 'Pilih Provinsi' }}</option>
+                        <select class="select2-basic select2-data-array browser-default" id="select2-kecamatan"
+                            name="kecamatan">
+                            <option value="">{{ '- Silahkan Pilih Provinsi -' }}</option>
                         </select>
                     </div>
                     <div class="grid grid-cols-12 gap-10">
@@ -74,11 +87,13 @@ $totalHarga = 0;
                         <label for="metode">Catatan Pemesanan (opsional)</label>
                         <textarea
                             class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            name="catatan_pengiriman" id="catatan_pengiriman" cols="30" rows="5" style="resize: none"></textarea>
+                            name="catatan_pengiriman" id="catatan_pengiriman" cols="30" rows="5"
+                            style="resize: none"></textarea>
                     </div>
                     <div class="flex">
                         <button type="submit" id="bayar-button-bank" style="display: none"
-                            class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4 font-semibold text-white text-center" id="bayarBtn-bank">
+                            class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4 font-semibold text-white text-center"
+                            id="bayarBtn-bank">
                             Bayar
                         </button>
                         <button type="button" id="bayar-button-va" data-micromodal-trigger="pilih-va"
@@ -92,34 +107,38 @@ $totalHarga = 0;
         {{-- total price --}}
         <div class="col-span-8 lg:col-span-3 mt-8 lg:mt-0">
             <div class="rounded-lg shadow-custom1 p-4">
-                <p class="font-semibold">Detail Pesanan</p>
-                <hr class="mt-3 mb-2 border-gray-800">
-                <div class="flex bg-gray-300 py-1 font-bold">
+                <p class="font-semibold px-4">Detail Pesanan</p>
+                <hr class="mt-3 mb-2 px-4 border-gray-800">
+                <div class="flex px-4 bg-gray-300 py-1 font-bold">
                     <p class="">Nama Produk</p>
                     <p class="ml-auto">Subtotal</p>
                 </div>
                 @foreach ($data as $item)
-                    <div class="flex">
+                    @php
+                        $totalHarga += $item->barang->harga * $item->jumlah;
+                    @endphp
+                    <div class="flex px-4">
                         <p class="text-gray-400">{{ $item->barang->nama }}</p>
                         <p class="text-gray-400 ml-auto">
-                            Rp{{ number_format($item->barang->harga * 1000, 0, ',', '.') }}</p>
+                            Rp{{ number_format($item->barang->harga * $item->jumlah * 1000, 0, ',', '.') }}</p>
                     </div>
                 @endforeach
                 {{-- @for ($i = 0; $i < 2; $i++)
                 @endfor --}}
                 <hr class="my-2 border-gray-800">
-                <div class="flex font-bold">
+                <div class="flex font-bold px-4">
                     <p class="">Subtotal Produk</p>
                     <p class="ml-auto">Rp{{ number_format($totalHarga * 1000, 0, ',', '.') }}</p>
                 </div>
-                <div class="flex font-bold">
+                <div class="flex font-bold px-4">
                     <p class="">Ongkos Kirim</p>
                     <p class="ml-auto">Rp10.000</p>
                 </div>
                 <hr class="my-2 border-gray-800">
-                <div class="flex font-bold">
+                <div class="flex font-bold px-4">
                     <p class="">Total</p>
-                    <p class="ml-auto" id="total-harga">Rp{{ number_format($totalHarga * 1000 + 10000, 0, ',', '.') }}</p>
+                    <p class="ml-auto" id="total-harga">
+                        Rp{{ number_format($totalHarga * 1000 + 10000, 0, ',', '.') }}</p>
                 </div>
             </div>
         </div>
@@ -130,7 +149,8 @@ $totalHarga = 0;
     ======================================================================== --}}
     <div class="modal micromodal-slide" id="pilih-va" aria-hidden="true">
         <div class="modal__overlay" data-micromodal-close>
-            <div class="modal__container h-52 w-6/12" role="dialog" aria-modal="true" aria-labelledby="pilih-va-title" style="height: 30rem; max-width: 45rem; display: flex; flex-direction: column; justify-content: space-between; margin: 0 1rem;">
+            <div class="modal__container h-52 w-6/12" role="dialog" aria-modal="true" aria-labelledby="pilih-va-title"
+                style="height: 30rem; max-width: 45rem; display: flex; flex-direction: column; justify-content: space-between; margin: 0 1rem;">
                 <div>
                     <header class="modal__header border-b-2 pb-1">
                         <h2 class="modal__title text-center text-xl" id="pilih-va-title">
@@ -161,13 +181,17 @@ $totalHarga = 0;
                     </main>
                 </div>
                 <footer class="flex justify-end">
-                    <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-full px-4 py-1" id="bayarBtn-va">Bayar</button>
+                    <button type="submit"
+                        class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-full px-4 py-1"
+                        id="bayarBtn-va">Bayar</button>
                 </footer>
             </div>
         </div>
     </div>
 
     <script>
+        let sites = {!! json_encode($data->toArray(), JSON_HEX_TAG) !!}
+        console.log(sites)
         $(document).ready(function() {
             $('.select2-basic').select2({
                 minimumResultsForSearch: Infinity
@@ -192,7 +216,7 @@ $totalHarga = 0;
             });
         }
 
-        $('#form-pembayaran').submit(function (){
+        $('#form-pembayaran').submit(function() {
             $('<input>').attr({
                 type: 'hidden',
                 name: 'total_pembayaran',
@@ -200,7 +224,7 @@ $totalHarga = 0;
             }).appendTo(this);
         });
 
-        $('#bayarBtn-va').click(function (e) {
+        $('#bayarBtn-va').click(function(e) {
             $('<input>').attr({
                 type: 'hidden',
                 name: 'va-bank-select',
@@ -209,14 +233,14 @@ $totalHarga = 0;
             $('#form-pembayaran').submit();
         });
 
-        $("#bayar-button-va").click(function (e) { 
+        $("#bayar-button-va").click(function(e) {
             $('#total-transfer').html($('#total-harga').html());
         });
 
-        $("#bayarBtn-va").click(function (e) { 
+        $("#bayarBtn-va").click(function(e) {
             $('#form-va').submit();
         });
-        
+
         /* ========================================================================
             START ::: DATA PROVINSI, KABUPATEN, dan KECAMATAN FETCHING
         ======================================================================== */
@@ -281,6 +305,12 @@ $totalHarga = 0;
                     width: '100%',
                     data: data
                 })
+                $("#select2-kecamatan").select2({
+                    data: [{
+                        id: "",
+                        text: "- Silahkan Pilih Kabupaten -"
+                    }]
+                });
             })
         });
 

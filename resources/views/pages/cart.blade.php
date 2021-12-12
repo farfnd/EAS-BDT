@@ -210,7 +210,7 @@
                     idList.push(idBarang)
                 }
             });
-            // console.log(idList)
+            console.log(idList)
             idList.forEach(element => {
                 if (!($(`.input-total-${element}`)[0])) {
                     $('#temp-checkout')
@@ -219,19 +219,6 @@
                         );
                 }
             });
-
-            // $.ajax({
-            //     type: 'POST',
-            //     url: "/api/checkoutFromCart",
-            //     async: true,
-            //     headers: {
-            //         'Authorization': '{{ session('Authorization') }}'
-            //     },
-            //     data: {
-            //         _token: "{{ csrf_token() }}",
-            //         idList,
-            //     },
-            // }).always(data => console.log(data));
         }
         updateData();
     </script>
