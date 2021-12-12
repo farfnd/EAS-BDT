@@ -1,3 +1,8 @@
+@php
+$data = session()->get('data');
+$totalHarga = 0;
+@endphp
+
 <x-layout titlePage="Hanaka | Cart">
     {{-- ======== PAGE IMPORTS ======== --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -13,13 +18,13 @@
                         <label for="nama" class="col-span-3">Nama Penerima</label>
                         <input type="text"
                             class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Michael Alexander" name="" id="nama" required maxlength="100">
+                            placeholder="Erki Khadafi Rosyid" name="" id="nama" required maxlength="100">
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="alamat" class="col-span-3">Alamat</label>
                         <input type="text"
                             class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Jl. Paguyuban II No.14" name="" id="alamat" required maxlength="100">
+                            placeholder="Jl. Paguyuban II, No.14" name="" id="alamat" required maxlength="100">
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="provinsi">Provinsi</label>
@@ -28,13 +33,13 @@
                     <div class="flex flex-col space-y-1">
                         <label for="kota_kab">Kota/Kabupaten</label>
                         <select class="select2-basic select2-data-array browser-default" id="select2-kabupaten">
-                            <option value="">{{ ' ' }}</option>
+                            <option value="">{{ 'Pilih Provinsi' }}</option>
                         </select>
                     </div>
                     <div class="flex flex-col space-y-1">
                         <label for="kecamatan">Kecamatan</label>
                         <select class="select2-basic select2-data-array browser-default" id="select2-kecamatan">
-                            <option value="">{{ ' ' }}</option>
+                            <option value="">{{ 'Pilih Provinsi' }}</option>
                         </select>
                     </div>
                     <div class="grid grid-cols-12 gap-10">
@@ -92,25 +97,29 @@
                     <p class="">Nama Produk</p>
                     <p class="ml-auto">Subtotal</p>
                 </div>
-                @for ($i = 0; $i < 2; $i++)
+                @foreach ($data as $item)
+                    {{ $totalHarga += $item->barang->harga }}
                     <div class="flex">
-                        <p class="text-gray-400">Varsity Jacket Army x 2</p>
-                        <p class="text-gray-400 ml-auto">Rp.790.000</p>
+                        <p class="text-gray-400">{{ $item->barang->nama }}</p>
+                        <p class="text-gray-400 ml-auto">
+                            Rp{{ number_format($item->barang->harga * 1000, 0, ',', '.') }},00</p>
                     </div>
-                @endfor
+                @endforeach
+                {{-- @for ($i = 0; $i < 2; $i++)
+                @endfor --}}
                 <hr class="my-2 border-gray-800">
                 <div class="flex font-bold">
                     <p class="">Subtotal Produk</p>
-                    <p class="ml-auto">Rp.965.000</p>
+                    <p class="ml-auto">Rp{{ number_format($totalHarga * 1000, 0, ',', '.') }},00</p>
                 </div>
                 <div class="flex font-bold">
                     <p class="">Ongkos Kirim</p>
-                    <p class="ml-auto">Rp.10.000</p>
+                    <p class="ml-auto">Rp10.000,00</p>
                 </div>
                 <hr class="my-2 border-gray-800">
                 <div class="flex font-bold">
                     <p class="">Total</p>
-                    <p class="ml-auto">Rp.965.000</p>
+                    <p class="ml-auto">Rp{{ number_format($totalHarga * 1000 + 10000, 0, ',', '.') }},00</p>
                 </div>
             </div>
         </div>
@@ -133,7 +142,8 @@
                         <div class="mx-auto">
                             <div class="flex justify-between">
                                 <p class="text-lg">Total Nominal Transfer</p>
-                                <p class="text-lg">Rpxxx.xxx</p>
+                                <p class="text-lg">
+                                    Rp{{ number_format($totalHarga * 1000 + 10000, 0, ',', '.') }},00</p>
                             </div>
                             <hr class="my-2">
                         </div>
