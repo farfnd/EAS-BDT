@@ -33,23 +33,26 @@
                                 <x-home.card
                                 gender="men"
                                 namaBarang="{{$barang->nama}}"
-                                hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
+                                hargaBarang="{{number_format($barang->harga*1000,0,',','.')}}"
                                 photo="{{route('show_product_image', $barang->foto)}}"
-                                id="{{$barang->id}}" />
+                                id="{{$barang->id}}"
+                                inWishlist="{{$barang->inWishlist}}" />
                             @elseif ($barang->gender == 1)
                                 <x-home.card
                                 gender="women"
                                 namaBarang="{{$barang->nama}}"
-                                hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
+                                hargaBarang="{{number_format($barang->harga*1000,0,',','.')}}"
                                 photo="{{route('show_product_image', $barang->foto)}}"
-                                id="{{$barang->id}}" />
+                                id="{{$barang->id}}"
+                                inWishlist="{{$barang->inWishlist}}" />
                             @else
                                 <x-home.card
                                 gender="unisex"
                                 namaBarang="{{$barang->nama}}"
-                                hargaBarang="{{number_format($barang->harga*1000,2,',','.')}}"
+                                hargaBarang="{{number_format($barang->harga*1000,0,',','.')}}"
                                 photo="{{route('show_product_image', $barang->foto)}}"
-                                id="{{$barang->id}}" />
+                                id="{{$barang->id}}"
+                                inWishlist="{{$barang->inWishlist}}" />
                             @endif
                         @endforeach
                     </div>
@@ -59,24 +62,49 @@
     </div>
 </x-layout>
 
+
+
 <script>
-    $('.wishlist-btn').click(function (e) { 
-        var id = $(this).data('id');
-        $.ajax({
-            type: "post",
-            url: "/api/addToWishlist/" + id,
-            headers: { 'Authorization': '{{ session('Authorization') }}' },
-            data: { _token: "{{ csrf_token() }}", },
-            success: function (response) {
-                let timerInterval
-                Swal.fire({
-                    html: '<b>Barang berhasil ditambahkan ke wishlist!</b>',
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: Swal.showLoading(),
-                    willClose: clearInterval(timerInterval)
-                })
-            }
-        });
+    $('.wishlist-btn').click(function (e) {
+        var button = $(this); 
+        var id = button.data('id');
+        if (button.hasClass('hover:text-red-600')){
+            $.ajax({
+                type: "post",
+                url: "/api/addToWishlist/" + id,
+                headers: { 'Authorization': '{{ session('Authorization') }}' },
+                data: { _token: "{{ csrf_token() }}", },
+                success: function (response) {
+                    let timerInterval
+                    Swal.fire({
+                        html: '<b>Barang berhasil ditambahkan ke wishlist!</b>',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: Swal.showLoading(),
+                        willClose: clearInterval(timerInterval)
+                    });
+                    button.removeClass(['text-gray-600','hover:text-red-600']).addClass(['text-red-600','hover:text-gray-600']);
+                }
+            });
+        }
+        else if (button.hasClass('hover:text-gray-600')){
+            $.ajax({
+                type: "post",
+                url: "/api/deleteFromWishlist/" + id,
+                headers: { 'Authorization': '{{ session('Authorization') }}' },
+                data: { _token: "{{ csrf_token() }}", },
+                success: function (response) {
+                    let timerInterval
+                    Swal.fire({
+                        html: '<b>Barang berhasil dihapus dari wishlist!</b>',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: Swal.showLoading(),
+                        willClose: clearInterval(timerInterval)
+                    });
+                    button.removeClass(['text-red-600','hover:text-gray-600']).addClass(['text-gray-600','hover:text-red-600']);
+                }
+            });
+        }
     });
 </script>

@@ -43,7 +43,7 @@
 			@endif
 		</td>
 		<td>{{ $barang->stok }}</td>
-		<td>{{"Rp".number_format($barang->harga*1000,2,',','.')}}</td>
+		<td>{{"Rp".number_format($barang->harga*1000,0,',','.')}}</td>
 		<td>
 			<button data-micromodal-trigger="edit-barang" class="bg-yellow-300 px-3 py-1 rounded-md hover:bg-yellow-400 edit-barang-btn" data-id="{{$barang->id}}">Edit</button>
 			<button class="bg-red-500 px-3 py-1 rounded-md hover:bg-red-400 text-white delete-barang-btn" data-id="{{$barang->id}}" data-nama="{{$barang->nama}}">Hapus</button>

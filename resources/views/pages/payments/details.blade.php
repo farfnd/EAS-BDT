@@ -79,10 +79,10 @@ $kode_unik = 67;
                                 <div>
                                     <h4 class="font-semibold">Baju baru ni</h4>
                                     <p class="">{{ $count }} x
-                                        Rp{{ number_format($price, 2, ',', '.') }}</p>
+                                        Rp{{ number_format($price, 0, ',', '.') }}</p>
                                 </div>
                                 <div class="flex justify-end items-center mt-auto">
-                                    <p class="">{{ number_format($count * $price, 2, ',', '.') }}</p>
+                                    <p class="">{{ number_format($count * $price, 0, ',', '.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@ $kode_unik = 67;
             <div class="flex justify-between w-full md:w-11/12 mx-auto mt-4 font-bold">
                 <p class="font-bold text-lg">Total Pesanan</p>
                 <p class="font-bold text-lg">
-                    Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 2, ',', '.') }}</p>
+                    Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 0, ',', '.') }}</p>
             </div>
             <hr class="my-2 w-full md:w-11/12 mx-auto">
 
@@ -101,15 +101,15 @@ $kode_unik = 67;
                 <div class="mx-auto">
                     <div class="flex justify-between">
                         <p>Subtotal Produk</p>
-                        <p>Rp{{ number_format($count * 2 * $price, 2, ',', '.') }}</p>
+                        <p>Rp{{ number_format($count * 2 * $price, 0, ',', '.') }}</p>
                     </div>
                     <div class="flex justify-between">
                         <p>Ongkos Pengiriman</p>
-                        <p>Rp{{ number_format($ongkir, 2, ',', '.') }}</p>
+                        <p>Rp{{ number_format($ongkir, 0, ',', '.') }}</p>
                     </div>
                     <div class="flex justify-between">
                         <p>Kode Unik</p>
-                        <p>Rp{{ number_format($kode_unik, 2, ',', '.') }}</p>
+                        <p>Rp{{ number_format($kode_unik, 0, ',', '.') }}</p>
                     </div>
                 </div>
             </div>
@@ -185,7 +185,7 @@ $kode_unik = 67;
                     <hr class="my-2">
                     <div class="flex justify-between font-bold">
                         <p>Total Pesanan</p>
-                        <p>Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 2, ',', '.') }}</p>
+                        <p>Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 0, ',', '.') }}</p>
                     </div>
                     <hr class="mt-2 mb-8">
                     {{-- ========================================================================

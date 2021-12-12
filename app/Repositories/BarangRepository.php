@@ -45,6 +45,7 @@ class BarangRepository{
         $barang = Barang::where('id', $id)->first();
 
         $barang->stok = $barang->stok()->get();
+        $barang->inWishlist = $this->isBarangInUserWishlist($barang->id);
         return $barang;
     }
 
@@ -86,6 +87,7 @@ class BarangRepository{
             $barang->kategori = $barang->kategori()->first()->nama_kategori;
             $barang->rating = $this->getBarangRating($barang->id);
             $barang->stok = $this->getBarangStok($barang->id);
+            $barang->inWishlist = $this->isBarangInUserWishlist($barang->id);
         }
         return $barangAll;
     }
@@ -95,6 +97,7 @@ class BarangRepository{
 
         foreach ($barangAll as $barang) {
             $barang->stok = $barang->stok()->get();
+            $barang->inWishlist = $this->isBarangInUserWishlist($barang->id);
         }
         
         return $barangAll;
@@ -142,6 +145,14 @@ class BarangRepository{
         ]);
     }
 
+    public function destroyFromWishlist($id)
+    {
+        return Wishlist::where([
+            ['barang_id', $id],
+            ['user_id', Auth::user()->id]
+        ])->delete();
+    }
+
     public function getAllWishlist()
     {
         $wishlistAll = Auth::user()->wishlist;
@@ -150,6 +161,20 @@ class BarangRepository{
         }
 
         return $wishlistAll;
+    }
+
+    public function isBarangInUserWishlist($id)
+    {
+        $barangSearch = Barang::find($id);
+        $wishlistAll = Auth::user()->wishlist;
+        foreach ($wishlistAll as $wishlist) {
+            if ($wishlist->barang->is($barangSearch)){
+                return true;
+                break;
+            }
+        }
+
+        return false;
     }
 }
 

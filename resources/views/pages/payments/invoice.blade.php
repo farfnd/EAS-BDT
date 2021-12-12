@@ -135,10 +135,10 @@ foreach ($items as $item) {
                     <p class="text-center">{{ $item->jumlah }}</p>
                 </div>
                 <div class="col-span-3 p-2 border-b-2 border-gray-200">
-                    <p class="text-center">Rp{{ number_format($item->harga_barang, 2, ',', '.') }}</p>
+                    <p class="text-center">Rp{{ number_format($item->harga_barang, 0, ',', '.') }}</p>
                 </div>
                 <div class="col-span-3 p-2 border-b-2 border-gray-200">
-                    <p class="text-right">Rp{{ number_format($item->jumlah * $item->harga_barang, 2, ',', '.') }}
+                    <p class="text-right">Rp{{ number_format($item->jumlah * $item->harga_barang, 0, ',', '.') }}
                     </p>
                 </div>
             @endforeach
@@ -159,24 +159,24 @@ foreach ($items as $item) {
                 Subtotal Harga Produk
             </div>
             <div class="col-span-3 px-2 pt-2 text-right">
-                Rp{{ number_format($totalHarga, 2, ',', '.') }}
+                Rp{{ number_format($totalHarga, 0, ',', '.') }}
             </div>
             <div class="col-span-3 font-bold px-2 text-right">
                 Ongkos Kirim
             </div>
             <div class="col-span-3 px-2 text-right">
-                Rp{{ number_format($ongkir, 2, ',', '.') }}
+                Rp{{ number_format($ongkir, 0, ',', '.') }}
             </div>
             <div class="col-span-3 font-bold px-2 text-right">
                 Kode Unik
             </div>
             <div class="col-span-3 px-2 text-right">
-                Rp{{ number_format($kode_unik, 2, ',', '.') }}
+                Rp{{ number_format($kode_unik, 0, ',', '.') }}
             </div>
             <div class="col-span-6 grid grid-cols-2 p-4 my-2 -mr-3 rounded-3xl border-4 border-gray-300">
                 <p class="col-span-1 font-bold text-right pr-4">Total Pembayaran</p>
                 <p class="col-span-1 text-right">
-                    Rp{{ number_format($totalHarga + $ongkir + $kode_unik, 2, ',', '.') }}</p>
+                    Rp{{ number_format($totalHarga + $ongkir + $kode_unik, 0, ',', '.') }}</p>
             </div>
         </div>
     </div>

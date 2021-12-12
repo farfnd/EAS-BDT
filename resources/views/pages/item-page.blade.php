@@ -20,7 +20,7 @@
         <div class="bg-gray-50 rounded-lg mt-4 ml-4 sm:ml-0 mr-4 sm:mr-8 p-4">
             <div>
                 <h2 class="text-base md:text-lg font-semibold">{{$barang->nama}}</h2>
-                <h5 class="text-base md:text-lg">Rp{{number_format($barang->harga*1000,2,',','.')}}</h5>
+                <h5 class="text-base md:text-lg">Rp{{number_format($barang->harga*1000,0,',','.')}}</h5>
                 <h5 class="text-base md:text-lg mt-2 font-semibold">Deskripsi Barang</h5>
                 <p class="text-sm md:text-base pl-4">{{$barang->deskripsi}}</p>
             </div>

@@ -11,9 +11,15 @@
                     <h3 class="text-sm leading-4 mb-2">{{ $namaBarang }}</h3>
                     <p class="text-xs font-semibold">Rp{{ $hargaBarang }}</p>
                 </div>
-                <a onclick="test()" class="ml-auto text-xl text-gray-600 hover:text-red-600 cursor-pointer z-10">
-                    <i class='bx bxs-heart wishlist-btn' data-id="{{$id}}"></i>
-                </a>
+                @if ((int) $inWishlist)
+                    <a onclick="test()" class="ml-auto text-xl text-red-600 hover:text-gray-600 cursor-pointer z-10 wishlist-btn"  data-id="{{$id}}">
+                        <i class='bx bxs-heart'></i>
+                    </a>
+                @elseif (!((int) $inWishlist))
+                    <a onclick="test()" class="ml-auto text-xl text-gray-600 hover:text-red-600 cursor-pointer z-10 wishlist-btn"  data-id="{{$id}}">
+                        <i class='bx bxs-heart'></i>
+                    </a>
+                @endif
             </div>
         </div>
         <a href="item/{{ $id }}" class="absolute top-0 right-0 bottom-0 left-0 z-0">

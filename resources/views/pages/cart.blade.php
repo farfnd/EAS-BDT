@@ -29,14 +29,14 @@
                                 <h4 class="text-lg font-semibold">{{ $barangKeranjang->barang->nama }}</h4>
                                 <div class="flex">
                                     <p class="pr-2">
-                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000, 2, ',', '.') }}
+                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000, 0, ',', '.') }}
                                     </p>|
                                     <p class="harga-barang pl-2 font-bold"
                                         data-id="{{ $barangKeranjang->barang->id }}"
                                         data-harga-total="{{ $barangKeranjang->barang->harga * $barangKeranjang->jumlah }}"
                                         data-harga="{{ $barangKeranjang->barang->harga }}"
                                         id="harga-barang-{{ $barangKeranjang->barang->id }}">
-                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000 * $barangKeranjang->jumlah, 2, ',', '.') }}
+                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000 * $barangKeranjang->jumlah, 0, ',', '.') }}
                                     </p>
                                 </div>
                             </div>
