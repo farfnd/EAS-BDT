@@ -30,29 +30,20 @@
                     <div class="swiper-wrapper rounded-md">
                         @foreach ($latestBarangAll as $barang)
                             @if ($barang->gender == 0)
-                                <x-home.card
-                                gender="men"
-                                namaBarang="{{$barang->nama}}"
-                                hargaBarang="{{number_format($barang->harga*1000,0,',','.')}}"
-                                photo="{{route('show_product_image', $barang->foto)}}"
-                                id="{{$barang->id}}"
-                                inWishlist="{{$barang->inWishlist}}" />
+                                <x-home.card gender="men" namaBarang="{{ $barang->nama }}"
+                                    hargaBarang="{{ number_format($barang->harga * 1000, 0, ',', '.') }}"
+                                    photo="{{ route('show_product_image', $barang->foto) }}" id="{{ $barang->id }}"
+                                    inWishlist="{{ $barang->inWishlist }}" />
                             @elseif ($barang->gender == 1)
-                                <x-home.card
-                                gender="women"
-                                namaBarang="{{$barang->nama}}"
-                                hargaBarang="{{number_format($barang->harga*1000,0,',','.')}}"
-                                photo="{{route('show_product_image', $barang->foto)}}"
-                                id="{{$barang->id}}"
-                                inWishlist="{{$barang->inWishlist}}" />
+                                <x-home.card gender="women" namaBarang="{{ $barang->nama }}"
+                                    hargaBarang="{{ number_format($barang->harga * 1000, 0, ',', '.') }}"
+                                    photo="{{ route('show_product_image', $barang->foto) }}" id="{{ $barang->id }}"
+                                    inWishlist="{{ $barang->inWishlist }}" />
                             @else
-                                <x-home.card
-                                gender="unisex"
-                                namaBarang="{{$barang->nama}}"
-                                hargaBarang="{{number_format($barang->harga*1000,0,',','.')}}"
-                                photo="{{route('show_product_image', $barang->foto)}}"
-                                id="{{$barang->id}}"
-                                inWishlist="{{$barang->inWishlist}}" />
+                                <x-home.card gender="unisex" namaBarang="{{ $barang->nama }}"
+                                    hargaBarang="{{ number_format($barang->harga * 1000, 0, ',', '.') }}"
+                                    photo="{{ route('show_product_image', $barang->foto) }}"
+                                    id="{{ $barang->id }}" inWishlist="{{ $barang->inWishlist }}" />
                             @endif
                         @endforeach
                     </div>
@@ -63,44 +54,61 @@
 </x-layout>
 
 <script>
-    $('.wishlist-btn').click(function (e) {
-        var button = $(this); 
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    $('.wishlist-btn').click(function(e) {
+        var button = $(this);
         var id = button.data('id');
-        if (button.hasClass('hover:text-red-600')){
+        if (button.hasClass('hover:text-red-600')) {
             $.ajax({
                 type: "post",
                 url: "/api/addToWishlist/" + id,
-                headers: { 'Authorization': '{{ session('Authorization') }}' },
-                data: { _token: "{{ csrf_token() }}", },
-                success: function (response) {
+                headers: {
+                    'Authorization': '{{ session('Authorization') }}'
+                },
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
                     let timerInterval
-                    Swal.fire({
-                        html: '<b>Barang berhasil ditambahkan ke wishlist!</b>',
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: Swal.showLoading(),
-                        willClose: clearInterval(timerInterval)
-                    });
-                    button.removeClass(['text-gray-600','hover:text-red-600']).addClass(['text-red-600','hover:text-gray-600']);
+                    toastr["success"]("", "Barang berhasil ditambahkan ke wishlist!")
+                    button.removeClass(['text-gray-600', 'hover:text-red-600']).addClass([
+                        'text-red-600', 'hover:text-gray-600'
+                    ]);
                 }
             });
-        }
-        else if (button.hasClass('hover:text-gray-600')){
+        } else if (button.hasClass('hover:text-gray-600')) {
             $.ajax({
                 type: "post",
                 url: "/api/deleteFromWishlist/" + id,
-                headers: { 'Authorization': '{{ session('Authorization') }}' },
-                data: { _token: "{{ csrf_token() }}", },
-                success: function (response) {
+                headers: {
+                    'Authorization': '{{ session('Authorization') }}'
+                },
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
                     let timerInterval
-                    Swal.fire({
-                        html: '<b>Barang berhasil dihapus dari wishlist!</b>',
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: Swal.showLoading(),
-                        willClose: clearInterval(timerInterval)
-                    });
-                    button.removeClass(['text-red-600','hover:text-gray-600']).addClass(['text-gray-600','hover:text-red-600']);
+                    toastr["success"]("", "Barang berhasil dihapus dari wishlist!")
+                    button.removeClass(['text-red-600', 'hover:text-gray-600']).addClass([
+                        'text-gray-600', 'hover:text-red-600'
+                    ]);
                 }
             });
         }

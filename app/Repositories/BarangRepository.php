@@ -176,15 +176,16 @@ class BarangRepository{
 
     public function isBarangInUserWishlist($id)
     {
-        $barangSearch = Barang::find($id);
-        $wishlistAll = Auth::user()->wishlist;
-        foreach ($wishlistAll as $wishlist) {
-            if ($wishlist->barang->is($barangSearch)){
-                return true;
-                break;
+        if(Auth::check()) {
+            $barangSearch = Barang::find($id);
+            $wishlistAll = Auth::user()->wishlist;
+            foreach ($wishlistAll as $wishlist) {
+                if ($wishlist->barang->is($barangSearch)){
+                    return true;
+                    break;
+                }
             }
         }
-
         return false;
     }
 }

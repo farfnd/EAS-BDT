@@ -8,11 +8,10 @@
         }
 
     </style>
-    {{-- TAMBAHIN INPUT PER ITEM, JADI BISA BELI LEBIH DARI 1 BARANG SEKALIGUS --}}
     <h2 class="text-3xl font-bold text-gray-900 text-center mt-8">Keranjang</h2>
     <div class="grid grid-cols-8 gap-x-8 mx-8 mt-4">
         {{-- card section --}}
-        <div class="col-span-8 lg:col-span-5 flex flex-col">
+        <div class="md:mb-6 col-span-8 lg:col-span-5 flex flex-col">
             <div class="flex flex-col space-y-8">
                 @foreach (Auth::user()->keranjang as $barangKeranjang)
                     <!-- @dump($barangKeranjang->barang) -->
@@ -36,14 +35,11 @@
                                         data-harga-total="{{ $barangKeranjang->barang->harga * $barangKeranjang->jumlah }}"
                                         data-harga="{{ $barangKeranjang->barang->harga }}"
                                         id="harga-barang-{{ $barangKeranjang->barang->id }}">
-                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000 * $barangKeranjang->jumlah, 0, ',', '.') }}
+                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000 * $barangKeranjang->jumlah, 0, ',', '.') . ',00' }}
                                     </p>
                                 </div>
                             </div>
                             <div class="flex justify-end items-center mt-auto">
-                                <p class="text-gray-400 hover:text-blue-500 cursor-pointer">Pindahkan ke Wishlist
-                                </p>
-                                <p class="text-gray-400">&nbsp;|&nbsp;</p>
                                 <div class="flex flex-col align-center"
                                     onclick="deleteItem({{ $barangKeranjang->barang->id }})"><i
                                         class='text-2xl text-gray-400 hover:text-blue-500 cursor-pointer bx bx-trash'></i>
