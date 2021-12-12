@@ -49,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
 
     /* ======== CART SECTION ======== */
     Route::get('/cart', [HomeController::class, 'show_cart'])->name('cart');
+    Route::post('/cart', [TransaksiController::class, 'checkoutFromCart'])->name('cart_post');
+    
 
     /* ======== CHECKOUT SECTION ======== */
     Route::get('/checkout', [TransaksiController::class, 'show_checkout'])->name('checkout');

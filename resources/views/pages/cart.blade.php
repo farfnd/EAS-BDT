@@ -17,9 +17,9 @@
                     <!-- @dump($barangKeranjang->barang) -->
                     <div class="flex content-center items-center space-x-4 rounded-lg shadow-custom1 p-4">
                         <input
-                            class="text-indigo-500 border-gray-300 rounded-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                            type="checkbox" name="" id="check-barang-{{ $barangKeranjang->barang->id }}"
-                            onclick="updateData()">
+                            class="check-barang text-indigo-500 border-gray-300 rounded-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                            type="checkbox" name="" data-id="{{ $barangKeranjang->barang->id }}"
+                            id="check-barang-{{ $barangKeranjang->barang->id }}" onclick="updateData()">
                         <div class="cart-item-image-container rounded-lg"
                             style="background-image: url({{ route('show_product_image', $barangKeranjang->barang->foto) }}); background-size: cover; backround-repeat: none">
                         </div>
@@ -63,7 +63,9 @@
             </div>
         </div>
         {{-- total price --}}
-        <div class="col-span-8 lg:col-span-3 mt-8 lg:mt-0">
+        <form method="post" href="{{ route('cart_post') }}" id="total-checkout"
+            class="col-span-8 lg:col-span-3 mt-8 lg:mt-0">
+            @csrf
             <div class="rounded-lg shadow-custom1 p-4">
                 <p class="font-semibold">Ringkasan Belanja</p>
                 <hr class="my-4 border-gray-800">
@@ -80,13 +82,14 @@
                     <p class="font-semibold">Total Belanja</p>
                     <p class="harga-belanja font-semibold ml-auto">Rpxxx.xxx,xx</p>
                 </div>
-                <button class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4">
-                    <a href="{{ route('checkout') }}">
+                <button type="submit" class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4">
+                    <span>
                         <p class="font-semibold text-white text-center">Checkout</p>
-                    </a>
+                    </span>
                 </button>
+                <div id="temp-checkout"></div>
             </div>
-        </div>
+        </form>
     </div>
     <script>
         /* ======== UPDATE JUMLAH BARANG SAAT JUMLAH BARANG DIMASUKKAN ======== */
@@ -139,8 +142,9 @@
             const hargaBelanja = $(".harga-belanja")[0];
             totalHarga.innerHTML = `Rp${String(harga*1000).replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`;
             hargaBelanja.innerHTML = `Rp${String(harga*1000).replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`;
+            getChecked();
         }
-        updateData();
+
 
         /* ======== ON DELETE ITEM FROM CART ======== */
         const deleteItem = (id) => {
@@ -196,5 +200,39 @@
                 },
             });
         }
+
+        /* ======== Get Checked Item on Checkout Click ======== */
+        const getChecked = (e) => {
+            let idList = [];
+            $(".check-barang").each(function() {
+                let idBarang = $(this).data("id")
+                if ($(`#check-barang-${idBarang}`).prop("checked")) {
+                    idList.push(idBarang)
+                }
+            });
+            // console.log(idList)
+            idList.forEach(element => {
+                if (!($(`.input-total-${element}`)[0])) {
+                    $('#temp-checkout')
+                        .append(
+                            `<input type="hidden" class="input-total-${element}" value="${element}" name="input-total-${element}"></>`
+                        );
+                }
+            });
+
+            // $.ajax({
+            //     type: 'POST',
+            //     url: "/api/checkoutFromCart",
+            //     async: true,
+            //     headers: {
+            //         'Authorization': '{{ session('Authorization') }}'
+            //     },
+            //     data: {
+            //         _token: "{{ csrf_token() }}",
+            //         idList,
+            //     },
+            // }).always(data => console.log(data));
+        }
+        updateData();
     </script>
 </x-layout>

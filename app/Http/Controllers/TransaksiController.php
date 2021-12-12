@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\TransaksiService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransaksiController extends Controller
 {
@@ -88,4 +89,21 @@ class TransaksiController extends Controller
         return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
     }
 
+    public function checkoutFromCart(Request $request) {
+        // dd($request->input());
+        $input = $request->except(['_token']);
+        $temp_id = [];
+        foreach($input as $key => $value){
+            // array_push($temp_id, $value);
+            $temp_id[] = $value;
+        }
+        $data = Auth::user()->keranjang->whereIn('barang_id', $temp_id);
+        // Auth::user()->keranjang->whereIn('barang_id', $temp_id)->each(function($el){
+        //     $test[] = $el->barang;
+        //     dump($el->barang);
+        //     array_push($test, $el->barang);
+        // });
+        // dd($data);
+        return redirect()->route('checkout')->with(['data' => $data]);
+    }
 }
