@@ -98,7 +98,6 @@ $totalHarga = 0;
                     <p class="ml-auto">Subtotal</p>
                 </div>
                 @foreach ($data as $item)
-                    {{ $totalHarga += $item->barang->harga }}
                     <div class="flex">
                         <p class="text-gray-400">{{ $item->barang->nama }}</p>
                         <p class="text-gray-400 ml-auto">
