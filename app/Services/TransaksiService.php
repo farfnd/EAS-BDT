@@ -28,4 +28,13 @@ class TransaksiService
         return $this->transaksiRepository->updateKeranjang($id, $count);
     }
 
+    public function readAllBanks()
+    {   
+        return $this->transaksiRepository->getAllBanks();
+    }
+
+    public function editBuktiTransaksi($input)
+    {   
+        return $this->transaksiRepository->updateBuktiTransaksi($input);
+    }
 }

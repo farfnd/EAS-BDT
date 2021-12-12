@@ -25,7 +25,7 @@ $kode_unik = 67;
                 {{-- ========================================================================
                     TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
                 ======================================================================== --}}
-                <a data-micromodal-trigger="form-upload-pembayaran" class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900">
+                <a data-micromodal-trigger="form-upload-pembayaran" class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900" id="unggahBukti-btn">
                     Unggah Bukti Transfer
                 </a>
             </div>
@@ -38,7 +38,7 @@ $kode_unik = 67;
                 ======================================================================== --}}
                 <div class="flex justify-between">
                     <p class="font-bold">Nomor Pesanan</p>
-                    <p class="font-bold">A001</p>
+                    <p class="font-bold" id="pembayaran_id">A001</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
@@ -191,25 +191,25 @@ $kode_unik = 67;
                     {{-- ========================================================================
                         TODO ::: GANTI ROUTE JADI POST TRANSAKSI
                     ======================================================================== --}}
-                    <form action="{{ route('admin.barang.edit') }}" method="post" id="formEditBarang" enctype="multipart/form-data">
+                    <form id="formUnggahBukti" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="flex flex-col space-y-8">
                             <div class="grid grid-cols-12">
-                                <label for="nama_pengguna" class="col-span-3">Nama Pemilik Rekening</label>
+                                <label for="nama_pemilik_rekening" class="col-span-3">Nama Pemilik Rekening</label>
                                 <input type="text"
                                     class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    placeholder="Michael Alexander" name="nama" id="nama_pengguna" required maxlength="100">
+                                    placeholder="Michael Alexander" name="nama_pemilik_rekening" id="nama_pemilik_rekening" required maxlength="100">
                             </div>
                             <div class="grid grid-cols-12">
                                 <label for="harga" class="col-span-3">Nama Bank</label>
                                 <div class="flex col-span-9">
                                     <select
                                         class="select2-basic w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        name="va-bank-select" id="va-bank-select">
-                                        <option value="bca">🏧 Bank BCA</option>
-                                        <option value="bni">🏧 Bank BNI</option>
-                                        <option value="mandiri">🏧 Bank Mandiri</option>
+                                        name="nama_bank" id="nama_bank">
+                                        @foreach ($bankAll as $bank)
+                                            <option value="{{$bank->nama_bank}}">{{$bank->nama_bank}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -228,18 +228,19 @@ $kode_unik = 67;
                                         <div>
                                             <label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
                                                 Unggah Gambar
-                                                <input accept=".png, .jpg, .jpeg" type="file" style="display: none;" multiple name="foto[]" id="foto_edit"/>
+                                                <input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="bukti" id="bukti"/>
                                             </label>
                                         </div>
                                         <span class="text-md">Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
                                     </div>
+                                    <img src="" style="max-height: 100px; width: auto"  class="my-3" id="previewImg">
                                 </div>
                             </div>
                             <div class="flex mt-12 space-x-4 justify-end">
                                 <button data-micromodal-close class="shadow-custom1 rounded-lg px-4 py-1">
                                     <span class="font-semibold text-center">Batalkan</span>
                                 </button>
-                                <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn">Kirim</button>
+                                <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1  edit-submit-btn" id="unggahBukti-submit-btn">Kirim</button>
                             </div>
                         </div>
                     </form>
@@ -251,6 +252,59 @@ $kode_unik = 67;
 
     <script>
         $(document).ready(function(){
+            $('#unggahBukti-btn').click(function (e) { 
+                $('#unggahBukti-submit-btn').data('id', $('#pembayaran_id').text());
+            });
+
+            /* ======== ON FOTO BUKTI TRANSAKSI CHANGE ======== */
+            $('#bukti').change(function(e){ 
+                if (e.target.files && e.target.files[0]) {
+                    let reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        $('#previewImg').attr('src', e.target.result);
+                    }
+                    
+                    reader.readAsDataURL(e.target.files[0]); // convert to base64 string
+                }
+            });
+
+            $('#formUnggahBukti').submit(function (e){
+                e.preventDefault();
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'id',
+                    value: $('#unggahBukti-submit-btn').data('id')
+                }).appendTo(this);
+
+                var form = $(this)[0];
+                var fd = new FormData(form);
+                var file = $('#bukti')[0].files[0];
+
+                for(var pair of fd.entries()) {
+                    console.log(pair[0]+ ', '+ pair[1]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/editBuktiTransfer",
+                    headers: { 'Authorization': '{{ session('Authorization') }}' },
+                    data: fd,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Bukti transfer berhasil diunggah',
+                        });      
+                    }
+                });
+
+                return true;
+            });
+
             $("#batalkan-btn").click(function() {
                 Swal.fire({
                     title: 'Batalkan Transaksi',
@@ -262,7 +316,7 @@ $kode_unik = 67;
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
-                            title: 'Transaksi Berhasil  Dibatalkan',
+                            title: 'Transaksi Berhasil Dibatalkan',
                             icon: 'success',
                             confirmButtonText: 'OK',
                         });

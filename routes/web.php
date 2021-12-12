@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,36 +52,22 @@ Route::middleware(['auth'])->group(function () {
 
     /* ======== CHECKOUT SECTION ======== */
     Route::get('/checkout', function () {
-        if(Auth::check()) {
-            return view('pages.checkout');
-        }
-        return redirect("/");
+        return view('pages.checkout');
     })->name('checkout');
 
     /* ======== PAYMENTS SECTION ======== */
     Route::get('/bank-payment', function () {
-        if(Auth::check()) {
-            return view('pages.payments.bank');
-        }
-        return redirect("/");
+        return view('pages.payments.bank');
     })->name('bank-payment');
+
     Route::get('/va-payment', function () {
-        if(Auth::check()) {
-            return view('pages.payments.virtual-account');
-        }
-        return redirect("/");
+        return view('pages.payments.virtual-account');
     })->name('va-payment');
-    Route::get('/payment-detail', function () {
-        if(Auth::check()) {
-            return view('pages.payments.details');
-        }
-        return redirect("/");
-    })->name('payment-detail');
+
+    Route::get('/payment-detail', [TransaksiController::class, 'show_detail_transaksi'])->name('payment-detail');
+
     Route::get('/payment-invoice', function () {
-        if(Auth::check()) {
-            return view('pages.payments.invoice');
-        }
-        return redirect("/");
+        return view('pages.payments.invoice');
     })->name('payment-invoice');
 
     /* ======== WISHLIST SECTION ======== */

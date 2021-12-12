@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/addToCart/{id}', [TransaksiController::class, 'addToCart']);
     Route::delete('/deleteFromCart/{id}', [TransaksiController::class, 'deleteFromCart']);
     Route::put('/updateCart/{id}', [TransaksiController::class, 'editCart']);
+
+    Route::put('/editBuktiTransfer', [TransaksiController::class, 'editBuktiTransfer']);
     
     /* ======== WISHLIST API ======== */
     Route::post('/addToWishlist/{id}', [BarangController::class, 'addToWishlist']);
