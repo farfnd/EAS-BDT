@@ -66,8 +66,8 @@ class TransaksiController extends Controller
 
         try{
             $result['data'] = $this->transaksiService->createPayment($input);
-            if($result['data']->metode == 'bank') return redirect(route('bank-payment', $result['data']->id));
-            else if(str_starts_with($result['data']->metode, 'va_')) return redirect(route('va-payment', $result['data']->id));
+            if($result['data']->metode == 'bank') {return redirect(route('bank-payment', $result['data']->id));}
+            else if(str_starts_with($result['data']->metode, 'va_')) {return redirect(route('va-payment', $result['data']->id));};
         }catch(Exception $e){
             $result = [
                 'status' => 500,
@@ -77,16 +77,14 @@ class TransaksiController extends Controller
         }
     }
 
-    public function show_bank_payment($id)
+    public function show_payment($id)
     {
         $pembayaran = $this->transaksiService->readPembayaran($id);
-        return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
-    }
-
-    public function show_va_payment($id)
-    {
-        $pembayaran = $this->transaksiService->readPembayaran($id);
-        return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
+        if ($pembayaran->metode == 'bank') {
+            return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
+        } else if(str_starts_with($pembayaran->metode, 'va_')) {
+            return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
+        }
     }
 
     public function checkoutFromCart(Request $request) {

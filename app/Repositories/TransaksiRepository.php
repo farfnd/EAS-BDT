@@ -32,7 +32,7 @@ class TransaksiRepository{
         $keranjang->jumlah = 1;
         $keranjang->save();
 
-        return $keranjang->fresh;
+        return $keranjang->latest()->first();
     }
 
     public function destroyKeranjang($id)
@@ -142,10 +142,10 @@ class TransaksiRepository{
         $pembayaran->alamat = $alamat;
         $pembayaran->status_pembayaran = 'Belum Lunas';
         $pembayaran->metode = $data['metode'];
-        if($pembayaran->metode = 'va'){
+        if($pembayaran->metode == 'va'){
             $pembayaran->metode = $data['va-bank-select'];
             $pembayaran->total_pembayaran = (int) str_replace("Rp", "", str_replace(".", "", $data['total_pembayaran']));
-        } else if($pembayaran->metode = 'bank'){
+        } else if($pembayaran->metode == 'bank'){
             $pembayaran->kode_unik = rand(100,999);
             $pembayaran->total_pembayaran = (int) str_replace("Rp", "", str_replace(".", "", $data['total_pembayaran'])) + $pembayaran->kode_unik;
         }
@@ -153,12 +153,12 @@ class TransaksiRepository{
         
         $pembayaran->save();
         
-        return $pembayaran->fresh();
+        return $pembayaran->where('id', $randomId)->first();
     }
 
-    public function getPembayaran($id)
+    public function getPembayaran(string $id)
     {
-        return Pembayaran::find($id)->first();
+        return Pembayaran::where('id', $id)->first();
     }
 }
 

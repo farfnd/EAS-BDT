@@ -35,7 +35,7 @@
                                         data-harga-total="{{ $barangKeranjang->barang->harga * $barangKeranjang->jumlah }}"
                                         data-harga="{{ $barangKeranjang->barang->harga }}"
                                         id="harga-barang-{{ $barangKeranjang->barang->id }}">
-                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000 * $barangKeranjang->jumlah, 0, ',', '.') . ',00' }}
+                                        {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000 * $barangKeranjang->jumlah, 0, ',', '.') }}
                                     </p>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                 $(`#jumlah-barang-${index}`).val(1);
             }
             let harga = Number($(`#harga-barang-${index}`).data("harga") * 1000 * $(`#jumlah-barang-${index}`).val());
-            $(`#harga-barang-${index}`).html(`Rp${String(harga).replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`);
+            $(`#harga-barang-${index}`).html(`Rp${String(harga).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`);
             $(`#harga-barang-${index}`).data("harga-total", harga / 1000)
             updateData();
             updateItem(index, $(`#jumlah-barang-${index}`).val());
@@ -112,7 +112,7 @@
                 $(`#jumlah-barang-${index}`).val(Number($(`#jumlah-barang-${index}`).val()) + 1);
             }
             let harga = Number($(`#harga-barang-${index}`).data("harga") * 1000 * $(`#jumlah-barang-${index}`).val());
-            $(`#harga-barang-${index}`).html(`Rp${String(harga).replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`);
+            $(`#harga-barang-${index}`).html(`Rp${String(harga).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`);
             $(`#harga-barang-${index}`).data("harga-total", harga / 1000)
             updateData();
             updateItem(index, $(`#jumlah-barang-${index}`).val());
@@ -140,8 +140,8 @@
             })
             const totalHarga = $(".harga-detail")[0];
             const hargaBelanja = $(".harga-belanja")[0];
-            totalHarga.innerHTML = `Rp${String(harga*1000).replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`;
-            hargaBelanja.innerHTML = `Rp${String(harga*1000).replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`;
+            totalHarga.innerHTML = `Rp${String(harga*1000).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+            hargaBelanja.innerHTML = `Rp${String(harga*1000).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
             getChecked();
         }
 
