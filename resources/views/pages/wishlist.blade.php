@@ -39,14 +39,11 @@
             data: { _token: "{{ csrf_token() }}", },
             success: function (response) {
                 $(`#wishlistCard-${id}`).remove();
-                let timerInterval;
-                Swal.fire({
-                    html: '<b>Barang berhasil dihapus dari wishlist!</b>',
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: Swal.showLoading(),
-                    willClose: clearInterval(timerInterval)
-                });
+                let timerInterval
+                toastr["success"]("", "Barang berhasil dihapus dari wishlist!")
+                button.removeClass(['text-red-600', 'hover:text-gray-600']).addClass([
+                    'text-gray-600', 'hover:text-red-600'
+                ]);
             }
         });
     });

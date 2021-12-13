@@ -2,7 +2,7 @@
 
 @endphp
 
-<x-admin.layout titlePage="Hanaka Admin | Barang">
+<x-admin.layout titlePage="Hanaka Admin | Transaksi">
     {{-- ======== START ::: REQUIRED CDNS ======== --}}
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <link rel='stylesheet' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
@@ -47,15 +47,15 @@
                             {{ $transaksi->nama_bank }}
                         @endif
                     </td>
-                    <td class="text-center">{{-- $transaksi->nomor_rekening --}}1029471252918</td>
+                    <td class="text-center">{{ $transaksi->no_rekening }}</td>
                     <td class="text-center">{{ $transaksi->updated_at }}</td>
-                    <td class="text-center">Dibayar ajg {{-- $transaksi->status_pembayaran --}}</td>
+                    <td class="text-center">{{ $transaksi->status_pembayaran }}</td>
                     <td class="text-center">
-                        @if (str_starts_with($transaksi->metode, 'va_'))
+                        @if (str_starts_with($transaksi->metode, 'va_') || $transaksi->status_pembayaran != 'Belum Terverifikasi')
                             <p>-</p>
                         @else
                             <button data-micromodal-trigger="verif-transaksi" data-id="{{ $transaksi->id }}"
-                                class="bg-yellow-300 px-3 py-1 rounded-md hover:bg-yellow-400 edit-transaksi-btn">Edit
+                                class="bg-yellow-300 px-3 py-1 rounded-md hover:bg-yellow-400 edit-transaksi-btn">Lihat
                             </button>
                         @endif
                     </td>
@@ -104,7 +104,7 @@
                                 <!-- total harga  -->
                                 <div class="flex justify-between mt-4 border-b-2 pb-1 border-gray-300">
                                     <p>Total Harga</p>
-                                    <p id="verif_total-harga">Rp975.067</p>
+                                    <p>Rp<span id="verif_total-harga"></span></p>
                                 </div>
                                 <!-- nama pengguna  -->
                                 <div class="flex justify-between mt-4 border-b-2 pb-1 border-gray-300">
@@ -141,9 +141,14 @@
                                     id="edit-cancel-btn">
                                     <span class="font-semibold text-center">Batalkan</span>
                                 </button>
-                                <button type="submit"
-                                    class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1"
-                                    id="edit-submit-btn">Verifikasi</button>
+                                <form action="{{route('admin.transaksi.edit')}}" method="post" id="editForm" style="display: none">
+                                @csrf
+                                @method('PUT')
+                                </form>
+                                <button class="bg-red-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1"
+                                    id="tolak-btn">Tolak</button>
+                                <button class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1"
+                                    id="verif-btn">Verifikasi</button>
                             </div>
                         </div>
                     </main>
@@ -174,6 +179,51 @@
                 // $('#table-transaksi').attr('data-page-length', '25')
                 table.page.len(25).draw();
             }
+        });
+
+        $('#verif-btn').click(function (e) {
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'status_pembayaran',
+                value: 'Lunas'
+            }).appendTo('#editForm');
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'status_pengiriman',
+                value: 'Sedang Dipersiapkan'
+            }).appendTo('#editForm');
+            
+            $('#editForm').submit();
+        });
+
+        $('#tolak-btn').click(function (e) { 
+            Swal.fire({
+                title: 'Tolak Bukti Transaksi',
+                text: 'Apakah Anda yakin akan menolak bukti transaksi ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'status_pembayaran',
+                        value: 'Belum Lunas'
+                    }).appendTo('#editForm');
+                    
+                    $('#editForm').submit();
+                }
+            }) 
+        });
+
+        $('#editForm').submit(function() {
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'id',
+                value: $('#verif_no-pesanan').html()
+            }).appendTo(this);
         });
 
         // const an = new AutoNumeric('#harga', {
@@ -209,9 +259,16 @@
             updateCategory(genderId);
         });
 
+        function numberWithCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");
+            return parts.join(",");
+        }
+
         $('.edit-transaksi-btn').on('click', function() {
             console.log("CEKREK")
-            let id = $(this).data('id');
+            let button = $(this);
+            let id = button.data('id');
             $.ajax({
                 type: 'GET',
                 url: "/api/admin/getTransaksi/" + id,
@@ -223,6 +280,7 @@
                     $('#verif_no-pesanan').html(data.id);
                     $('#verif_jenis-bank').html(data.nama_bank);
                     $('#verif_user-id').html(data.user_id);
+                    $('#verif_total-harga').html(data.total_pembayaran.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
                     $('#verif_nama-pengguna').html(data.nama);
                     $('#verif_nama-rekening').html(data.nama_pemilik_rekening);
                     $('#verif_no-rekening').html(data.no_rekening);
@@ -236,91 +294,12 @@
                     // $('#stok_edit_M').val(data.stok[1].jumlah);
                     // $('#stok_edit_L').val(data.stok[2].jumlah);
                     // $('#stok_edit_XL').val(data.stok[3].jumlah);
-                    $('#verif_bukti-img').attr('src', `/transaction_images/${data.bukti}`)
+                    $('#verif_bukti-img').attr('src', `/transaction_images/${data.bukti}`);
                 }
             }).always(data => {
                 console.log(data)
                 $("#output").html(data);
             })
-        });
-
-        /* ======== DELETE BARANG ======== */
-        $('.delete-transaksi-btn').on('click', function() {
-            let button = $(this);
-            Swal.fire({
-                title: 'Hapus Barang',
-                html: `Apakah anda yakin akan menghapus transaksi ini?<br><strong>${button.data('nama')}</strong>`,
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: "/api/admin/transaksi/" + button.data('id'),
-                        async: false,
-                        headers: {
-                            'Authorization': '{{ session('Authorization') }}'
-                        },
-                        data: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(data) {
-                            Swal.fire({
-                                icon: 'success',
-                                text: 'Barang berhasil dihapus',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload();
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        });
-
-        /* ======== EDIT BARANG SUBMIT ======== */
-        $('#formEditBarang').submit(function() {
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'id',
-                value: $('#edit-submit-btn').data('id')
-            }).appendTo(this);
-
-            return true;
-        });
-
-        /* ======== ON FOTO BARANG BARU CHANGE ======== */
-        $('#foto').change(function(e) {
-            if (e.target.files && e.target.files[0]) {
-                let reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#previewImgAdd').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(e.target.files[0]); // convert to base64 string
-            }
-        });
-
-        /* ======== ON FOTO BARANG EDIT CHANGE ======== */
-        $('#foto_edit').change(function(e) {
-            if (e.target.files && e.target.files[0]) {
-                let reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#previewImg').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(e.target.files[0]); // convert to base64 string
-            }
-        });
-
-        $('#add-cancel-btn').on('click', function(e) {
-            $('#previewImgAdd').attr('src', "");
         });
 
     });

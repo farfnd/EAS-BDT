@@ -12,17 +12,23 @@
                         </div>
                         <div class="flex flex-col justify-between py-2 ml-3">
                             <div>
-                                <p class="font-medium">Transaksi: <span class="font-semibold">{{ $transaksi->id }} /
-                                        {{ date('d F Y', strtotime($transaksi->created_at)) }}</span>
+                                <p class="font-medium">Transaksi: <span class="font-semibold">{{ $transaksi->id }} ({{ date('d F Y', strtotime($transaksi->created_at)) }})</span>
                                 </p>
                                 <p class="text-lg font-semibold">{{ $item->barang->nama }}</p>
-                                <p>@ Rp{{ number_format($item->barang->harga * 1000, 0, ',', '.') }}
-                                </p>
+                                @if (count($transaksi->pembayaranDetail) == 1)
+                                    <p>{{$transaksi->pembayaranDetail[0]->jumlah_barang}}
+                                    @if ($transaksi->pembayaranDetail[0]->jumlah_barang == 1)
+                                        pc
+                                    @elseif ($transaksi->pembayaranDetail[0]->jumlah_barang > 1)
+                                        pcs
+                                    @endif
+                                    @ Rp{{ number_format($transaksi->pembayaranDetail[0]->barang->harga * 1000, 0, ',', '.') }}</p>
+                                @elseif (count($transaksi->pembayaranDetail) > 1)
+                                    <p>dan {{ count($transaksi->pembayaranDetail)-1 }} barang lainnya</p>
+                                @endif
                             </div>
                             <div>
-                                <p>Jumlah: {{ $item->jumlah_barang }}</p>
-                                <p>Total Harga: <span
-                                        class="font-semibold">Rp{{ number_format($item->jumlah_barang * 1000 * $item->barang->harga, 0, ',', '.') }}</span>
+                                <p>Total Harga: <span class="font-semibold">Rp{{ number_format($item->jumlah_barang * 1000 * $item->barang->harga, 0, ',', '.') }} (Lunas)</span>
                                 </p>
                             </div>
                         </div>
@@ -30,20 +36,20 @@
                     {{-- item payment status --}}
                     <div class="flex flex-col justify-between py-2">
                         <div class="md:text-right p-3 md:p-0">
-                            <p>Status Pembayaran</p>
-                            <p class="font-bold">{{ $transaksi->status_pembayaran }}</p>
+                            <p>Status Pengiriman</p>
+                            <p class="font-bold">{{ $transaksi->status_pengiriman }}</p>
                         </div>
                         <div>
-                            @if ($transaksi->status_pembayaran == 'Sedang Dikirim')
+                            @if ($transaksi->status_pengiriman == 'Sedang Dikirim')
                                 <button
                                     class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg px-2 py-1 mt-4">
                                     <p class="font-semibold text-white text-center">Lacak</p>
                                 </button>
-                            @elseif ($transaksi->status_pembayaran == "Selesai")
+                            @elseif ($transaksi->status_pengiriman == "Selesai")
                                 <button class="relative w-full shadow-custom1 rounded-lg px-2 py-1 mt-4">
                                     <p class="font-semibold text-center">Selesai</p>
                                 </button>
-                            @elseif ($transaksi->status_pembayaran == "Beri Ulasan")
+                            @elseif ($transaksi->status_pengiriman == "Beri Ulasan")
                                 <button
                                     class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg px-2 py-1 mt-4">
                                     <p class="font-semibold text-white text-center">Beri Ulasan</p>

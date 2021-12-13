@@ -13,14 +13,14 @@
         {{-- card section --}}
         <div class="md:mb-6 col-span-8 lg:col-span-5 flex flex-col">
             <div class="flex flex-col space-y-8">
-                @foreach (Auth::user()->keranjang as $barangKeranjang)
+                @foreach ($keranjangAll as $barangKeranjang)
                     <!-- @dump($barangKeranjang->barang) -->
                     <div class="flex content-center items-center space-x-4 rounded-lg shadow-custom1 p-4">
                         <input
                             class="check-barang text-indigo-500 border-gray-300 rounded-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                             type="checkbox" name="" data-id="{{ $barangKeranjang->barang->id }}"
                             id="check-barang-{{ $barangKeranjang->barang->id }}" onclick="updateData()">
-                        <div class="cart-item-image-container rounded-lg"
+                        <div class="cart-item-image-container rounded-lg bg-center"
                             style="background-image: url({{ route('show_product_image', $barangKeranjang->barang->foto) }}); background-size: cover; backround-repeat: none">
                         </div>
                         <div class="flex flex-col flex-grow h-full">

@@ -16,6 +16,11 @@ class TransaksiService
     /* ========================================================================
         SECTION ::: KERANJANG
     ======================================================================== */
+    public function readKeranjang()
+    {   
+        return $this->transaksiRepository->getUserKeranjang();
+    }
+
     public function createKeranjang($id)
     {   
         return $this->transaksiRepository->postKeranjang($id);
@@ -55,6 +60,11 @@ class TransaksiService
         return $this->transaksiRepository->getPembayaran($id);
     }
 
+    public function deletePembayaran($id)
+    {   
+        return $this->transaksiRepository->destroyPembayaran($id);
+    }
+
     /* ========================================================================
         SECTION ::: ADMIN SERVICES
     ======================================================================== */
@@ -64,5 +74,9 @@ class TransaksiService
 
     public function readTransaksi($id) {
         return $this->transaksiRepository->getTransaksi($id);
+    }
+
+    public function editTransaksi($data) {
+        return $this->transaksiRepository->putTransaksi($data);
     }
 }

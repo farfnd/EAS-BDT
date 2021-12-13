@@ -1,6 +1,6 @@
 <div class="bg-gray-100 rounded-md shadow-md group" id="wishlistCard-{{ $id }}">
     <a href="item/{{ $id }}">
-        <div class="relative rounded-md shadow-md group-hover:opacity-90"
+        <div class="relative rounded-md shadow-md group-hover:opacity-90 bg-center"
             style='height: 240px; width: 100%; background-size: cover; background-image: url({{ asset("$photo") }});'>
             <div
                 class="absolute py-1 px-4 tracking-wider text-sm bottom-0 left-0 {{ $color }} text-white rounded-bl-md rounded-tr-md capitalize">
@@ -35,11 +35,10 @@
         </div>
     </a>
     <div class="flex justify-center items-center py-3">
-        <button class="w-3/5 bg-gray-800 hover:bg-opacity-90 rounded-lg px-2 py-1">
+        <button class="w-3/5 bg-gray-800 hover:bg-opacity-90 rounded-lg px-1 py-1">
 
             <a href="{{ route('cart') }}" onclick="addtoCart({{ $id }})"
-                class="text-white text-center text-sm">Tambah
-                Keranjang</a>
+                class="text-white text-center text-sm">Tambah ke Keranjang</a>
         </button>
     </div>
 </div>

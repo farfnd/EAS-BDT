@@ -49,10 +49,11 @@ use Illuminate\Support\Facades\Auth;
         </nav>
         {{-- ======== END ::: NAVIGATION LINKS ======== --}}
 
+        @if (!Auth::check())
         {{-- ========================================================================
         START ::: USER DROPDOWN NOT LOGGED IN
     ======================================================================== --}}
-        <div class="absolute top-16 right-0 z-10 bg-white p-4 rounded space-y-2 shadow-lg" x-show="loginDropdown"
+        <div class="absolute top-16 right-0 z-10 bg-white p-4 rounded space-y-2 shadow-lg" id="formLogin" x-show="loginDropdown"
             x-on:click.outside="loginDropdown = false" x-transition>
             <form action="{{ route('login') }}" method="post">
                 @csrf
@@ -92,6 +93,7 @@ use Illuminate\Support\Facades\Auth;
         {{-- ========================================================================
         END ::: USER DROPDOWN NOT LOGGED IN
     ======================================================================== --}}
+        @endif
 
         {{-- ========================================================================
         START ::: USER DROPDOWN IS LOGGED IN
@@ -118,7 +120,7 @@ use Illuminate\Support\Facades\Auth;
                         <a class="flex-grow text-center py-1" href="{{ route('transaction') }}">Transaksi</a>
                     </li>
                     <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
-                        <a class="flex-grow text-center py-1" href="{{ route('historyTransaction') }}">Riwayat</a>
+                        <a class="flex-grow text-center py-1" href="{{ route('transactionHistory') }}">Riwayat</a>
                     </li>
                     <li class="flex w-full rounded-md hover:bg-gray-900 hover:text-white">
                         <a class="flex-grow text-center py-1" href="/wishlist">Wishlist</a>

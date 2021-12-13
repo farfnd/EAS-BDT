@@ -259,7 +259,7 @@
 									<div>
 										<label class="w-32 bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1 custom-file-upload cursor-pointer" style="text-align: center;">
 											Unggah Gambar
-											<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" multiple name="foto[]" id="foto_edit"/>
+											<input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="foto" id="foto_edit"/>
 										</label>
 									</div>
 									<span class="text-md">Harus berupa file gambar dengan ekstensi .jpg, .jpeg, atau .png</span>
@@ -349,10 +349,7 @@
 				$('#harga_edit').val(data.harga);
 				$('#kategori_edit').val(data.kategori_id);
 				$('#deskripsi_edit').val(data.deskripsi);
-				$('#stok_edit_S').val(data.stok[0].jumlah);
-				$('#stok_edit_M').val(data.stok[1].jumlah);
-				$('#stok_edit_L').val(data.stok[2].jumlah);
-				$('#stok_edit_XL').val(data.stok[3].jumlah);
+				data.stok.forEach(stok => $(`#stok_edit_${stok.ukuran}`).val(stok.jumlah));
 				$('#previewImg').attr('src', `/product_images/${data.foto}`)
             }
         });

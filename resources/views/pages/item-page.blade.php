@@ -5,6 +5,7 @@
             <div class="item-image-container-responsive bg-cover bg-center md:item-image-container-fixed bg-yellow-100 rounded-lg" style="background-image: url({{route('show_product_image', $barang->foto)}})">
             </div>
             <div class="flex flex-row px-8 space-x-2 text-sm md:text-base">
+                @if (Auth::check())
                 <a href=""
                     class="flex flex-grow justify-center items-center shadow-md text-center p-2 rounded-lg border-2 border-gray-700 hover:opacity-80" id="directBuy-btn" data-id="{{$barang->id}}">
                     <div>Beli Langsung</div>
@@ -14,6 +15,14 @@
                     <div class="flex justify-center items-center" id="addToCart-btn" data-id="{{$barang->id}}"><i class='bx bx-plus'></i>&nbsp;Masukkan Keranjang
                     </div>
                 </a>
+                @else
+                <button class="cursor-pointer flex flex-grow justify-center items-center shadow-md text-center p-2 rounded-lg border-2 border-gray-700 hover:opacity-80" onclick="showLogin()">
+                    <div>Beli Langsung</div>
+                </button>
+                <button class="cursor-pointer flex flex-grow justify-center items-center shadow-md bg-gray-700 text-white text-center p-2 rounded-lg border-2 border-gray-700 hover:opacity-80" onclick="showLogin()">
+                    <div class="flex justify-center items-center"><i class='bx bx-plus'></i>&nbsp;Masukkan Keranjang</div>
+                </button>
+                @endif
             </div>
         </div>
         {{-- detail section --}}
@@ -81,10 +90,8 @@
                 <main class="modal__content" id="add-keranjang-content">
                     <div class="grid grid-cols-12">
                         <div class="col-span-6">
-                            <div class="item-image-container-responsive bg-gray-600 rounded-2xl"
-                                style="margin: 0 auto !important;">
-                                {{-- ======== TODO ::: ADD IMAGE BERDASARKAN BARANG SEKARANG ======== --}}
-                                <img src="{{route('show_product_image', $barang->foto)}}" alt="" class="item-image">
+                            <div class="item-image-container-responsive bg-gray-600 rounded-2xl bg-cover bg-center md-4"
+                                style="margin: 0 auto !important; background-image: url({{route('show_product_image', $barang->foto)}})" >
                             </div>
                         </div>
                         <div class="text-sm md:text-base font-bold col-span-6 flex flex-col justify-center">
@@ -92,7 +99,7 @@
                         </div>
                     </div>
                 </main>
-                <footer class="flex justify-end">
+                <footer class="flex justify-end mt-4">
                     <a href="/cart" class="border-2 border-gray-700 hover:opacity-80 text-black shadow-md hover:shadow-lg rounded-full px-4 py-1">
                         Lihat Keranjang
                     </a>
@@ -124,7 +131,11 @@ $('#directBuy-btn').click(function (e) {
 		async: false,
 		headers: { 'Authorization': '{{ session("Authorization") }}' },
         data: {_token: "{{ csrf_token() }}"},
-        success: location.replace("/cart"),
+        success: window.location.replace("/cart"),
     });
 });
+
+function showLogin() {
+    $('#formLogin').css('display') == 'none' ? $('#formLogin').show() : $('#formLogin').hide();
+}
 </script>

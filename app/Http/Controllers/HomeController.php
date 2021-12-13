@@ -22,8 +22,4 @@ class HomeController extends Controller
     public function getTransactionImage($filename) {
         return response()->file(storage_path('app/transaction/' . $filename));
     }
-
-    public function show_cart () {
-        return view('pages.cart');
-    }
 }

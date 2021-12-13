@@ -28,6 +28,11 @@ class TransaksiRepository{
     /* ========================================================================
         START ::: KERANJANG SERVICES
     ======================================================================== */
+    public function getUserKeranjang()
+    {
+        return Auth::user()->keranjang;
+    }
+
     public function postKeranjang($id)
     {
         $keranjang = new $this->keranjang;
@@ -54,7 +59,7 @@ class TransaksiRepository{
         return Keranjang::where([
             ['barang_id','=', $id],
             ['user_id','=', Auth::user()->id],
-        ])->update(["jumlah" => (int) $count, "status_pembayaran" => 'Belum Terverifikasi']);
+        ])->update(["jumlah" => (int) $count]);
     }
     /* ========================================================================
         END ::: KERANJANG SERVICES
@@ -74,12 +79,13 @@ class TransaksiRepository{
         $data['bukti'] = $data['bukti']->getClientOriginalName();
 
         $id = $data['id'];
-        return Pembayaran::find($id)->first()->update(
+        return Pembayaran::where('id', $id)->first()->update(
             [
                 "nama_pemilik_rekening" => $data['nama_pemilik_rekening'],
                 "nama_bank" => $data['nama_bank'],
                 "no_rekening" => $data['no_rekening'],
                 "bukti" => $data['bukti'],
+                "status_pembayaran" => 'Belum Terverifikasi'
             ]
         );
     }
@@ -156,14 +162,9 @@ class TransaksiRepository{
         $pembayaran->catatan_pengiriman = $data['catatan_pengiriman'];
         $pembayaran->user_id = Auth::id();
         $temp_total_harga = 0;
-        
+
         foreach($data['data_barang'] as $id => $jumlah) {
             $temp_harga = Barang::find($id)->harga;
-            $pembayaranDetail = new $this->pembayaranDetail;
-            $pembayaranDetail->pembayaran_id = $pembayaran->id;
-            $pembayaranDetail->barang_id = $id;
-            $pembayaranDetail->jumlah_barang = $jumlah;
-            $pembayaranDetail->total_harga = $jumlah * $temp_harga;
             $temp_total_harga += $jumlah * $temp_harga;
         }
         
@@ -176,13 +177,31 @@ class TransaksiRepository{
         }
         
         $pembayaran->save();
-        $pembayaranDetail->save();
+        
+        foreach($data['data_barang'] as $id => $jumlah) {
+            $temp_harga = Barang::find($id)->harga;
+            $pembayaranDetail = new $this->pembayaranDetail;
+            $pembayaranDetail->pembayaran_id = $pembayaran->id;
+            $pembayaranDetail->barang_id = $id;
+            $pembayaranDetail->jumlah_barang = $jumlah;
+            $pembayaranDetail->total_harga = $jumlah * $temp_harga;
+
+            Keranjang::where([['barang_id', $id], ['user_id', Auth::id()]])->delete();
+            $pembayaranDetail->save();
+        }
+
         return $pembayaran->where('id', $randomId)->first();
     }
 
-    public function getPembayaran(string $id)
+    public function getPembayaran($id)
     {
         return Pembayaran::where('id', $id)->first();
+    }
+
+    public function destroyPembayaran($id)
+    {
+        PembayaranDetail::where('pembayaran_id', $id)->delete();
+        return Pembayaran::where('id', $id)->delete();
     }
     /* ========================================================================
         END ::: TRANSAKSI SERVICES
@@ -192,13 +211,18 @@ class TransaksiRepository{
         START ::: ADMIN SERVICES
     ======================================================================== */
     public function getAllTransaksi() {
-        return Pembayaran::where('user_id', Auth::id())->get();
+        return Pembayaran::all();
     }
 
     public function getTransaksi($id){
         $transaksi = Pembayaran::where('id', $id)->first();
-        // $transaksi->nama = $transaksi->user->nama;
+        $transaksi->nama = $transaksi->user->nama;
         return $transaksi;
+    }
+
+    public function putTransaksi($data)
+    {
+        return Pembayaran::where('id', $data['id'])->first()->update(['status_pembayaran' => $data['status_pembayaran']]);
     }
     /* ========================================================================
         END ::: ADMIN SERVICES

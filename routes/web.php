@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     ======================================================================== */
 
     /* ======== CART SECTION ======== */
-    Route::get('/cart', [HomeController::class, 'show_cart'])->name('cart');
+    Route::get('/cart', [TransaksiController::class, 'show_cart'])->name('cart');
     Route::post('/cart', [TransaksiController::class, 'checkoutFromCart'])->name('cart_post');
     
 
@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bank-payment/{id}', [TransaksiController::class, 'show_payment_bank'])->name('bank-payment');
     Route::get('/va-payment/{id}', [TransaksiController::class, 'show_payment_va'])->name('va-payment');
     Route::get('/payment-detail/{id}', [TransaksiController::class, 'show_detail_transaksi'])->name('payment-detail');
+    Route::delete('/cancel-payment/{id}', [TransaksiController::class, 'batalkan_transaksi'])->name('cancel-payment');
     Route::get('/payment-invoice/{id}', [TransaksiController::class, 'show_invoice'])->name('payment-invoice');
 
     /* ======== WISHLIST SECTION ======== */
@@ -68,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
     /* ======== TRANSACTION SECTION ======== */
     Route::get('/transaction', [TransaksiController::class, 'show_transaction'])->name('transaction');
 
-    Route::get('/history_transaction', [TransaksiController::class, 'show_history_transaction'])->name('historyTransaction');
+    Route::get('/transaction_history', [TransaksiController::class, 'show_transaction_history'])->name('transactionHistory');
 
     /* ========================================================================
         END ::: CART, WISHLIST, TRANSACTION ROUTING
@@ -88,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/admin/barang', [BarangController::class, 'update'])->name('admin.barang.edit');
         
         Route::get('/admin/transaksi', [TransaksiController::class, 'index_transaksi'])->name('admin.transaksi');
+
         Route::put('/admin/transaksi', [TransaksiController::class, 'update_transaksi'])->name('admin.transaksi.edit');
     });
 

@@ -11,7 +11,9 @@ $curDate = strtotime($pembayaran->created_at);
         <div class="w-full md:w-10/12 mx-auto text-center mb-4">
             <h2 class="text-2xl mt-8 mb-4 font-bold">Detail Pesanan</h2>
         </div>
+
         {{-- header details --}}
+        @if ($pembayaran->status_pembayaran == 'Belum Lunas')
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <p class="text-center">
                 Pesanan ini <strong>belum dibayar</strong> dan akan secara otomatis dibatalkan pada
@@ -24,14 +26,16 @@ $curDate = strtotime($pembayaran->created_at);
                     Instruksi Pembayaran
                 </a>
                 @if (!str_starts_with($pembayaran->metode, 'va_'))
-                    <a data-micromodal-trigger="form-upload-pembayaran"
+                    <button data-micromodal-trigger="form-upload-pembayaran"
                         class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900"
                         id="unggahBukti-btn">
                         Unggah Bukti Transfer
-                    </a>
+                    </button>
                 @endif
             </div>
         </div>
+        @endif
+        
         {{-- body details --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <div class="md:w-11/12 mx-auto">
@@ -47,7 +51,17 @@ $curDate = strtotime($pembayaran->created_at);
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p>Metode Pembayaran</p>
-                    <p>{{ $pembayaran->metode }}</p>
+                    <p>
+                        @if ($pembayaran->metode == 'bank')
+                        Transfer Bank
+                        @elseif ($pembayaran->metode == 'va_mandiri')
+                        Transfer Virtual Account (Mandiri)
+                        @elseif ($pembayaran->metode == 'va_bca')
+                        Transfer Virtual Account (BCA)
+                        @elseif ($pembayaran->metode == 'va_bni')
+                        Transfer Virtual Account (BNI)
+                        @endif
+                    </p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
@@ -56,7 +70,7 @@ $curDate = strtotime($pembayaran->created_at);
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
-                    <p class="text-lg">Alamat Pengiriman</p>
+                    <p class="text-lg font-semibold">Alamat Pengiriman</p>
                 </div>
                 <hr class="my-2">
                 <div class="shadow-custom1 rounded-lg p-4 mb-4">
@@ -65,13 +79,13 @@ $curDate = strtotime($pembayaran->created_at);
                     <p>{{ $res->alamat . ', ' . $res->kecamatan . ', ' . $res->kota_kab . ', ' . $res->provinsi }}</p>
                 </div>
                 <div class="flex justify-between">
-                    <p class="text-lg">Pesanan</p>
+                    <p class="text-lg font-semibold">Pesanan</p>
                 </div>
                 <hr class="my-2">
                 @foreach ($pembayaranDetail as $detail)
                     <div class="mb-4">
                         <div class="flex content-center items-center space-x-4 rounded-lg shadow-custom1 p-4">
-                            <div class="payment-detail-item-image-container rounded-lg"
+                            <div class="payment-detail-item-image-container rounded-lg bg-center"
                                 style="background-image: url({{ route('show_product_image', $detail->barang->foto) }}); background-size: cover; backround-repeat: none">
                             </div>
                             <div class="flex flex-col flex-grow h-full">
@@ -80,7 +94,7 @@ $curDate = strtotime($pembayaran->created_at);
                                     <p class="">{{ $detail->jumlah_barang }} x
                                         Rp{{ number_format($detail->barang->harga * 1000, 0, ',', '.') }}</p>
                                 </div>
-                                <div class="flex justify-end items-center mt-auto">
+                                <div class="flex justify-end items-center mt-auto font-semibold">
                                     <p class="">
                                         Rp{{ number_format($detail->barang->harga * 1000 * $detail->jumlah_barang, 0, ',', '.') }}
                                     </p>
@@ -119,12 +133,15 @@ $curDate = strtotime($pembayaran->created_at);
                     class="flex items-center justify-center rounded-lg p-2 w-4/12 text-white bg-gray-800 hover:bg-gray-900">
                     Cetak Invoice
                 </a>
-                {{-- ========================================================================
-                    TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
-                ======================================================================== --}}
+                @if ($pembayaran->status_pembayaran == 'Belum Lunas')
+                <form action="{{route('cancel-payment', $pembayaran->id)}}" method="post" style="display: none" id="cancel-payment-form">
+                @csrf
+                @method('DELETE')
+                </form>
                 <button id="batalkan-btn" class="rounded-lg p-2 w-4/12 text-white bg-red-600 hover:bg-red-700">
                     Batalkan Transaksi
                 </button>
+                @endif
             </div>
         </div>
     </div>
@@ -309,6 +326,7 @@ $curDate = strtotime($pembayaran->created_at);
                             icon: 'success',
                             title: 'Bukti transfer berhasil diunggah',
                         });
+                        location.reload();
                     }
                 });
 
@@ -318,13 +336,14 @@ $curDate = strtotime($pembayaran->created_at);
             $("#batalkan-btn").click(function() {
                 Swal.fire({
                     title: 'Batalkan Transaksi',
-                    text: 'Apakah anda yakin akan membatalkan transaksi ini?',
-                    icon: 'error',
+                    text: 'Apakah Anda yakin akan membatalkan transaksi ini?',
+                    icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Ya',
                     cancelButtonText: 'Tidak'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        $('#cancel-payment-form').submit();
                         Swal.fire({
                             title: 'Transaksi Berhasil Dibatalkan',
                             icon: 'success',

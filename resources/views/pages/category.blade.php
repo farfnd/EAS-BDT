@@ -43,14 +43,10 @@
                 data: { _token: "{{ csrf_token() }}", },
                 success: function (response) {
                     let timerInterval
-                    Swal.fire({
-                        html: '<b>Barang berhasil ditambahkan ke wishlist!</b>',
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: Swal.showLoading(),
-                        willClose: clearInterval(timerInterval)
-                    });
-                    button.removeClass(['text-gray-600','hover:text-red-600']).addClass(['text-red-600','hover:text-gray-600']);
+                    toastr["success"]("", "Barang berhasil ditambahkan ke wishlist!")
+                    button.removeClass(['text-gray-600', 'hover:text-red-600']).addClass([
+                        'text-red-600', 'hover:text-gray-600'
+                    ]);
                 }
             });
         }
@@ -62,14 +58,10 @@
                 data: { _token: "{{ csrf_token() }}", },
                 success: function (response) {
                     let timerInterval
-                    Swal.fire({
-                        html: '<b>Barang berhasil dihapus dari wishlist!</b>',
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: Swal.showLoading(),
-                        willClose: clearInterval(timerInterval)
-                    });
-                    button.removeClass(['text-red-600','hover:text-gray-600']).addClass(['text-gray-600','hover:text-red-600']);
+                    toastr["success"]("", "Barang berhasil dihapus dari wishlist!")
+                    button.removeClass(['text-red-600', 'hover:text-gray-600']).addClass([
+                        'text-gray-600', 'hover:text-red-600'
+                    ]);
                 }
             });
         }

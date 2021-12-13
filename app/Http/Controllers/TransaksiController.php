@@ -19,6 +19,11 @@ class TransaksiController extends Controller implements ChannelPembayaran
         $this->transaksiService = $transaksiService;
     }
 
+    public function show_cart () {
+        $keranjangAll = $this->transaksiService->readKeranjang();
+        return view('pages.cart', ['keranjangAll' => $keranjangAll]);
+    }
+
     public function addToCart($id)
     {
         return $this->transaksiService->createKeranjang($id);
@@ -100,13 +105,17 @@ class TransaksiController extends Controller implements ChannelPembayaran
     public function show_payment_bank($id)
     {
         $pembayaran = $this->transaksiService->readPembayaran($id);
-        return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
+        if($pembayaran->metode == 'bank')
+            return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
+        else return abort(404);
     }
 
     public function show_payment_va($id)
     {
         $pembayaran = $this->transaksiService->readPembayaran($id);
-        return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
+        if(str_starts_with($pembayaran->metode, 'va_'))
+            return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
+        else return abort(404);
     }
 
     public function checkoutFromCart(Request $request) {
@@ -139,11 +148,28 @@ class TransaksiController extends Controller implements ChannelPembayaran
         ]);
     }
 
-    public function show_history_transaction() {
+    public function show_transaction_history() {
         $pembayaran = $this->transaksiService->readAllTransaksi()->whereNotIn("status_pembayaran", ["Belum Lunas"]);
-        return view('pages.historyTransaction', [
+        return view('pages.transactionHistory', [
             'pembayaran' => $pembayaran,
         ]);
+    }
+
+    public function batalkan_transaksi($id)
+    {
+        $result = ['status' => 200];
+
+        try{
+            $result['data'] = $this->transaksiService->deletePembayaran($id);
+            return redirect(route('home'));
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            dd($result);
+        }
+        
     }
 
     /* ========================================================================
@@ -157,6 +183,23 @@ class TransaksiController extends Controller implements ChannelPembayaran
 
     public function getTransaksi($id) {
         return $this->transaksiService->readTransaksi($id);
+    }
+
+    public function update_transaksi(Request $request)
+    {
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+
+        try{
+            $result['data'] = $this->transaksiService->editTransaksi($input);
+            return redirect(route('admin.transaksi'));
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
     }
     /* ========================================================================
         END ::: ADMIN PAGE CONTROLLER

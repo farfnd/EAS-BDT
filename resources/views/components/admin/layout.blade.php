@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ $titlePage }}</title>
 
     {{-- ======== FONTS ======== --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +49,7 @@
 <body class="antialiased lg:mx-auto font-poppins max-w-7xl">
 
     <x-admin.navbar></x-admin.navbar>
-    <div class="relative grid grid-cols-12">
+    <div class="relative grid grid-cols-12 mb-4">
         {{-- sidebar --}}
         <div class="col-span-3 mr-4">
             <div id="sidebar" class="shadow-lg sticky space-y-2 px-2 pt-3">

@@ -125,8 +125,7 @@ class BarangRepository{
         $data['gender'] = (int) $data['gender'];
         
         $id = (int) $data['id'];
-        $barang = $this->getBarang($id);
-
+        
         if(isset($data['foto'])) {
             $data['foto']->storeAs('products', $data['foto']->getClientOriginalName());
             $data['foto'] = $data['foto']->getClientOriginalName();
@@ -138,9 +137,9 @@ class BarangRepository{
                 ['ukuran', $ukuran],
                 ])->update(['jumlah' => (int) $jumlah]);
         }
-
-        unset($barang->stok);
-        return $barang->update($data);
+        
+        unset($data['stok']);
+        return Barang::find($id)->update($data);
     }
 
     public function destroyBarang($id){

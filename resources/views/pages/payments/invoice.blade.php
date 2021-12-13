@@ -58,6 +58,15 @@ $curDate = strtotime($pembayaran->created_at);
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+        @media print
+        {    
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body class="antialiased lg:mx-auto font-poppins max-w-7xl m-8">
@@ -69,8 +78,7 @@ $curDate = strtotime($pembayaran->created_at);
                 <h2 class="font-arial font-semibold text-1xl md:text-2xl">HANAKA &amp; CO.</h2>
             </div>
             <div class="relative">
-                <a class="cursor-pointer px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-900 text-white"><i
-                        class='bx bx-printer'></i> Cetak</a>
+                <button class="cursor-pointer px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-900 text-white no-print" onclick="window.print()"><i class='bx bx-printer'></i> Cetak</button>
             </div>
         </div>
         <div class="mb-4">
@@ -115,7 +123,17 @@ $curDate = strtotime($pembayaran->created_at);
             </div>
             <div>
                 <h4 class="font-bold">Metode Pembayaran</h4>
-                <p>{{ $pembayaran->metode }}</p>
+                <p>
+                    @if ($pembayaran->metode == 'bank')
+                    Transfer Bank
+                    @elseif ($pembayaran->metode == 'va_mandiri')
+                    Transfer Virtual Account (Mandiri)
+                    @elseif ($pembayaran->metode == 'va_bca')
+                    Transfer Virtual Account (BCA)
+                    @elseif ($pembayaran->metode == 'va_bni')
+                    Transfer Virtual Account (BNI)
+                    @endif
+                </p>
             </div>
         </div>
 

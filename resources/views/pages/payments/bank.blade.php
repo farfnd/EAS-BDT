@@ -3,8 +3,7 @@
         <div class="w-full md:w-10/12 mx-auto text-center mb-8">
             <h2 class="text-2xl my-8 font-bold">Pembayaran via Transfer Bank</h2>
             <p>
-                Selesaikan pembayaran sebelum <strong>31-12-2021 23:59</strong> untuk menghindari pembatalan pesanan
-                secara otomatis.
+                Selesaikan pembayaran sebelum <strong>{{ date('d-m-Y h:i', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('2 days')))) }}</strong> untuk menghindari pembatalan pesanan secara otomatis.
             </p>
         </div>
         <div class="w-full md:w-10/12 mx-auto text-center mb-8">
