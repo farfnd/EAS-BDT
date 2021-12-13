@@ -106,7 +106,7 @@ $curDate = strtotime($pembayaran->created_at);
             </div>
             <div>
                 <h4 class="font-bold">Tujuan Pengiriman</h4>
-                <p>{{ $pembayaran->user->nama }}</p>
+                <p>{{ $res->nama_penerima }}</p>
                 <p>{{ $res->alamat . ', ' . $res->kecamatan . ', ' . $res->kota_kab . ', ' . $res->provinsi }}</p>
                 <p>(+62) {{ $res->no_telepon }}</p>
             </div>

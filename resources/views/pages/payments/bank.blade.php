@@ -71,7 +71,7 @@
             {{-- ========================================================================
                 TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
             ======================================================================== --}}
-            <a href={{ route('payment-detail', $pembayaran->id) }}
+            <a href="{{ route('payment-detail', $pembayaran->id) }}"
                 class="rounded-lg p-2 w-3/12 text-white bg-gray-800 hover:bg-gray-900">
                 Lihat Detail Transaksi
             </a>

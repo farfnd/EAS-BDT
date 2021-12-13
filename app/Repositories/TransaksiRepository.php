@@ -195,7 +195,10 @@ class TransaksiRepository{
 
     public function getPembayaran($id)
     {
-        return Pembayaran::where('id', $id)->first();
+        $pembayaran = Pembayaran::where('id', $id)->first();
+        if(str_starts_with($pembayaran->metode, 'va_')) $pembayaran->no_va = '79029000'.$this->random_str(5, '0123456789');
+
+        return $pembayaran;
     }
 
     public function destroyPembayaran($id)

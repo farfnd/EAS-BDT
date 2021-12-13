@@ -17,7 +17,12 @@ $curDate = strtotime($pembayaran->created_at);
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <p class="text-center">
                 Pesanan ini <strong>belum dibayar</strong> dan akan secara otomatis dibatalkan pada
-                <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('2 days')))) }}</strong>.
+                @if ($pembayaran->metode == 'bank'))
+                    <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('2 days')))) }}</strong>.
+                @elseif (str_starts_with($pembayaran->metode, 'va_'))
+                    <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('1 day')))) }}</strong>.
+                    
+                @endif
             </p>
             <hr class="my-2">
             <div class="flex justify-around w-full mx-auto text-center">
@@ -74,7 +79,7 @@ $curDate = strtotime($pembayaran->created_at);
                 </div>
                 <hr class="my-2">
                 <div class="shadow-custom1 rounded-lg p-4 mb-4">
-                    <p>{{ $pembayaran->user->nama }}</p>
+                    <p>{{ $res->nama_penerima }}</p>
                     <p>(+62) {{ $res->no_telepon }}</p>
                     <p>{{ $res->alamat . ', ' . $res->kecamatan . ', ' . $res->kota_kab . ', ' . $res->provinsi }}</p>
                 </div>
@@ -154,15 +159,22 @@ $curDate = strtotime($pembayaran->created_at);
                 <div>
                     <header class="modal__header border-b-2 pb-1">
                         <h2 class="modal__title text-center" id="edit-barang-title" style="font-size: 1.8rem">
+                            @if ($pembayaran->metode == 'va_bca')
+                            Pembayaran via ATM BCA
+                            @elseif ($pembayaran->metode == 'va_bni')
                             Pembayaran via ATM BNI
+                            @elseif ($pembayaran->metode == 'va_mandiri')
+                            Pembayaran via ATM Mandiri
+                            @endif
                         </h2>
                     </header>
                     <main class="modal__content mt-3" id="edit-barang-content">
                         <ol class="list-decimal flex flex-col space-y-3 px-5 font-semibold">
+                            @if ($pembayaran->metode == 'bank'))
                             <li>
                                 <span>
                                     Transfer melalui ATM, teller bank, aplikasi mobile banking, atau internet banking
-                                    sejumlah tepat Rp975.067 ke nomor rekening berikut:
+                                    sejumlah tepat Rp{{ number_format($pembayaran->total_pembayaran + 10000, 0, ',', '.') }} ke nomor rekening berikut:
                                 </span>
                                 <ul class="list-disc pl-8">
                                     <li>Pilih Bahasa.</li>
@@ -174,6 +186,34 @@ $curDate = strtotime($pembayaran->created_at);
                             <li>Isi data sesuai rekening yang Anda gunakan saat melakukan transfer.
                                 Jika Anda melakukan transfer melalui teller bank, isi ‘0000’ pada kolom nomor rekening,
                                 dan nama Anda pada kolom nama pemilik rekening.</li>
+                            @elseif ($pembayaran->metode == 'va_bca')
+                            <li>Masukkan Kartu ATM BCA & PIN</li>
+                            <li>Pilih menu Transaksi Lainnya > Transfer > ke Rekening BCA Virtual Account</li>
+                            <li>Masukkan nomor Virtual Account Anda (contoh: {{$pembayaran->no_va}})</li>
+                            <li>Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti No VA, Nama, Perus/Produk dan Total Tagihan</li>
+                            <li>Masukkan Jumlah Transfer sesuai dengan Total Tagihan</li>
+                            <li>Ikuti instruksi untuk menyelesaikan transaksi</li>
+                            <li>Simpan struk transaksi sebagai bukti pembayaran</li>
+                            @elseif ($pembayaran->metode == 'va_bni')
+                            <li>Masukkan Kartu Anda</li>
+                            <li>Pilih Bahasa</li>
+                            <li>Masukkan PIN ATM Anda</li>
+                            <li>Pilih "Menu Lainnya"</li>
+                            <li>Pilih "Transfer"</li>
+                            <li>Pilih Jenis rekening yang akan Anda gunakan (Contoh: "Dari Rekening Tabungan")</li>
+                            <li>Pilih "Virtual Account Billing"</li>
+                            <li>Masukkan nomor Virtual Account Anda (contoh: {{$pembayaran->no_va}})</li>
+                            <li>Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi</li>
+                            <li>Konfirmasi, apabila telah sesuai, lanjutkan transaksi</li>
+                            <li>Transaksi telah selesai</li>
+                            @elseif ($pembayaran->metode == 'va_mandiri')
+                            <li>Masukkan kartu ATM dan PIN</li>
+                            <li>Pilih menu "Bayar/Beli"</li>
+                            <li>Pilih menu "Lainnya", hingga menemukan menu "Multipayment"</li>
+                            <li>Masukkan Nomor Virtual Account, lalu pilih tombol Benar</li>
+                            <li>Akan muncul konfirmasi pembayaran, lalu pilih tombol Ya</li>
+                            <li>Simpan struk sebagai bukti pembayaran Anda</li>
+                            @endif
                         </ol>
                     </main>
                     <footer class="modal__footer flex justify-end">
