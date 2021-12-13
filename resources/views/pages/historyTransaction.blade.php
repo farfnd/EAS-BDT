@@ -104,9 +104,9 @@
             {{-- modal lacak pesanan --}}
             <div class="modal micromodal-slide" id="lacak-item" aria-hidden="true">
                 <div class="modal__overlay" data-micromodal-close>
-                    <div class="modal__container h-52" role="dialog" aria-modal="true"
+                    <div class="modal__container" role="dialog" aria-modal="true"
                         aria-labelledby="lacak-item-title"
-                        style="height: 30rem; max-width: 45rem; display: flex; flex-direction: column; justify-content: space-between; margin: 0 1rem;">
+                        style="max-width: 45rem; display: flex; flex-direction: column; justify-content: space-between; margin: 0 1rem;">
                         <div>
                             <header class="modal__header border-b-2 pb-1">
                                 <h2 class="modal__title text-center" id="lacak-item-title" style="font-size: 1.8rem">
@@ -159,8 +159,8 @@
             {{-- modal beri ulasan --}}
             <div class="modal micromodal-slide" id="beri-ulasan" aria-hidden="true">
                 <div class="modal__overlay" data-micromodal-close>
-                    <div class="modal__container h-52" role="dialog" aria-modal="true"
-                        aria-labelledby="beri-ulasan-title" style="height: 30rem; width: 50rem; display: flex; 
+                    <div class="modal__container" role="dialog" aria-modal="true"
+                        aria-labelledby="beri-ulasan-title" style="width: 50rem; display: flex; 
                                 flex-direction: column; justify-content: space-between; margin: 0 1rem;">
                         <div>
                             <header class="modal__header border-b-2 pb-1">
@@ -178,22 +178,21 @@
                                     </div>
                                     <div
                                         class="text-sm md:text-base font-bold col-span-7 flex flex-col justify-center border-l-2 pl-4">
-                                        <form action="" method="POST">
+                                        <form id="form-ulasan" enctype="multipart/form-data">
+                                            @csrf
                                             <div class="flex flex-col">
                                                 <label for="komentar" class="mb-2 font-light">Ulasan Anda</label>
                                                 <textarea placeholder="Masukan ulasan anda"
-                                                    class="rounded-md shadow-custom1" name="" id="komentar" cols="30"
+                                                    class="rounded-md shadow-custom1" name="ulasan" id="komentar" cols="30"
                                                     rows="5" style="resize: none; border: none"></textarea>
                                             </div>
                                             <div class="flex mt-8">
                                                 <div class="mr-8">
                                                     <p class="mb-2 ">Unggah Foto:</p>
-                                                    <label for="file-upload" class="custom-file-upload cursor-pointer">
-                                                        <p
-                                                            class="bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1">
-                                                            Upload Files</p>
+                                                    <label for="file_ulasan" class="custom-file-upload cursor-pointer bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1">
+                                                        Unggah Gambar
+                                                        <input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="file_ulasan" id="file_ulasan" />
                                                     </label>
-                                                    <input id="file-upload" type="file" class="hidden" />
                                                 </div>
                                                 <div>
                                                     <div>
@@ -202,29 +201,29 @@
                                                     <div class="rating">
                                                         <div>
                                                             <label>
-                                                                <input type="radio" name="stars" value="1" />
+                                                                <input type="radio" name="rating" value="1" />
                                                                 <span class="icon">★</span>
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="stars" value="2" />
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="stars" value="3" />
-                                                                <span class="icon">★</span>
+                                                                <input type="radio" name="rating" value="2" />
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="stars" value="4" />
-                                                                <span class="icon">★</span>
+                                                                <input type="radio" name="rating" value="3" />
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="stars" value="5" />
+                                                                <input type="radio" name="rating" value="4" />
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                                <span class="icon">★</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="rating" value="5" />
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
                                                                 <span class="icon">★</span>
@@ -235,13 +234,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <img src="" style="max-height: 100px; width: auto" class="my-3" id="previewImg">
                                             <div class="flex mt-12 space-x-4 justify-end">
                                                 <button data-micromodal-close
                                                     class="shadow-custom1 rounded-lg px-4 py-1">
                                                     <span class="font-semibold text-center">Batalkan</span>
                                                 </button>
-                                                <button type="submit"
-                                                    class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1">Kirim</button>
+                                                <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1" id="ulasan-submit-btn" data-id="3">Kirim</button>
                                             </div>
                                         </form>
                                     </div>
@@ -254,3 +253,52 @@
         @endfor
     </div>
 </x-layout>
+
+<script>
+    $('#file_ulasan').change(function(e) {
+        if (e.target.files && e.target.files[0]) {
+            let reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#previewImg').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(e.target.files[0]); // convert to base64 string
+        }
+    });
+    
+    $('#form-ulasan').submit(function(e) {
+        e.preventDefault();
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'id',
+            value: $('#ulasan-submit-btn').data('id')
+        }).appendTo(this);
+
+        var form = $(this)[0];
+        var fd = new FormData(form);
+        var file = $('#file_ulasan')[0].files[0];
+
+        $.ajax({
+            type: "POST",
+            url: "/api/postUlasan",
+            headers: {
+                'Authorization': '{{ session('Authorization') }}'
+            },
+            data: fd,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(response);
+                MicroModal.close('beri-ulasan');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Bukti transfer berhasil diunggah',
+                });
+            }
+        });
+
+        return true;
+    });
+</script>

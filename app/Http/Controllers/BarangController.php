@@ -105,4 +105,20 @@ class BarangController extends Controller
         $wishlistAll = $this->barangService->readAllWishlist();
         return view('pages.wishlist', ['wishlistAll' => $wishlistAll]);
     }
+
+    public function postUlasan(Request $request)
+    {
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+
+        try{
+            return $this->barangService->createUlasan($input);
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
+    }
 }

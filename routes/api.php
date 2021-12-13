@@ -36,4 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     /* ======== WISHLIST API ======== */
     Route::post('/addToWishlist/{id}', [BarangController::class, 'addToWishlist']);
     Route::post('/deleteFromWishlist/{id}', [BarangController::class, 'deleteFromWishlist']);
+
+    /* ======== BARANG API ======== */
+    Route::post('/postUlasan', [BarangController::class, 'postUlasan']);
 });

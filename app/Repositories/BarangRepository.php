@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BarangRepository{
     protected $barang;
+    protected $ulasan;
     
     public function __construct(Barang $barang)
     {
@@ -187,6 +188,20 @@ class BarangRepository{
             }
         }
         return false;
+    }
+
+    public function postUlasan($data)
+    {
+        $data['file_ulasan']->storeAs('reviews', $data['file_ulasan']->getClientOriginalName());
+        $data['file_ulasan'] = $data['file_ulasan']->getClientOriginalName();
+
+        return Ulasan::create([
+            'barang_id' => $data['id'],
+            'user_id' => Auth::id(),
+            'ulasan' => $data['ulasan'],
+            'rating' => $data['rating'],
+            'file_ulasan' => $data['file_ulasan'],
+        ]);
     }
 }
 
