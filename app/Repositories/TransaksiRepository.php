@@ -75,7 +75,7 @@ class TransaksiRepository{
 
     public function updateBuktiTransaksi($data)
     {
-        $data['bukti']->storeAs('transaction', $data['bukti']->getClientOriginalName());
+        $data['bukti']->storeAs('transactions', $data['bukti']->getClientOriginalName());
         $data['bukti'] = $data['bukti']->getClientOriginalName();
 
         $id = $data['id'];
@@ -206,6 +206,27 @@ class TransaksiRepository{
         PembayaranDetail::where('pembayaran_id', $id)->delete();
         return Pembayaran::where('id', $id)->delete();
     }
+
+    public function getTransaksiHistory() {
+        $pembayaranAll = Pembayaran::where('user_id', Auth::id())->where("status_pembayaran", 'Lunas')->get();
+        foreach ($pembayaranAll as $pembayaran) {
+            foreach ($pembayaran->pembayaranDetail as $pembayaranDetail) {
+                $ulasanAll = $pembayaranDetail->barang->ulasan;
+                if($ulasanAll->count()){
+                    foreach ($ulasanAll as $ulasan) {
+                        if($ulasan->user->id == Auth::id()) {
+                            $pembayaranDetail->barang->isReviewed = 1;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        return $pembayaranAll;
+    }
+
     /* ========================================================================
         END ::: TRANSAKSI SERVICES
     ======================================================================== */

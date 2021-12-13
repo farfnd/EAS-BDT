@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /* ======== ADMIN API ======== */
     Route::get('/admin/getKategori/{id}', [BarangController::class, 'getKategori']); 
-    Route::get('/admin/getBarang/{id}', [BarangController::class, 'getBarang']); 
+    Route::get('/getBarang/{id}', [BarangController::class, 'getBarang']); 
     Route::delete('/admin/barang/{id}', [BarangController::class, 'delete']);
     
     /* ======== TRANSAKSI API ======== */
@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/updateCart/{id}', [TransaksiController::class, 'editCart']);
 
     Route::put('/editBuktiTransfer', [TransaksiController::class, 'editBuktiTransfer']);
-    Route::get('/admin/getTransaksi/{id}', [TransaksiController::class, 'getTransaksi']);
+    Route::get('/getTransaksi/{id}', [TransaksiController::class, 'getTransaksi']);
     
     /* ======== WISHLIST API ======== */
     Route::post('/addToWishlist/{id}', [BarangController::class, 'addToWishlist']);

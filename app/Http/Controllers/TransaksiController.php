@@ -149,7 +149,7 @@ class TransaksiController extends Controller implements ChannelPembayaran
     }
 
     public function show_transaction_history() {
-        $pembayaran = $this->transaksiService->readAllTransaksi()->whereNotIn("status_pembayaran", ["Belum Lunas"]);
+        $pembayaran = $this->transaksiService->readTransaksiHistory();
         return view('pages.transactionHistory', [
             'pembayaran' => $pembayaran,
         ]);

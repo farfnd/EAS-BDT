@@ -271,7 +271,7 @@
             let id = button.data('id');
             $.ajax({
                 type: 'GET',
-                url: "/api/admin/getTransaksi/" + id,
+                url: "/api/getTransaksi/" + id,
                 async: false,
                 headers: {
                     'Authorization': '{{ session('Authorization') }}'

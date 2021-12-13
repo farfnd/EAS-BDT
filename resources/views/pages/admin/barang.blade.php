@@ -338,7 +338,7 @@
 		let id = $(this).data('id');
         $.ajax({
 			type : 'GET',
-            url: "/api/admin/getBarang/" + id,
+            url: "/api/getBarang/" + id,
 			async: false,
 			headers: { 'Authorization': '{{ session("Authorization") }}' },
             success : function(data){

@@ -193,6 +193,7 @@ class BarangRepository{
     {
         $data['file_ulasan']->storeAs('reviews', $data['file_ulasan']->getClientOriginalName());
         $data['file_ulasan'] = $data['file_ulasan']->getClientOriginalName();
+        // return var_dump($data);
 
         return Ulasan::create([
             'barang_id' => $data['id'],

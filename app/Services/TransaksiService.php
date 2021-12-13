@@ -64,6 +64,11 @@ class TransaksiService
     {   
         return $this->transaksiRepository->destroyPembayaran($id);
     }
+    
+    public function readTransaksiHistory()
+    {   
+        return $this->transaksiRepository->getTransaksiHistory();
+    }
 
     /* ========================================================================
         SECTION ::: ADMIN SERVICES
