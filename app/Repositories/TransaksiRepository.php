@@ -211,16 +211,10 @@ class TransaksiRepository{
         $pembayaranAll = Pembayaran::where('user_id', Auth::id())->where("status_pembayaran", 'Lunas')->get();
         foreach ($pembayaranAll as $pembayaran) {
             foreach ($pembayaran->pembayaranDetail as $pembayaranDetail) {
-                $ulasanAll = $pembayaranDetail->barang->ulasan;
-                if($ulasanAll->count()){
-                    foreach ($ulasanAll as $ulasan) {
-                        if($ulasan->user->id == Auth::id()) {
-                            $pembayaranDetail->barang->isReviewed = 1;
-                            break;
-                        }
-                    }
+                if ($pembayaranDetail->barang->ulasan->where('user_id', Auth::id())->count()){
+                    $pembayaranDetail->barang->isReviewed = 1;
                 }
-                break;
+                continue;
             }
         }
 
