@@ -64,7 +64,7 @@ class TransaksiController extends Controller implements ChannelPembayaran
     {
         $input = $request->except(['_token']);
         $result = ['status' => 200];
-
+        return dd($input);
         try{
             $result['data'] = $this->transaksiService->createPayment($input);
             if($result['data']->metode == 'bank') {return redirect(route('bank-payment', $result['data']->id));}
