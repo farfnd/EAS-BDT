@@ -57,9 +57,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/post_pembayaran', [TransaksiController::class, 'post_pembayaran'])->name('post_pembayaran');
 
     /* ======== PAYMENTS SECTION ======== */
-    Route::get('/bank-payment/{id}', [TransaksiController::class, 'show_payment'])->name('bank-payment');
+    Route::get('/bank-payment/{id}', [TransaksiController::class, 'show_payment_bank'])->name('bank-payment');
 
-    Route::get('/va-payment/{id}', [TransaksiController::class, 'show_payment'])->name('va-payment');
+    Route::get('/va-payment/{id}', [TransaksiController::class, 'show_payment_va'])->name('va-payment');
 
     Route::get('/payment-detail', [TransaksiController::class, 'show_detail_transaksi'])->name('payment-detail');
 

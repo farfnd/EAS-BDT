@@ -78,14 +78,16 @@ class TransaksiController extends Controller implements ChannelPembayaran
         }
     }
 
-    public function show_payment($id)
+    public function show_payment_bank($id)
     {
         $pembayaran = $this->transaksiService->readPembayaran($id);
-        if ($pembayaran->metode == 'bank') {
-            return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
-        } else if(str_starts_with($pembayaran->metode, 'va_')) {
-            return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
-        }
+        return view('pages.payments.bank', ['pembayaran' => $pembayaran]);
+    }
+
+    public function show_payment_va($id)
+    {
+        $pembayaran = $this->transaksiService->readPembayaran($id);
+        return view('pages.payments.virtual-account', ['pembayaran' => $pembayaran]);
     }
 
     public function checkoutFromCart(Request $request) {
