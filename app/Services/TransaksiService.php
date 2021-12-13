@@ -26,9 +26,9 @@ class TransaksiService
         return $this->transaksiRepository->destroyKeranjang($id);
     }
 
-    public function editKeranjang($id, $count)
+    public function editKeranjang($id, $input)
     {   
-        return $this->transaksiRepository->updateKeranjang($id, $count);
+        return $this->transaksiRepository->updateKeranjang($id, $input);
     }
 
 

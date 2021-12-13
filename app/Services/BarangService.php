@@ -67,4 +67,9 @@ class BarangService
     public function readAllWishlist(){
         return $this->barangRepository->getAllWishlist();
     }
+
+    // create ulasan
+    public function createUlasan($input){
+        return $this->barangRepository->postUlasan($input);
+    }
 }
