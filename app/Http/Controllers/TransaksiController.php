@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\TransaksiService;
+use App\Strategies\ChannelPembayaran;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TransaksiController extends Controller
+class TransaksiController extends Controller implements ChannelPembayaran
 {
     protected $transaksiService;
 
@@ -54,7 +55,7 @@ class TransaksiController extends Controller
         }
     }
 
-    public function show_checkout()
+    public function show_checkout(Request $request)
     {
         return view('pages.checkout');
     }
@@ -123,7 +124,7 @@ class TransaksiController extends Controller
         $result = ['status' => 200];
 
         try{
-            $result['data'] = $this->transaksiService->editTransaksi($input);
+            // $result['data'] = $this->transaksiService->editTransaksi($input);
             return redirect(route('admin.transaksi'));
         }catch(Exception $e){
             $result = [
