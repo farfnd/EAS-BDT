@@ -14,7 +14,7 @@ else if ($pembayaran->metode == 'va_mandiri') $list = $mandiri_list;
             <h2 class="text-2xl my-8 font-bold">Pembayaran via Transfer Virtual Account</h2>
             <p class="md:w-8/12 mx-auto">
                 Selesaikan pembayaran sebelum
-                <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('1 day')))) }}</strong>
+                <strong>{{ date('d-m-Y h:i', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('1 day')))) }}</strong>
                 untuk menghindari pembatalan pesanan
                 secara otomatis.
             </p>

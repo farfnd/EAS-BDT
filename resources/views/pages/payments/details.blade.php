@@ -17,11 +17,10 @@ $curDate = strtotime($pembayaran->created_at);
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <p class="text-center">
                 Pesanan ini <strong>belum dibayar</strong> dan akan secara otomatis dibatalkan pada
-                @if ($pembayaran->metode == 'bank'))
-                    <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('2 days')))) }}</strong>.
+                @if ($pembayaran->metode == 'bank')
+                    <strong>{{ date('d-m-Y h:i', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('2 days')))) }}</strong>.
                 @elseif (str_starts_with($pembayaran->metode, 'va_'))
-                    <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('1 day')))) }}</strong>.
-                    
+                    <strong>{{ date('d-m-Y h:i', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('1 day')))) }}</strong>.
                 @endif
             </p>
             <hr class="my-2">
@@ -71,7 +70,7 @@ $curDate = strtotime($pembayaran->created_at);
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p>Waktu Pemesanan</p>
-                    <p>{{ date('d-m-Y h:i:s', $curDate) }}</p>
+                    <p>{{ date('d-m-Y h:i', $curDate) }}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
@@ -165,21 +164,23 @@ $curDate = strtotime($pembayaran->created_at);
                             Pembayaran via ATM BNI
                             @elseif ($pembayaran->metode == 'va_mandiri')
                             Pembayaran via ATM Mandiri
+                            @elseif ($pembayaran->metode == 'bank')
+                            Pembayaran via Transfer Bank
                             @endif
                         </h2>
                     </header>
                     <main class="modal__content mt-3" id="edit-barang-content">
                         <ol class="list-decimal flex flex-col space-y-3 px-5 font-semibold">
-                            @if ($pembayaran->metode == 'bank'))
+                            @if ($pembayaran->metode == 'bank')
                             <li>
                                 <span>
                                     Transfer melalui ATM, teller bank, aplikasi mobile banking, atau internet banking
                                     sejumlah tepat Rp{{ number_format($pembayaran->total_pembayaran + 10000, 0, ',', '.') }} ke nomor rekening berikut:
                                 </span>
                                 <ul class="list-disc pl-8">
-                                    <li>Pilih Bahasa.</li>
-                                    <li>Masukkan PIN ATM Anda.</li>
-                                    <li>Pilih "Menu Lainnya".</li>
+                                    <li class="pl-4">Nomor rekening: <strong>6110421883</strong> </li>
+                                    <li class="pl-4">Nama pemilik rekening: <strong>Kadek Mayang Devi</strong></li>
+                                    <li class="pl-4">Bank: <strong>BCA</strong></li>
                                 </ul>
                             </li>
                             <li>Simpan bukti transaksi, lalu unggah melalui menu ‘Unggah Bukti Transfer’.</li>
