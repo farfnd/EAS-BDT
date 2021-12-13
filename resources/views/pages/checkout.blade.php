@@ -236,18 +236,10 @@ $totalHarga = 0;
             for (const key in barangData) {
                 $('<input>').attr({
                     type: 'hidden',
-                    name: barangData[key].barang_id,
+                    name: `barang-id-${barangData[key].barang_id}`,
                     value: barangData[key].jumlah
                 }).appendTo($('#form-pembayaran'));
-                console.log(barangData[key])
             }
-            // this.preventDefault();
-            // $('<input>').attr({
-            //     type: 'hidden',
-            //     name: 'total_pembayaran',
-            //     value: $('#total-harga').html()
-            // }).appendTo(this);
-
         });
 
         $('#bayarBtn-va').click(function(e) {

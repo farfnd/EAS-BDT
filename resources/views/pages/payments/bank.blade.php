@@ -10,24 +10,27 @@
         <div class="w-full md:w-10/12 mx-auto text-center mb-8">
             <div class="flex justify-between md:w-8/12 mx-auto">
                 <p class="font-bold text-lg">Nomor Pesanan</p>
-                <p class="font-bold text-lg">{{$pembayaran->id}}</p>
+                <p class="font-bold text-lg">{{ $pembayaran->id }}</p>
             </div>
             <hr class="my-2">
             <div class="md:w-8/12 mx-auto">
                 <div class="flex justify-between">
                     <p class="text-lg">Total Pesanan</p>
-                    <p class="text-lg">Rp{{number_format($pembayaran->total_pembayaran - $pembayaran->kode_unik, 0, ',', '.')}}</p>
+                    <p class="text-lg">
+                        Rp{{ number_format($pembayaran->total_pembayaran - $pembayaran->kode_unik, 0, ',', '.') }}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p class="text-lg">Kode Unik</p>
-                    <p class="text-lg">Rp{{$pembayaran->kode_unik}}</p>
+                    <p class="text-lg">Rp{{ $pembayaran->kode_unik }}</p>
                 </div>
                 <hr class="my-2">
             </div>
             <div class="flex justify-between md:w-8/12 mx-auto mt-4">
                 <p class="font-bold text-lg">Total Nominal Transfer</p>
-                <p class="font-bold text-lg">Rp{{number_format(substr($pembayaran->total_pembayaran, 0, -3), 0, ',', '.')}}.<span class="text-red-500 m-0 p-0">{{substr($pembayaran->total_pembayaran, -3)}}</span>
+                <p class="font-bold text-lg">
+                    Rp{{ number_format(substr($pembayaran->total_pembayaran, 0, -3), 0, ',', '.') }}.<span
+                        class="text-red-500 m-0 p-0">{{ substr($pembayaran->total_pembayaran, -3) }}</span>
                 </p>
             </div>
             <hr class="my-2">
@@ -41,7 +44,8 @@
                 <ol class="list-decimal">
                     <li class="pl-4">
                         Transfer melalui ATM, teller bank, aplikasi mobile banking, atau internet banking sejumlah tepat
-                        <strong>Rp{{number_format($pembayaran->total_pembayaran, 0, ',', '.')}}</strong> ke nomor rekening berikut:
+                        <strong>Rp{{ number_format($pembayaran->total_pembayaran, 0, ',', '.') }}</strong> ke nomor
+                        rekening berikut:
                         <ul class="list-disc ml-4">
                             <li class="pl-4">Nomor rekening: <strong>6110421883</strong> </li>
                             <li class="pl-4">Nama pemilik rekening: <strong>Kadek Mayang Devi</strong></li>
@@ -68,7 +72,8 @@
             {{-- ========================================================================
                 TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
             ======================================================================== --}}
-            <a href={{ route('home') }} class="rounded-lg p-2 w-3/12 text-white bg-gray-800 hover:bg-gray-900">
+            <a href={{ route('payment-detail', $pembayaran->id) }}
+                class="rounded-lg p-2 w-3/12 text-white bg-gray-800 hover:bg-gray-900">
                 Lihat Detail Transaksi
             </a>
         </div>

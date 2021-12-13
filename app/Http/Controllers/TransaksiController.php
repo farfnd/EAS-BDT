@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pembayaran;
+use App\Models\PembayaranDetail;
 use App\Services\TransaksiService;
 use App\Strategies\ChannelPembayaran;
 use Exception;
@@ -33,10 +35,17 @@ class TransaksiController extends Controller implements ChannelPembayaran
         return $this->transaksiService->editKeranjang($id, $data['count']);
     }
 
-    public function show_detail_transaksi($id = null)
+    public function show_detail_transaksi($id)
     {
+        $pembayaran = $this->transaksiService->readPembayaran($id);
+        $pembayaranDetail = $pembayaran->pembayaranDetail;
+        // dd($pembayaranDetail);
         $bankAll = $this->transaksiService->readAllBanks();
-        return view('pages.payments.details', ['bankAll' => $bankAll]);
+        return view('pages.payments.details', [
+            'bankAll' => $bankAll,
+            'pembayaran' => $pembayaran,
+            'pembayaranDetail' => $pembayaranDetail,
+        ]);
     }
 
     public function editBuktiTransfer(Request $request)
@@ -64,7 +73,17 @@ class TransaksiController extends Controller implements ChannelPembayaran
     {
         $input = $request->except(['_token']);
         $result = ['status' => 200];
-        return dd($input);
+        $data_barang = [];
+        foreach ($input as $key => $value) {
+            if(str_contains($key, "barang-id-")){
+                $string = explode("-", $key);
+                // dump($string);
+                $id_barang = end($string);
+                $data_barang[$id_barang] = $value;
+            }
+        }
+        $input['data_barang'] = $data_barang;
+
         try{
             $result['data'] = $this->transaksiService->createPayment($input);
             if($result['data']->metode == 'bank') {return redirect(route('bank-payment', $result['data']->id));}
@@ -97,17 +116,34 @@ class TransaksiController extends Controller implements ChannelPembayaran
         }
         $temp_id = [];
         foreach($input as $key => $value){
-            // array_push($temp_id, $value);
             $temp_id[] = $value;
         }
         $data = Auth::user()->keranjang->whereIn('barang_id', $temp_id);
-        // Auth::user()->keranjang->whereIn('barang_id', $temp_id)->each(function($el){
-        //     $test[] = $el->barang;
-        //     dump($el->barang);
-        //     array_push($test, $el->barang);
-        // });
-        // dd($data);
         return redirect()->route('checkout')->with(['data' => $data]);
+    }
+
+    public function show_invoice($id) {
+        $pembayaran = $this->transaksiService->readPembayaran($id);
+        $pembayaranDetail = $pembayaran->pembayaranDetail;
+        return view('pages.payments.invoice', [
+            'pembayaran' => $pembayaran,
+            'pembayaranDetail' => $pembayaranDetail,
+        ]);
+    }
+    
+    public function show_transaction() {
+        $pembayaran = $this->transaksiService->readAllTransaksi();
+        // dd($pembayaran);
+        return view('pages.transaction', [
+            'pembayaran' => $pembayaran,
+        ]);
+    }
+
+    public function show_history_transaction() {
+        $pembayaran = $this->transaksiService->readAllTransaksi()->whereNotIn("status_pembayaran", ["Belum Lunas"]);
+        return view('pages.historyTransaction', [
+            'pembayaran' => $pembayaran,
+        ]);
     }
 
     /* ========================================================================
@@ -116,25 +152,7 @@ class TransaksiController extends Controller implements ChannelPembayaran
     public function index_transaksi()
     {
         $transaksiAll = $this->transaksiService->readAllTransaksi();
-        // dump($transaksiAll);
         return view('pages.admin.transaksi', ['transaksiAll' => $transaksiAll]);
-    }
-
-    public function update_transaksi(Request $request)
-    {
-        $input = $request->except(['_token']);
-        $result = ['status' => 200];
-
-        try{
-            // $result['data'] = $this->transaksiService->editTransaksi($input);
-            return redirect(route('admin.transaksi'));
-        }catch(Exception $e){
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
-            die($result);
-        }
     }
 
     public function getTransaksi($id) {

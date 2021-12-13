@@ -28,6 +28,12 @@ foreach ($items as $item) {
 
 @endphp
 
+@php
+$json = '' . $pembayaran->alamat . '';
+$res = json_decode($json);
+$curDate = strtotime($pembayaran->created_at);
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -75,11 +81,11 @@ foreach ($items as $item) {
         <div class="grid grid-cols-2 gap-4 justify-between mb-4">
             <div>
                 <h4 class="font-bold">Nomor Transaksi</h4>
-                <p>A0001</p>
+                <p>{{ $pembayaran->id }}</p>
             </div>
             <div>
                 <h4 class="font-bold">Tanggal Transaksi</h4>
-                <p>29 Desember 2021</p>
+                <p>{{ date('d F Y', strtotime($pembayaran->created_at)) }}</p>
             </div>
         </div>
 
@@ -92,16 +98,16 @@ foreach ($items as $item) {
             </div>
             <div>
                 <h4 class="font-bold">Tujuan Pengiriman</h4>
-                <p>Michael Alexander</p>
-                <p>Jl. Banyuwangi No. 10 Abiansemal MENGWI, KABUPATEN BADUNG BALI 18990</p>
-                <p>(+62) 812-3456-7890</p>
+                <p>{{ $pembayaran->user->nama }}</p>
+                <p>{{ $res->alamat . ', ' . $res->kecamatan . ', ' . $res->kota_kab . ', ' . $res->provinsi }}</p>
+                <p>(+62) {{ $res->no_telepon }}</p>
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4 justify-between mb-4">
             <div>
                 <h4 class="font-bold">Status Transaksi</h4>
-                @if ($isLunas)
+                @if ($pembayaran->status_pembayaran == 'Lunas')
                     <p class="text-green-500">Lunas</p>
                 @else
                     <p class="text-red-500">Belum Lunas</p>
@@ -109,7 +115,7 @@ foreach ($items as $item) {
             </div>
             <div>
                 <h4 class="font-bold">Metode Pembayaran</h4>
-                <p>Transfer Bank</p>
+                <p>{{ $pembayaran->metode }}</p>
             </div>
         </div>
 
@@ -127,24 +133,25 @@ foreach ($items as $item) {
                 <p class="font-bold text-right">Subtotal</p>
             </div>
 
-            @foreach ($items as $item)
+            @foreach ($pembayaranDetail as $detail)
                 <div class="col-span-4 p-2 border-b-2 border-gray-200">
-                    <p class="">{{ $item->nama }}</p>
+                    <p class="">{{ $detail->barang->nama }}</p>
                 </div>
                 <div class="col-span-2 p-2 border-b-2 border-gray-200">
-                    <p class="text-center">{{ $item->jumlah }}</p>
+                    <p class="text-center">{{ $detail->jumlah_barang }}</p>
                 </div>
                 <div class="col-span-3 p-2 border-b-2 border-gray-200">
-                    <p class="text-center">Rp{{ number_format($item->harga_barang, 0, ',', '.') }}</p>
+                    <p class="text-center">Rp{{ number_format($detail->barang->harga * 1000, 0, ',', '.') }}</p>
                 </div>
                 <div class="col-span-3 p-2 border-b-2 border-gray-200">
-                    <p class="text-right">Rp{{ number_format($item->jumlah * $item->harga_barang, 0, ',', '.') }}
+                    <p class="text-right">
+                        Rp{{ number_format($detail->jumlah_barang * $detail->barang->harga * 1000, 0, ',', '.') }}
                     </p>
                 </div>
             @endforeach
 
             <div class="col-span-6 p-4 row-span-4 flex justify-center items-center">
-                @if ($isLunas)
+                @if ($pembayaran->status_pembayaran == 'Lunas')
                     <div class="text-4xl font-bold text-green-500 rounded-lg px-8 py-4 border-4 border-green-500">
                         LUNAS
                     </div>
@@ -159,24 +166,24 @@ foreach ($items as $item) {
                 Subtotal Harga Produk
             </div>
             <div class="col-span-3 px-2 pt-2 text-right">
-                Rp{{ number_format($totalHarga, 0, ',', '.') }}
+                Rp{{ number_format($pembayaran->total_pembayaran - $pembayaran->kode_unik, 0, ',', '.') }}
             </div>
             <div class="col-span-3 font-bold px-2 text-right">
                 Ongkos Kirim
             </div>
             <div class="col-span-3 px-2 text-right">
-                Rp{{ number_format($ongkir, 0, ',', '.') }}
+                Rp{{ number_format(10000, 0, ',', '.') }}
             </div>
             <div class="col-span-3 font-bold px-2 text-right">
                 Kode Unik
             </div>
             <div class="col-span-3 px-2 text-right">
-                Rp{{ number_format($kode_unik, 0, ',', '.') }}
+                Rp{{ number_format($pembayaran->kode_unik, 0, ',', '.') }}
             </div>
             <div class="col-span-6 grid grid-cols-2 p-4 my-2 -mr-3 rounded-3xl border-4 border-gray-300">
                 <p class="col-span-1 font-bold text-right pr-4">Total Pembayaran</p>
                 <p class="col-span-1 text-right">
-                    Rp{{ number_format($totalHarga + $ongkir + $kode_unik, 0, ',', '.') }}</p>
+                    Rp{{ number_format($pembayaran->total_pembayaran, 0, ',', '.') }}</p>
             </div>
         </div>
     </div>

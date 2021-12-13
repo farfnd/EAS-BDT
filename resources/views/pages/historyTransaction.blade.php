@@ -1,111 +1,65 @@
 <x-layout titlePage="Hanaka | History Transaction">
     <h2 class="text-3xl font-bold text-gray-900 text-center mt-8">Riwayat Pembelian</h2>
     <div class="flex flex-col space-y-5 mx-8 mt-4 mb-6">
-        @for ($i = 0; $i < 2; $i++)
-            {{-- card 1 item lacak --}}
-            <div class="flex flex-col md:flex-row shadow-custom1 rounded-2xl justify-between px-4 py-3 ">
-                {{-- item detail --}}
-                <div class="flex">
-                    <img class="rounded-md w-36" src="{{ asset('images/jacket.png') }}" alt="item image">
-                    <div class="flex flex-col justify-between py-2 ml-3">
-                        <div>
-                            <p class="font-medium">Transaksi: <span class="font-semibold">A0012 / 23 Mei 2021</span>
-                            </p>
-                            <p class="text-lg font-semibold">Sweater Logo Fav Maroon</p>
-                            <p>@ Rp 335.000,00</p>
+        @foreach ($pembayaran as $transaksi)
+            @foreach ($transaksi->pembayaranDetail as $item)
+                {{-- card 1 item lacak --}}
+                <div class="flex flex-col md:flex-row shadow-custom1 rounded-2xl justify-between px-4 py-3 ">
+                    {{-- item detail --}}
+                    <div class="flex">
+                        <div class="rounded-md w-36 bg-cover bg-center"
+                            style="background-image: url({{ route('show_product_image', $item->barang->foto) }})">
                         </div>
-                        <div>
-                            <p>Jumlah : 1</p>
-                            <p>Total Harga: <span class="font-semibold">Rp 335.000,00</span></p>
-                        </div>
-                    </div>
-                </div>
-                {{-- item payment status --}}
-                <div class="flex flex-col justify-between py-2">
-                    <div class="md:text-right p-3 md:p-0">
-                        <p>Status Pengiriman</p>
-                        <p class="font-bold">Sedang Dikirim</p>
-                    </div>
-                    <div>
-                        <button data-micromodal-trigger="lacak-item"
-                            class="relative w-full bg-gray-800 hover:bg-opacity-90 
-                                            rounded-lg px-2 py-1 mt-4">
-                            <p class="font-semibold text-white text-center">Lacak</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            {{-- card 2 item --}}
-            <div class="flex flex-col md:flex-row shadow-custom1 rounded-2xl justify-between px-4 py-3 ">
-                {{-- item detail --}}
-                <div class="flex">
-                    <img class="rounded-md w-36" src="{{ asset('images/pants.png') }}" alt="item image">
-                    <div class="flex flex-col justify-between py-2 ml-3">
-                        <div>
-                            <p class="font-medium">Transaksi: <span class="font-semibold">A0012 / 23 Mei 2021</span>
-                            </p>
-                            <p class="text-lg font-semibold">Sweater Logo Fav Maroon</p>
-                            <p>dan 2 barang lainnya</p>
-                        </div>
-                        <div>
-                            <p>Jumlah : 1</p>
-                            <p>Total Harga: <span class="font-semibold">Rp 335.000,00</span></p>
+                        <div class="flex flex-col justify-between py-2 ml-3">
+                            <div>
+                                <p class="font-medium">Transaksi: <span class="font-semibold">{{ $transaksi->id }} /
+                                        {{ date('d F Y', strtotime($transaksi->created_at)) }}</span>
+                                </p>
+                                <p class="text-lg font-semibold">{{ $item->barang->nama }}</p>
+                                <p>@ Rp{{ number_format($item->barang->harga * 1000, 0, ',', '.') }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>Jumlah: {{ $item->jumlah_barang }}</p>
+                                <p>Total Harga: <span
+                                        class="font-semibold">Rp{{ number_format($item->jumlah_barang * 1000 * $item->barang->harga, 0, ',', '.') }}</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- item payment status --}}
-                <div class="flex flex-col justify-between py-2">
-                    <div class="md:text-right p-3 md:p-0">
-                        <p>Status Pengiriman</p>
-                        <p class="font-bold">Sampai Di Tujuan</p>
-                    </div>
-                    <div>
-                        <button class="relative w-full shadow-custom1 rounded-lg px-2 py-1 mt-4">
-                            <p class="font-semibold text-center">Sudah</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            {{-- card 3 item --}}
-            <div class="flex flex-col md:flex-row shadow-custom1 rounded-2xl justify-between px-4 py-3 ">
-                {{-- item detail --}}
-                <div class="flex">
-                    <img class="rounded-md w-36" src="{{ asset('images/pants.png') }}" alt="item image">
-                    <div class="flex flex-col justify-between py-2 ml-3">
-                        <div>
-                            <p class="font-medium">Transaksi: <span class="font-semibold">A0012 / 23 Mei 2021</span>
-                            </p>
-                            <p class="text-lg font-semibold">Sweater Logo Fav Maroon</p>
-                            <p>dan 2 barang lainnya</p>
+                    {{-- item payment status --}}
+                    <div class="flex flex-col justify-between py-2">
+                        <div class="md:text-right p-3 md:p-0">
+                            <p>Status Pembayaran</p>
+                            <p class="font-bold">{{ $transaksi->status_pembayaran }}</p>
                         </div>
                         <div>
-                            <p>Jumlah : 1</p>
-                            <p>Total Harga: <span class="font-semibold">Rp 335.000,00</span></p>
+                            @if ($transaksi->status_pembayaran == 'Sedang Dikirim')
+                                <button
+                                    class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg px-2 py-1 mt-4">
+                                    <p class="font-semibold text-white text-center">Lacak</p>
+                                </button>
+                            @elseif ($transaksi->status_pembayaran == "Selesai")
+                                <button class="relative w-full shadow-custom1 rounded-lg px-2 py-1 mt-4">
+                                    <p class="font-semibold text-center">Selesai</p>
+                                </button>
+                            @elseif ($transaksi->status_pembayaran == "Beri Ulasan")
+                                <button
+                                    class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg px-2 py-1 mt-4">
+                                    <p class="font-semibold text-white text-center">Beri Ulasan</p>
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
-                {{-- item payment status --}}
-                <div class="flex flex-col justify-between py-2">
-                    <div class="md:text-right p-3 md:p-0">
-                        <p>Status Pengiriman</p>
-                        <p class="font-bold">Sampai Di Tujuan</p>
-                    </div>
-                    <div>
-                        <button data-micromodal-trigger="beri-ulasan"
-                            class="relative w-full bg-gray-800 hover:bg-opacity-90 
-                                        rounded-lg px-2 py-1 mt-4">
-                            <p class="font-semibold text-white text-center">Beri Ulasan</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        @endfor
+            @endforeach
+        @endforeach
+
         @for ($i = 0; $i < 2; $i++)
             {{-- modal lacak pesanan --}}
             <div class="modal micromodal-slide" id="lacak-item" aria-hidden="true">
                 <div class="modal__overlay" data-micromodal-close>
-                    <div class="modal__container" role="dialog" aria-modal="true"
-                        aria-labelledby="lacak-item-title"
+                    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="lacak-item-title"
                         style="max-width: 45rem; display: flex; flex-direction: column; justify-content: space-between; margin: 0 1rem;">
                         <div>
                             <header class="modal__header border-b-2 pb-1">
@@ -159,8 +113,8 @@
             {{-- modal beri ulasan --}}
             <div class="modal micromodal-slide" id="beri-ulasan" aria-hidden="true">
                 <div class="modal__overlay" data-micromodal-close>
-                    <div class="modal__container" role="dialog" aria-modal="true"
-                        aria-labelledby="beri-ulasan-title" style="width: 50rem; display: flex; 
+                    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="beri-ulasan-title"
+                        style="width: 50rem; display: flex; 
                                 flex-direction: column; justify-content: space-between; margin: 0 1rem;">
                         <div>
                             <header class="modal__header border-b-2 pb-1">
@@ -183,15 +137,18 @@
                                             <div class="flex flex-col">
                                                 <label for="komentar" class="mb-2 font-light">Ulasan Anda</label>
                                                 <textarea placeholder="Masukan ulasan anda"
-                                                    class="rounded-md shadow-custom1" name="ulasan" id="komentar" cols="30"
-                                                    rows="5" style="resize: none; border: none"></textarea>
+                                                    class="rounded-md shadow-custom1" name="ulasan" id="komentar"
+                                                    cols="30" rows="5" style="resize: none; border: none"></textarea>
                                             </div>
                                             <div class="flex mt-8">
                                                 <div class="mr-8">
                                                     <p class="mb-2 ">Unggah Foto:</p>
-                                                    <label for="file_ulasan" class="custom-file-upload cursor-pointer bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1">
+                                                    <label for="file_ulasan"
+                                                        class="custom-file-upload cursor-pointer bg-gray-700 text-regular text-white shadow-md hover:shadow-lg rounded-md px-4 py-1">
                                                         Unggah Gambar
-                                                        <input accept=".png, .jpg, .jpeg" type="file" style="display: none;" name="file_ulasan" id="file_ulasan" />
+                                                        <input accept=".png, .jpg, .jpeg" type="file"
+                                                            style="display: none;" name="file_ulasan"
+                                                            id="file_ulasan" />
                                                     </label>
                                                 </div>
                                                 <div>
@@ -234,13 +191,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img src="" style="max-height: 100px; width: auto" class="my-3" id="previewImg">
+                                            <img src="" style="max-height: 100px; width: auto" class="my-3"
+                                                id="previewImg">
                                             <div class="flex mt-12 space-x-4 justify-end">
                                                 <button data-micromodal-close
                                                     class="shadow-custom1 rounded-lg px-4 py-1">
                                                     <span class="font-semibold text-center">Batalkan</span>
                                                 </button>
-                                                <button type="submit" class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1" id="ulasan-submit-btn" data-id="3">Kirim</button>
+                                                <button type="submit"
+                                                    class="bg-gray-700 text-white shadow-md hover:shadow-lg rounded-lg px-4 py-1"
+                                                    id="ulasan-submit-btn" data-id="3">Kirim</button>
                                             </div>
                                         </form>
                                     </div>
@@ -266,7 +226,7 @@
             reader.readAsDataURL(e.target.files[0]); // convert to base64 string
         }
     });
-    
+
     $('#form-ulasan').submit(function(e) {
         e.preventDefault();
         $('<input>').attr({

@@ -1,8 +1,8 @@
 @php
-$count = 2;
-$price = 2000000;
-$ongkir = 15000;
-$kode_unik = 67;
+$json = '' . $pembayaran->alamat . '';
+$res = json_decode($json);
+$curDate = strtotime($pembayaran->created_at);
+//dd(json_decode($json));
 @endphp
 
 <x-layout titlePage="Hanaka | Payment">
@@ -14,8 +14,8 @@ $kode_unik = 67;
         {{-- header details --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <p class="text-center">
-                Pesanan ini <strong>belum dibayar</strong> dan akan secara otomatis dibatalkan pada <strong>31-12-2021
-                    23:59</strong>.
+                Pesanan ini <strong>belum dibayar</strong> dan akan secara otomatis dibatalkan pada
+                <strong>{{ date('d-m-Y h:i:s', strtotime(date_add($pembayaran->created_at, date_interval_create_from_date_string('2 days')))) }}</strong>.
             </p>
             <hr class="my-2">
             <div class="flex justify-around w-full mx-auto text-center">
@@ -23,40 +23,36 @@ $kode_unik = 67;
                     class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900">
                     Instruksi Pembayaran
                 </a>
-                {{-- ========================================================================
-                    TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
-                ======================================================================== --}}
-                <a data-micromodal-trigger="form-upload-pembayaran"
-                    class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900"
-                    id="unggahBukti-btn">
-                    Unggah Bukti Transfer
-                </a>
+                @if (!str_starts_with($pembayaran->metode, 'va_'))
+                    <a data-micromodal-trigger="form-upload-pembayaran"
+                        class="cursor-pointer rounded-lg p-2 w-5/12 text-white bg-gray-800 hover:bg-gray-900"
+                        id="unggahBukti-btn">
+                        Unggah Bukti Transfer
+                    </a>
+                @endif
             </div>
         </div>
         {{-- body details --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 p-6">
             <div class="md:w-11/12 mx-auto">
-                {{-- ========================================================================
-                    TODO ::: FETCH INI DARI DATABASE
-                ======================================================================== --}}
                 <div class="flex justify-between">
                     <p class="font-bold">Nomor Pesanan</p>
-                    <p class="font-bold" id="pembayaran_id">A001</p>
+                    <p class="font-bold" id="pembayaran_id">{{ $pembayaran->id }}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p>Status Pesanan</p>
-                    <p>Belum Dibayar</p>
+                    <p>{{ $pembayaran->status_pembayaran }}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p>Metode Pembayaran</p>
-                    <p>Transfer Bank</p>
+                    <p>{{ $pembayaran->metode }}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
                     <p>Waktu Pemesanan</p>
-                    <p>29-12-2021 23:59</p>
+                    <p>{{ date('d-m-Y h:i:s', $curDate) }}</p>
                 </div>
                 <hr class="my-2">
                 <div class="flex justify-between">
@@ -64,38 +60,40 @@ $kode_unik = 67;
                 </div>
                 <hr class="my-2">
                 <div class="shadow-custom1 rounded-lg p-4 mb-4">
-                    <p>Michael Alexander</p>
-                    <p>(+62) 812-3456-7890</p>
-                    <p>Jl. Banyuwangi No. 10 Abiansemal, MENGWI, KABUPATEN BADUNG, BALI, 18990</p>
+                    <p>{{ $pembayaran->user->nama }}</p>
+                    <p>(+62) {{ $res->no_telepon }}</p>
+                    <p>{{ $res->alamat . ', ' . $res->kecamatan . ', ' . $res->kota_kab . ', ' . $res->provinsi }}</p>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-lg">Pesanan</p>
                 </div>
                 <hr class="my-2">
-                @for ($i = 0; $i < 2; $i++)
+                @foreach ($pembayaranDetail as $detail)
                     <div class="mb-4">
                         <div class="flex content-center items-center space-x-4 rounded-lg shadow-custom1 p-4">
                             <div class="payment-detail-item-image-container rounded-lg"
-                                style="background-image: url({{ asset('images/IMG_7800.jpg') }}); background-size: cover; backround-repeat: none">
+                                style="background-image: url({{ route('show_product_image', $detail->barang->foto) }}); background-size: cover; backround-repeat: none">
                             </div>
                             <div class="flex flex-col flex-grow h-full">
                                 <div>
-                                    <h4 class="font-semibold">Baju baru ni</h4>
-                                    <p class="">{{ $count }} x
-                                        Rp{{ number_format($price, 0, ',', '.') }}</p>
+                                    <h4 class="font-semibold">{{ $detail->barang->nama }}</h4>
+                                    <p class="">{{ $detail->jumlah_barang }} x
+                                        Rp{{ number_format($detail->barang->harga * 1000, 0, ',', '.') }}</p>
                                 </div>
                                 <div class="flex justify-end items-center mt-auto">
-                                    <p class="">{{ number_format($count * $price, 0, ',', '.') }}</p>
+                                    <p class="">
+                                        Rp{{ number_format($detail->barang->harga * 1000 * $detail->jumlah_barang, 0, ',', '.') }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
             <div class="flex justify-between w-full md:w-11/12 mx-auto mt-4 font-bold">
                 <p class="font-bold text-lg">Total Pesanan</p>
                 <p class="font-bold text-lg">
-                    Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 0, ',', '.') }}</p>
+                    Rp{{ number_format($pembayaran->total_pembayaran + 10000, 0, ',', '.') }}</p>
             </div>
             <hr class="my-2 w-full md:w-11/12 mx-auto">
 
@@ -104,20 +102,20 @@ $kode_unik = 67;
                 <div class="mx-auto">
                     <div class="flex justify-between">
                         <p>Subtotal Produk</p>
-                        <p>Rp{{ number_format($count * 2 * $price, 0, ',', '.') }}</p>
+                        <p>Rp{{ number_format($pembayaran->total_pembayaran, 0, ',', '.') }}</p>
                     </div>
                     <div class="flex justify-between">
                         <p>Ongkos Pengiriman</p>
-                        <p>Rp{{ number_format($ongkir, 0, ',', '.') }}</p>
+                        <p>Rp{{ number_format(10000, 0, ',', '.') }}</p>
                     </div>
                     <div class="flex justify-between">
                         <p>Kode Unik</p>
-                        <p>Rp{{ number_format($kode_unik, 0, ',', '.') }}</p>
+                        <p>Rp{{ number_format($pembayaran->kode_unik, 0, ',', '.') }}</p>
                     </div>
                 </div>
             </div>
             <div class="flex justify-center gap-8 w-full md:w-10/12 mx-auto text-center">
-                <a href="{{ route('payment-invoice') }}"
+                <a href="{{ route('payment-invoice', $pembayaran->id) }}"
                     class="flex items-center justify-center rounded-lg p-2 w-4/12 text-white bg-gray-800 hover:bg-gray-900">
                     Cetak Invoice
                 </a>
@@ -184,12 +182,12 @@ $kode_unik = 67;
                     <main class="modal__content mt-3" id="edit-barang-content">
                         <div class="flex justify-between font-bold">
                             <p>Nomor Pesanan</p>
-                            <p>A001</p>
+                            <p>{{ $pembayaran->id }}</p>
                         </div>
                         <hr class="my-2">
                         <div class="flex justify-between font-bold">
                             <p>Total Pesanan</p>
-                            <p>Rp{{ number_format($count * 2 * $price + $ongkir + $kode_unik, 0, ',', '.') }}</p>
+                            <p>Rp{{ number_format($pembayaran->total_pembayaran + 10000, 0, ',', '.') }}</p>
                         </div>
                         <hr class="mt-2 mb-8">
                         {{-- ========================================================================

@@ -36,18 +36,28 @@
         <tbody>
             @foreach ($transaksiAll as $key => $transaksi)
                 <tr>
-                    <td>{{ $loop->index + 1 }}</td>
-                    <td>{{ $transaksi->id }}</td>
-                    <td>{{ $transaksi->user_id }}</td>
-                    <td>Rp2.000.000,00</td>
-                    <td>BRI{{-- $transaksi->nama_bank --}}</td>
-                    <td>{{-- $transaksi->nomor_rekening --}}1029471252918</td>
-                    <td>{{ $transaksi->updated_at }}</td>
-                    <td>Dibayar ajg {{-- $transaksi->status_pembayaran --}}</td>
-                    <td>
-                        <button data-micromodal-trigger="verif-transaksi" data-id="{{ $transaksi->id }}"
-                            class="bg-yellow-300 px-3 py-1 rounded-md hover:bg-yellow-400 edit-transaksi-btn">Edit
-                        </button>
+                    <td class="text-center">{{ $loop->index + 1 }}</td>
+                    <td class="text-center">{{ $transaksi->id }}</td>
+                    <td class="text-center">{{ $transaksi->user_id }}</td>
+                    <td>Rp{{ number_format($transaksi->total_pembayaran, 0, ',', '.') }}</td>
+                    <td class="text-center">
+                        @if (str_starts_with($transaksi->metode, 'va_'))
+                            Virtual Account
+                        @else
+                            {{ $transaksi->nama_bank }}
+                        @endif
+                    </td>
+                    <td class="text-center">{{-- $transaksi->nomor_rekening --}}1029471252918</td>
+                    <td class="text-center">{{ $transaksi->updated_at }}</td>
+                    <td class="text-center">Dibayar ajg {{-- $transaksi->status_pembayaran --}}</td>
+                    <td class="text-center">
+                        @if (str_starts_with($transaksi->metode, 'va_'))
+                            <p>-</p>
+                        @else
+                            <button data-micromodal-trigger="verif-transaksi" data-id="{{ $transaksi->id }}"
+                                class="bg-yellow-300 px-3 py-1 rounded-md hover:bg-yellow-400 edit-transaksi-btn">Edit
+                            </button>
+                        @endif
                     </td>
                 </tr>
             @endforeach

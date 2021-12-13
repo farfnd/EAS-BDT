@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\Pembayaran;
+use App\Models\PembayaranDetail;
 use App\Models\Stok;
 use App\Models\Ulasan;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,12 @@ class TransaksiRepository{
     protected $keranjang;
     protected $pembayaran;
     
-    public function __construct(Barang $barang, Keranjang $keranjang, Pembayaran $pembayaran)
+    public function __construct(Barang $barang, Keranjang $keranjang, Pembayaran $pembayaran, PembayaranDetail $pembayaranDetail)
     {
         $this->barang = $barang;
         $this->keranjang = $keranjang;
         $this->pembayaran = $pembayaran;
+        $this->pembayaranDetail = $pembayaranDetail;
     }
     
     /* ========================================================================
@@ -52,7 +54,7 @@ class TransaksiRepository{
         return Keranjang::where([
             ['barang_id','=', $id],
             ['user_id','=', Auth::user()->id],
-        ])->update(["jumlah" => (int) $count]);
+        ])->update(["jumlah" => (int) $count, "status_pembayaran" => 'Belum Terverifikasi']);
     }
     /* ========================================================================
         END ::: KERANJANG SERVICES
@@ -151,17 +153,30 @@ class TransaksiRepository{
         $pembayaran->alamat = $alamat;
         $pembayaran->status_pembayaran = 'Belum Lunas';
         $pembayaran->metode = $data['metode'];
+        $pembayaran->catatan_pengiriman = $data['catatan_pengiriman'];
+        $pembayaran->user_id = Auth::id();
+        $temp_total_harga = 0;
+        
+        foreach($data['data_barang'] as $id => $jumlah) {
+            $temp_harga = Barang::find($id)->harga;
+            $pembayaranDetail = new $this->pembayaranDetail;
+            $pembayaranDetail->pembayaran_id = $pembayaran->id;
+            $pembayaranDetail->barang_id = $id;
+            $pembayaranDetail->jumlah_barang = $jumlah;
+            $pembayaranDetail->total_harga = $jumlah * $temp_harga;
+            $temp_total_harga += $jumlah * $temp_harga;
+        }
+        
         if($pembayaran->metode == 'va'){
             $pembayaran->metode = $data['va-bank-select'];
-            $pembayaran->total_pembayaran = (int) str_replace("Rp", "", str_replace(".", "", $data['total_pembayaran']));
+            $pembayaran->total_pembayaran = (int) $temp_total_harga*1000;
         } else if($pembayaran->metode == 'bank'){
             $pembayaran->kode_unik = rand(100,999);
-            $pembayaran->total_pembayaran = (int) str_replace("Rp", "", str_replace(".", "", $data['total_pembayaran'])) + $pembayaran->kode_unik;
+            $pembayaran->total_pembayaran = (int) $temp_total_harga*1000 + $pembayaran->kode_unik;
         }
-        $pembayaran->catatan_pengiriman = $data['catatan_pengiriman'];
         
         $pembayaran->save();
-        
+        $pembayaranDetail->save();
         return $pembayaran->where('id', $randomId)->first();
     }
 
@@ -177,12 +192,12 @@ class TransaksiRepository{
         START ::: ADMIN SERVICES
     ======================================================================== */
     public function getAllTransaksi() {
-        return Pembayaran::all();
+        return Pembayaran::where('user_id', Auth::id())->get();
     }
 
     public function getTransaksi($id){
         $transaksi = Pembayaran::where('id', $id)->first();
-        $transaksi->nama = $transaksi->user->nama;
+        // $transaksi->nama = $transaksi->user->nama;
         return $transaksi;
     }
     /* ========================================================================

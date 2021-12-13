@@ -58,26 +58,17 @@ Route::middleware(['auth'])->group(function () {
 
     /* ======== PAYMENTS SECTION ======== */
     Route::get('/bank-payment/{id}', [TransaksiController::class, 'show_payment_bank'])->name('bank-payment');
-
     Route::get('/va-payment/{id}', [TransaksiController::class, 'show_payment_va'])->name('va-payment');
-
-    Route::get('/payment-detail', [TransaksiController::class, 'show_detail_transaksi'])->name('payment-detail');
-
-    Route::get('/payment-invoice', function () {
-        return view('pages.payments.invoice');
-    })->name('payment-invoice');
+    Route::get('/payment-detail/{id}', [TransaksiController::class, 'show_detail_transaksi'])->name('payment-detail');
+    Route::get('/payment-invoice/{id}', [TransaksiController::class, 'show_invoice'])->name('payment-invoice');
 
     /* ======== WISHLIST SECTION ======== */
     Route::get('/wishlist', [BarangController::class, 'show_wishlist'])->name('wishlist');
 
     /* ======== TRANSACTION SECTION ======== */
-    Route::get('/transaction', function () {
-        return view('pages.transaction');
-    })->name('transaction');
+    Route::get('/transaction', [TransaksiController::class, 'show_transaction'])->name('transaction');
 
-    Route::get('/history_transaction', function () {
-        return view('pages.historyTransaction');
-    })->name('historyTransaction');
+    Route::get('/history_transaction', [TransaksiController::class, 'show_history_transaction'])->name('historyTransaction');
 
     /* ========================================================================
         END ::: CART, WISHLIST, TRANSACTION ROUTING
