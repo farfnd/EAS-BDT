@@ -93,9 +93,11 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::get('/admin/barang', [BarangController::class, 'index_admin'])->name('admin.barang');
-        
         Route::post('/admin/barang', [BarangController::class, 'create'])->name('admin.barang.create');
         Route::put('/admin/barang', [BarangController::class, 'update'])->name('admin.barang.edit');
+        
+        Route::get('/admin/transaksi', [TransaksiController::class, 'index_transaksi'])->name('admin.transaksi');
+        Route::put('/admin/transaksi', [TransaksiController::class, 'update_transaksi'])->name('admin.transaksi.edit');
     });
 
     /* ========================================================================
@@ -103,5 +105,6 @@ Route::middleware(['auth'])->group(function () {
     ======================================================================== */
 });
 
+Route::get('/transaction_images/{filename}', [HomeController::class, 'getTransactionImage'])->name('show_transaction_image');
 Route::get('/product_images/{filename}', [HomeController::class, 'getProductImage'])->name('show_product_image');
 Route::get('/review_images/{filename}', [HomeController::class, 'getReviewImage'])->name('show_review_image');

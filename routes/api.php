@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/updateCart/{id}', [TransaksiController::class, 'editCart']);
 
     Route::put('/editBuktiTransfer', [TransaksiController::class, 'editBuktiTransfer']);
+    Route::get('/admin/getTransaksi/{id}', [TransaksiController::class, 'getTransaksi']);
     
     /* ======== WISHLIST API ======== */
     Route::post('/addToWishlist/{id}', [BarangController::class, 'addToWishlist']);

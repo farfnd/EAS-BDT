@@ -13,6 +13,9 @@ class TransaksiService
         $this->transaksiRepository = $transaksiRepository;
     }
 
+    /* ========================================================================
+        SECTION ::: KERANJANG
+    ======================================================================== */
     public function createKeranjang($id)
     {   
         return $this->transaksiRepository->postKeranjang($id);
@@ -28,6 +31,10 @@ class TransaksiService
         return $this->transaksiRepository->updateKeranjang($id, $count);
     }
 
+
+    /* ========================================================================
+        SECTION ::: TRANSAKSI
+    ======================================================================== */
     public function readAllBanks()
     {   
         return $this->transaksiRepository->getAllBanks();
@@ -46,5 +53,16 @@ class TransaksiService
     public function readPembayaran($id)
     {   
         return $this->transaksiRepository->getPembayaran($id);
+    }
+
+    /* ========================================================================
+        SECTION ::: ADMIN SERVICES
+    ======================================================================== */
+    public function readAllTransaksi() {
+        return $this->transaksiRepository->getAllTransaksi();
+    }
+
+    public function readTransaksi($id) {
+        return $this->transaksiRepository->getTransaksi($id);
     }
 }

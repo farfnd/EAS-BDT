@@ -23,6 +23,9 @@ class TransaksiRepository{
         $this->pembayaran = $pembayaran;
     }
     
+    /* ========================================================================
+        START ::: KERANJANG SERVICES
+    ======================================================================== */
     public function postKeranjang($id)
     {
         $keranjang = new $this->keranjang;
@@ -51,7 +54,13 @@ class TransaksiRepository{
             ['user_id','=', Auth::user()->id],
         ])->update(["jumlah" => (int) $count]);
     }
+    /* ========================================================================
+        END ::: KERANJANG SERVICES
+    ======================================================================== */
 
+    /* ========================================================================
+        START ::: TRANSAKSI SERVICES
+    ======================================================================== */
     public function getAllBanks()
     {
         return DB::table('banks')->get();
@@ -160,6 +169,25 @@ class TransaksiRepository{
     {
         return Pembayaran::where('id', $id)->first();
     }
+    /* ========================================================================
+        END ::: TRANSAKSI SERVICES
+    ======================================================================== */
+
+    /* ========================================================================
+        START ::: ADMIN SERVICES
+    ======================================================================== */
+    public function getAllTransaksi() {
+        return Pembayaran::all();
+    }
+
+    public function getTransaksi($id){
+        $transaksi = Pembayaran::where('id', $id)->first();
+        $transaksi->nama = $transaksi->user->nama;
+        return $transaksi;
+    }
+    /* ========================================================================
+        END ::: ADMIN SERVICES
+    ======================================================================== */
 }
 
 ?>

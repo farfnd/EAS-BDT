@@ -19,6 +19,10 @@ class HomeController extends Controller
         return response()->file(storage_path('app/reviews/' . $filename));
     }
 
+    public function getTransactionImage($filename) {
+        return response()->file(storage_path('app/transaction/' . $filename));
+    }
+
     public function show_cart () {
         return view('pages.cart');
     }

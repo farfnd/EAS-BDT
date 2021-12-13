@@ -52,13 +52,14 @@
         {{-- sidebar --}}
         <div class="col-span-3 mr-4">
             <div id="sidebar" class="shadow-lg sticky space-y-2 px-2 pt-3">
-                <div onclick="test()"
-                    class="bg-gray-100 hover:bg-gray-50 p-4 text-center hover:shadow-md rounded-md duration-100 cursor-pointer">
-                    <a href=""> Barang</a>
-                </div>
-                <div onclick="test()"
-                    class="bg-gray-100 hover:bg-gray-50 p-4 text-center hover:shadow-md rounded-md duration-100 cursor-pointer">
-                    Transaksi</div>
+                <a class="block bg-gray-100 hover:bg-gray-50 p-4 text-center hover:shadow-md rounded-md duration-100 cursor-pointer"
+                    href="{{ route('admin.barang') }}">
+                    Barang
+                </a>
+                <a class="block bg-gray-100 hover:bg-gray-50 p-4 text-center hover:shadow-md rounded-md duration-100 cursor-pointer"
+                    href="{{ route('admin.transaksi') }}">
+                    Transaksi
+                </a>
             </div>
         </div>
         {{-- content --}}

@@ -106,4 +106,38 @@ class TransaksiController extends Controller
         // dd($data);
         return redirect()->route('checkout')->with(['data' => $data]);
     }
+
+    /* ========================================================================
+        START ::: ADMIN PAGE CONTROLLER
+    ======================================================================== */
+    public function index_transaksi()
+    {
+        $transaksiAll = $this->transaksiService->readAllTransaksi();
+        // dump($transaksiAll);
+        return view('pages.admin.transaksi', ['transaksiAll' => $transaksiAll]);
+    }
+
+    public function update_transaksi(Request $request)
+    {
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+
+        try{
+            $result['data'] = $this->transaksiService->editTransaksi($input);
+            return redirect(route('admin.transaksi'));
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
+    }
+
+    public function getTransaksi($id) {
+        return $this->transaksiService->readTransaksi($id);
+    }
+    /* ========================================================================
+        END ::: ADMIN PAGE CONTROLLER
+    ======================================================================== */
 }
