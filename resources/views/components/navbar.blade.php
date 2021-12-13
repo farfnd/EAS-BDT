@@ -69,7 +69,7 @@ use Illuminate\Support\Facades\Auth;
                         <span class="text-gray-900">Username/Email</span>
                         <input type="text"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Username/Email" name="username" id="username" required maxlength="100">
+                            placeholder="Username/Email" name="username" required maxlength="100">
                     </label>
                     <label class="block">
                         <span class="text-gray-900">Password</span>
@@ -153,27 +153,26 @@ use Illuminate\Support\Facades\Auth;
                                             <span class="text-gray-700">Nama</span>
                                             <input type="text"
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                placeholder="Nama" name="nama" id="nama" required maxlength="100">
+                                                placeholder="Nama" name="nama" required maxlength="100">
                                         </label>
                                         <label class="block">
                                             <span class="text-gray-700">Username</span>
                                             <input type="text"
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                placeholder="Username" name="username" id="username" required
-                                                minlength="3" maxlength="25">
+                                                placeholder="Username" name="username" required minlength="3"
+                                                maxlength="25">
                                         </label>
                                         <label class="block">
                                             <span class="text-gray-700">Email</span>
                                             <input type="email"
                                                 class=" mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                placeholder="john@example.com" name="email" id="email" required
-                                                maxlength="100">
+                                                placeholder="john@example.com" name="email" required maxlength="100">
                                         </label>
                                         <label class="block">
                                             <span class="text-gray-700">Nomor Telepon</span>
                                             <input type="tel"
                                                 class=" mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                placeholder="081234567890" name="no_telepon" id="no_telepon" required
+                                                placeholder="081234567890" name="no_telepon" required
                                                 pattern="(08)[0-9]{8,12}" minlength="10" maxlength="14">
                                         </label>
                                         <label class="block">

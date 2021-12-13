@@ -24,12 +24,14 @@ $totalHarga = 0;
             <form action="{{ route('post_pembayaran') }}" method="POST" id="form-pembayaran">
                 @csrf
                 <div class="flex flex-col space-y-3">
+                    <!-- nama penerima  -->
                     <div class="flex flex-col space-y-1">
                         <label for="nama" class="col-span-3">Nama Penerima</label>
                         <input type="text"
                             class="col-span-9 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             placeholder="Erki Khadafi Rosyid" name="nama_penerima" id="nama" required maxlength="100">
                     </div>
+                    <!-- alamat  -->
                     <div class="flex flex-col space-y-1">
                         <label for="alamat" class="col-span-3">Alamat</label>
                         <input type="text"
@@ -37,11 +39,13 @@ $totalHarga = 0;
                             placeholder="Jl. Paguyuban II, No.14" name="alamat" id="alamat" required minlength="5"
                             maxlength="200">
                     </div>
+                    <!-- provinsi -->
                     <div class="flex flex-col space-y-1">
                         <label for="provinsi">Provinsi</label>
                         <select class="select2-data-array browser-default" id="select2-provinsi"
                             name="provinsi"></select>
                     </div>
+                    <!-- kota/kabupaten  -->
                     <div class="flex flex-col space-y-1">
                         <label for="kota_kab">Kota/Kabupaten</label>
                         <select class="select2-basic select2-data-array browser-default" id="select2-kabupaten"
@@ -49,6 +53,7 @@ $totalHarga = 0;
                             <option value="">{{ '- Silahkan Pilih Provinsi -' }}</option>
                         </select>
                     </div>
+                    <!-- kecamatan  -->
                     <div class="flex flex-col space-y-1">
                         <label for="kecamatan">Kecamatan</label>
                         <select class="select2-basic select2-data-array browser-default" id="select2-kecamatan"
@@ -56,13 +61,16 @@ $totalHarga = 0;
                             <option value="">{{ '- Silahkan Pilih Provinsi -' }}</option>
                         </select>
                     </div>
+                    <!-- kode pos dan no telpon  -->
                     <div class="grid grid-cols-12 gap-10">
+                        <!-- kode pos  -->
                         <div class="col-span-3 flex flex-col space-y-1">
                             <label for="kode_pos" class="col-span-3">Kode Pos</label>
                             <input type="text"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 placeholder="17115" name="kode_pos" id="kode_pos" required minlength="5" maxlength="5">
                         </div>
+                        <!-- nomor telpon  -->
                         <div class="col-span-9 flex flex-col space-y-1">
                             <label for="no_telp" class="col-span-3">Nomor Telepon</label>
                             <div class="flex">
@@ -74,6 +82,7 @@ $totalHarga = 0;
                             </div>
                         </div>
                     </div>
+                    <!-- metode pembayaran  -->
                     <div class="flex flex-col space-y-1">
                         <label for="metode">Metode Pembayaran</label>
                         <select
@@ -83,6 +92,7 @@ $totalHarga = 0;
                             <option value="bank">Transfer Bank</option>
                         </select>
                     </div>
+                    <!-- catatan pemesanan -->
                     <div class="flex flex-col space-y-1">
                         <label for="metode">Catatan Pemesanan (opsional)</label>
                         <textarea
@@ -90,6 +100,7 @@ $totalHarga = 0;
                             name="catatan_pengiriman" id="catatan_pengiriman" cols="30" rows="5"
                             style="resize: none"></textarea>
                     </div>
+                    <!-- bayar button  -->
                     <div class="flex">
                         <button type="submit" id="bayar-button-bank" style="display: none"
                             class="relative w-full bg-gray-800 hover:bg-opacity-90 rounded-lg p-2 mt-4 font-semibold text-white text-center"
@@ -190,8 +201,8 @@ $totalHarga = 0;
     </div>
 
     <script>
-        let sites = {!! json_encode($data->toArray(), JSON_HEX_TAG) !!}
-        console.log(sites)
+        let barangData = {!! json_encode($data->toArray(), JSON_HEX_TAG) !!}
+        console.log(barangData)
         $(document).ready(function() {
             $('.select2-basic').select2({
                 minimumResultsForSearch: Infinity
@@ -222,6 +233,21 @@ $totalHarga = 0;
                 name: 'total_pembayaran',
                 value: $('#total-harga').html()
             }).appendTo(this);
+            for (const key in barangData) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: barangData[key].barang_id,
+                    value: barangData[key].jumlah
+                }).appendTo($('#form-pembayaran'));
+                console.log(barangData[key])
+            }
+            // this.preventDefault();
+            // $('<input>').attr({
+            //     type: 'hidden',
+            //     name: 'total_pembayaran',
+            //     value: $('#total-harga').html()
+            // }).appendTo(this);
+
         });
 
         $('#bayarBtn-va').click(function(e) {
