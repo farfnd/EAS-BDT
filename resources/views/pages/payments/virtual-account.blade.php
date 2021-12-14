@@ -2,9 +2,13 @@
 $bni_list = ['ATM BNI', 'Mobile Banking', 'IBank Personal BNI', 'Cabang atau Outlet BNI', 'SMS Banking', 'Agen46', 'ATM Bersama'];
 $bca_list = ['ATM BCA', 'm-BCA (BCA mobile)', 'Internet Banking BCA', 'Kantor Bank BCA'];
 $mandiri_list = ['ATM Mandiri', 'Mandiri Internet Banking / Livin\' By Mandiri'];
-if ($pembayaran->metode == 'va_bca') $list = $bca_list;
-else if ($pembayaran->metode == 'va_bni') $list = $bni_list;
-else if ($pembayaran->metode == 'va_mandiri') $list = $mandiri_list;
+if ($pembayaran->metode == 'va_bca') {
+    $list = $bca_list;
+} elseif ($pembayaran->metode == 'va_bni') {
+    $list = $bni_list;
+} elseif ($pembayaran->metode == 'va_mandiri') {
+    $list = $mandiri_list;
+}
 @endphp
 
 <x-layout titlePage="Hanaka | Payment">
@@ -29,22 +33,22 @@ else if ($pembayaran->metode == 'va_mandiri') $list = $mandiri_list;
 
         {{-- informasi bank --}}
         <div class="shadow-custom1 rounded-lg w-full md:w-10/12 mx-auto mb-8 pb-6">
-            <div class="flex justify-between mx-auto px-6 pt-6">
+            <div class="flex justify-between items-center mx-auto px-6 pt-6">
                 @if ($pembayaran->metode == 'va_bca')
                     <p class="font-bold text-lg">Bank BCA</p>
-                    <p class="font-bold text-lg">**logo bca**</p>
+                    <img src="{{ asset('images/logo_bca.png') }}" alt="" style="max-height: 35px">
                 @elseif ($pembayaran->metode == 'va_bni')
                     <p class="font-bold text-lg">Bank BNI</p>
-                    <p class="font-bold text-lg">**logo bni**</p>
+                    <img src="{{ asset('images/logo_bni.png') }}" alt="" style="max-height: 35px">
                 @elseif ($pembayaran->metode == 'va_mandiri')
                     <p class="font-bold text-lg">Bank Mandiri</p>
-                    <p class="font-bold text-lg">**logo mandiri**</p>
+                    <img src="{{ asset('images/logo_mandiri.png') }}" alt="" style="max-height: 35px">
                 @endif
             </div>
             <hr class="my-2">
             <div class="flex justify-between md:w-8/12 mx-6 md:mx-auto">
                 <p class="font-bold text-lg">Nomor Virtual Account</p>
-                <p class="font-bold text-lg">{{$pembayaran->no_va}}</p>
+                <p class="font-bold text-lg">{{ $pembayaran->no_va }}</p>
             </div>
             <hr class="my-2 md:w-8/12 mx-auto">
             <div class="flex justify-between md:w-8/12 mx-6 md:mx-auto">
@@ -74,7 +78,8 @@ else if ($pembayaran->metode == 'va_mandiri') $list = $mandiri_list;
             {{-- ========================================================================
                 TODO ::: UBAH ROUTE INI JADI KE DETAIL TRANSAKSI
             ======================================================================== --}}
-            <a href="{{ route('payment-detail', $pembayaran->id) }}" class="rounded-lg p-2 w-3/12 text-white bg-gray-800 hover:bg-gray-900">
+            <a href="{{ route('payment-detail', $pembayaran->id) }}"
+                class="rounded-lg p-2 w-3/12 text-white bg-gray-800 hover:bg-gray-900">
                 Lihat Detail Transaksi
             </a>
         </div>
@@ -88,43 +93,44 @@ else if ($pembayaran->metode == 'va_mandiri') $list = $mandiri_list;
                     <header class="modal__header border-b-2 pb-1">
                         <h2 class="modal__title text-center" id="edit-barang-title" style="font-size: 1.8rem">
                             @if ($pembayaran->metode == 'va_bca')
-                            Pembayaran via ATM BCA
+                                Pembayaran via ATM BCA
                             @elseif ($pembayaran->metode == 'va_bni')
-                            Pembayaran via ATM BNI
+                                Pembayaran via ATM BNI
                             @elseif ($pembayaran->metode == 'va_mandiri')
-                            Pembayaran via ATM Mandiri
+                                Pembayaran via ATM Mandiri
                             @endif
                         </h2>
                     </header>
                     <main class="modal__content mt-3" id="edit-barang-content">
                         <ol class="list-decimal flex flex-col space-y-3 px-5 font-semibold">
                             @if ($pembayaran->metode == 'va_bca')
-                            <li>Masukkan Kartu ATM BCA & PIN</li>
-                            <li>Pilih menu Transaksi Lainnya > Transfer > ke Rekening BCA Virtual Account</li>
-                            <li>Masukkan nomor Virtual Account Anda (contoh: {{$pembayaran->no_va}})</li>
-                            <li>Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti No VA, Nama, Perus/Produk dan Total Tagihan</li>
-                            <li>Masukkan Jumlah Transfer sesuai dengan Total Tagihan</li>
-                            <li>Ikuti instruksi untuk menyelesaikan transaksi</li>
-                            <li>Simpan struk transaksi sebagai bukti pembayaran</li>
+                                <li>Masukkan Kartu ATM BCA & PIN</li>
+                                <li>Pilih menu Transaksi Lainnya > Transfer > ke Rekening BCA Virtual Account</li>
+                                <li>Masukkan nomor Virtual Account Anda (contoh: {{ $pembayaran->no_va }})</li>
+                                <li>Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti No VA, Nama,
+                                    Perus/Produk dan Total Tagihan</li>
+                                <li>Masukkan Jumlah Transfer sesuai dengan Total Tagihan</li>
+                                <li>Ikuti instruksi untuk menyelesaikan transaksi</li>
+                                <li>Simpan struk transaksi sebagai bukti pembayaran</li>
                             @elseif ($pembayaran->metode == 'va_bni')
-                            <li>Masukkan Kartu Anda</li>
-                            <li>Pilih Bahasa</li>
-                            <li>Masukkan PIN ATM Anda</li>
-                            <li>Pilih "Menu Lainnya"</li>
-                            <li>Pilih "Transfer"</li>
-                            <li>Pilih Jenis rekening yang akan Anda gunakan (Contoh: "Dari Rekening Tabungan")</li>
-                            <li>Pilih "Virtual Account Billing"</li>
-                            <li>Masukkan nomor Virtual Account Anda (contoh: {{$pembayaran->no_va}})</li>
-                            <li>Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi</li>
-                            <li>Konfirmasi, apabila telah sesuai, lanjutkan transaksi</li>
-                            <li>Transaksi telah selesai</li>
+                                <li>Masukkan Kartu Anda</li>
+                                <li>Pilih Bahasa</li>
+                                <li>Masukkan PIN ATM Anda</li>
+                                <li>Pilih "Menu Lainnya"</li>
+                                <li>Pilih "Transfer"</li>
+                                <li>Pilih Jenis rekening yang akan Anda gunakan (Contoh: "Dari Rekening Tabungan")</li>
+                                <li>Pilih "Virtual Account Billing"</li>
+                                <li>Masukkan nomor Virtual Account Anda (contoh: {{ $pembayaran->no_va }})</li>
+                                <li>Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi</li>
+                                <li>Konfirmasi, apabila telah sesuai, lanjutkan transaksi</li>
+                                <li>Transaksi telah selesai</li>
                             @elseif ($pembayaran->metode == 'va_mandiri')
-                            <li>Masukkan kartu ATM dan PIN</li>
-                            <li>Pilih menu "Bayar/Beli"</li>
-                            <li>Pilih menu "Lainnya", hingga menemukan menu "Multipayment"</li>
-                            <li>Masukkan Nomor Virtual Account, lalu pilih tombol Benar</li>
-                            <li>Akan muncul konfirmasi pembayaran, lalu pilih tombol Ya</li>
-                            <li>Simpan struk sebagai bukti pembayaran Anda</li>
+                                <li>Masukkan kartu ATM dan PIN</li>
+                                <li>Pilih menu "Bayar/Beli"</li>
+                                <li>Pilih menu "Lainnya", hingga menemukan menu "Multipayment"</li>
+                                <li>Masukkan Nomor Virtual Account, lalu pilih tombol Benar</li>
+                                <li>Akan muncul konfirmasi pembayaran, lalu pilih tombol Ya</li>
+                                <li>Simpan struk sebagai bukti pembayaran Anda</li>
                             @endif
                         </ol>
                     </main>
