@@ -305,7 +305,6 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log(response);
                 MicroModal.close('beri-ulasan');
                 Swal.fire({
                     icon: 'success',

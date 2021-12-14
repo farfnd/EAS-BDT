@@ -191,17 +191,26 @@ class BarangRepository{
 
     public function postUlasan($data)
     {
-        $data['file_ulasan']->storeAs('reviews', $data['file_ulasan']->getClientOriginalName());
-        $data['file_ulasan'] = $data['file_ulasan']->getClientOriginalName();
-        // return var_dump($data);
-
-        return Ulasan::create([
-            'barang_id' => $data['id'],
-            'user_id' => Auth::id(),
-            'ulasan' => $data['ulasan'],
-            'rating' => $data['rating'],
-            'file_ulasan' => $data['file_ulasan'],
-        ]);
+        
+        if(isset($data['file_ulasan'])) {
+            $data['file_ulasan']->storeAs('reviews', $data['file_ulasan']->getClientOriginalName());
+            $data['file_ulasan'] = $data['file_ulasan']->getClientOriginalName();
+            return Ulasan::create([
+                'barang_id' => $data['id'],
+                'user_id' => Auth::id(),
+                'ulasan' => $data['ulasan'],
+                'rating' => $data['rating'],
+                'file_ulasan' => $data['file_ulasan'],
+            ]);
+        } else{
+            return Ulasan::create([
+                'barang_id' => $data['id'],
+                'user_id' => Auth::id(),
+                'ulasan' => $data['ulasan'],
+                'rating' => $data['rating'],
+            ]);
+        }
+        
     }
 }
 
