@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\HybridRelations;
 
 class Barang extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HybridRelations;
 
+    protected $connection = 'mysql';
     protected $table = 'barang';
     protected $fillable = ['nama', 'rating', 'deskripsi', 'harga', 'foto', 'gender', 'kategori_id', 'warna', 'ukuran'];
 

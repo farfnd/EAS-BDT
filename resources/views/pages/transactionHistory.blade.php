@@ -57,14 +57,15 @@
                 <div class="flex flex-col md:flex-row shadow-custom1 rounded-2xl justify-between px-4 py-3 ">
                     {{-- item detail --}}
                     <div class="flex">
-                        <div class="rounded-md w-36 bg-cover bg-center"
-                            style="background-image: url({{ route('show_product_image', $item->barang->foto) }})">
-                        </div>
+                        <a href="/item/{{$item->barang->id}}" class="rounded-md w-36 bg-cover bg-center" style="background-image: url({{ route('show_product_image', $item->barang->foto) }})">
+                        </a>
                         <div class="flex flex-col justify-between py-2 ml-3">
                             <div>
-                                <p class="font-medium">Transaksi: <span class="font-semibold">{{ $transaksi->id }} ({{ date('d F Y', strtotime($transaksi->created_at)) }})</span>
+                                <p class="font-medium">Transaksi: <span class="font-semibold"><a href="/payment-detail/{{$transaksi->id}}">{{ $transaksi->id }}</a> ({{ date('d F Y', strtotime($transaksi->created_at)) }})</span>
                                 </p>
-                                <p class="text-lg font-semibold">{{ $item->barang->nama }}</p>
+                                <a href="/item/{{$item->barang->id}}">
+                                    <p class="text-lg font-semibold">{{ $item->barang->nama }}</p>
+                                </a>
                                 <p>{{$item->jumlah_barang}}
                                     @if ($item->jumlah_barang == 1)
                                         pc
@@ -306,10 +307,8 @@
             contentType: false,
             success: function(response) {
                 MicroModal.close('beri-ulasan');
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Bukti transfer berhasil diunggah',
-                });
+                toastr["success"]("", "Ulasan berhasil terkirim!");
+                $('#form-ulasan')[0].reset();
                 location.reload();
             }
         });

@@ -121,6 +121,7 @@ $('#addToCart-btn').click(function (e) {
 		async: false,
 		headers: { 'Authorization': '{{ session("Authorization") }}' },
         data: {_token: "{{ csrf_token() }}"},
+        success: function (response) { console.log(response) },
     });
 });
 $('#directBuy-btn').click(function (e) { 

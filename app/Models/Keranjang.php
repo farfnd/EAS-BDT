@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class Keranjang extends Model
 {
-    use HasFactory;
-
-    protected $table = 'keranjang';
-    // protected $primaryKey = ['barang_id', 'user_id'];
+    
+    protected $connection = 'mongodb';
+    protected $collection = 'keranjang';
     protected $fillable = ['barang_id', 'user_id', 'jumlah'];
     public $timestamps = false;
 

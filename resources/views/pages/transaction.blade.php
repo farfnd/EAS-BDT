@@ -10,7 +10,7 @@
                     </div>
                     <div class="flex flex-col justify-between py-2 ml-3">
                         <div>
-                            <p class="font-medium">Transaksi: <span class="font-semibold">{{ $transaksi->id }} ({{ date('d F Y', strtotime($transaksi->created_at)) }})</span>
+                            <p class="font-medium">Transaksi: <span class="font-semibold"><a href="/payment-detail/{{$transaksi->id}}">{{ $transaksi->id }}</a> ({{ date('d F Y', strtotime($transaksi->created_at)) }})</span>
                             </p>
                             <p class="text-lg font-semibold">{{ $transaksi->pembayaranDetail[0]->barang->nama }}</p>
                             @if (count($transaksi->pembayaranDetail) == 1)
@@ -37,13 +37,13 @@
                         <p class="font-bold">{{ $transaksi->status_pembayaran }}</p>
                     </div>
                     <div class="md:text-right">
-                        <a href={{route('payment-detail', $transaksi->id)}} class="rounded-lg px-2 py-1 mt-4 w-full text-white bg-gray-800 hover:bg-gray-900">
-                            @if ($transaksi->status_pembayaran == 'Belum Lunas')
-                            Bayar
-                            @else
-                            Lihat Detail Pesanan
-                            @endif
-                        </a>
+                        @if ($transaksi->metode == 'bank' && $transaksi->status_pembayaran == 'Belum Lunas')
+                        <a href={{route('bank-payment', $transaksi->id)}} class="rounded-lg px-2 py-1 mt-4 w-full text-white bg-gray-800 hover:bg-gray-900">Bayar</a>
+                        @elseif (str_starts_with($transaksi->metode, 'va_') && $transaksi->status_pembayaran == 'Belum Lunas')
+                        <a href={{route('va-payment', $transaksi->id)}} class="rounded-lg px-2 py-1 mt-4 w-full text-white bg-gray-800 hover:bg-gray-900">Bayar</a>
+                        @elseif ($transaksi->status_pembayaran != 'Belum Lunas')
+                        <a href={{route('payment-detail', $transaksi->id)}} class="rounded-lg px-2 py-1 mt-4 w-full text-white bg-gray-800 hover:bg-gray-900">Lihat Detail Pesanan</a>
+                        @endif
                     </div>
                 </div>
             </div>

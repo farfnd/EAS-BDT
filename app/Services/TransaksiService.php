@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Repositories\TransaksiRepository;
+use App\Repositories\TransaksiRepositoryHybrid;
 
 class TransaksiService
 {
     protected $transaksiRepository;
 
-    public function __construct(TransaksiRepository $transaksiRepository)
+    public function __construct(TransaksiRepositoryHybrid $transaksiRepository)
     {
         $this->transaksiRepository = $transaksiRepository;
     }
@@ -68,6 +69,10 @@ class TransaksiService
     public function readTransaksiHistory()
     {   
         return $this->transaksiRepository->getTransaksiHistory();
+    }
+
+    public function readUserTransaksi() {
+        return $this->transaksiRepository->getUserTransaksi();
     }
 
     /* ========================================================================

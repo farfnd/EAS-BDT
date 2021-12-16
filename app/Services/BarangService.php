@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Repositories\BarangRepository;
+use App\Repositories\BarangRepositoryHybrid;
 
 class BarangService
 {
     protected $barangRepository;
 
-    public function __construct(BarangRepository $barangRepository)
+    public function __construct(BarangRepositoryHybrid $barangRepository)
     {
         $this->barangRepository = $barangRepository;
     }

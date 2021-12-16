@@ -20,12 +20,16 @@
                             class="check-barang text-indigo-500 border-gray-300 rounded-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                             type="checkbox" name="" data-id="{{ $barangKeranjang->barang->id }}"
                             id="check-barang-{{ $barangKeranjang->barang->id }}" onclick="updateData()">
-                        <div class="cart-item-image-container rounded-lg bg-center"
-                            style="background-image: url({{ route('show_product_image', $barangKeranjang->barang->foto) }}); background-size: cover; backround-repeat: none">
-                        </div>
+                        <a href="/item/{{ $barangKeranjang->barang->id }}">
+                            <div class="cart-item-image-container rounded-lg bg-center"
+                                style="background-image: url({{ route('show_product_image', $barangKeranjang->barang->foto) }}); background-size: cover; backround-repeat: none">
+                            </div>
+                        </a>
                         <div class="flex flex-col flex-grow h-full">
                             <div>
-                                <h4 class="text-lg font-semibold">{{ $barangKeranjang->barang->nama }}</h4>
+                                <a href="/item/{{ $barangKeranjang->barang->id }}">
+                                    <h4 class="text-lg font-semibold">{{ $barangKeranjang->barang->nama }}</h4>
+                                </a>
                                 <div class="flex">
                                     <p class="pr-2">
                                         {{ 'Rp' . number_format($barangKeranjang->barang->harga * 1000, 0, ',', '.') }}

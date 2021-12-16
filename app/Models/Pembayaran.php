@@ -9,6 +9,7 @@ class Pembayaran extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql';
     protected $table = 'pembayaran';
     protected $fillable = ['id','user_id', 'status_pembayaran', 'metode', 'bukti', 'tanggal', 'nama_pemilik_rekening', 'nama_bank', 'no_rekening', 'total_pembayaran', 'status_pengiriman', 'no_resi', 'catatan_pengiriman', 'asuransi', 'kode_unik'];
     public $incrementing = false;

@@ -141,7 +141,7 @@ class TransaksiController extends Controller implements ChannelPembayaran
     }
     
     public function show_transaction() {
-        $pembayaran = $this->transaksiService->readAllTransaksi();
+        $pembayaran = $this->transaksiService->readUserTransaksi();
         // dd($pembayaran);
         return view('pages.transaction', [
             'pembayaran' => $pembayaran,
