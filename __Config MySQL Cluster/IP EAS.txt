@@ -1,0 +1,38 @@
+manager
+100.26.176.162
+10.0.0.221
+
+mysql1
+34.239.148.158
+10.0.0.40
+
+mysql2
+35.175.103.108
+10.0.0.94
+
+data1
+3.239.83.222
+10.0.0.115
+
+data2
+34.239.168.103
+10.0.0.34
+
+data3
+3.236.244.41
+10.0.0.200
+
+data4
+3.236.123.26
+10.0.0.55
+
+CREATE USER 'farhan'@'localhost' IDENTIFIED BY 'farhan';
+CREATE USER 'farhan'@'%' IDENTIFIED BY 'farhan';
+
+GRANT ALL PRIVILEGES ON *.* TO 'farhan'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'farhan'@'%';
+FLUSH PRIVILEGES;
+
+SELECT TABLE_NAME, ENGINE
+FROM   information_schema.TABLES
+WHERE  TABLE_SCHEMA = 'hanaka_classic';
